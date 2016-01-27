@@ -33,7 +33,7 @@ QNAP-x51 with QTS 4.2  (linux)
 
 **_Build Instructions_**
 Once you have cloned the package to your system
-1. cd to the QDK project directory
+..1. cd to the QDK project directory
 2. Run the fetch_record_engine.sh script to get the latest DVR binary from SiliconDust
 3. Build the QPKG with 'qbuild --force-config' 
 
