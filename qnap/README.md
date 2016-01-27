@@ -40,6 +40,3 @@ Once you have cloned the package to your system
 This will create the QPKG in the build subfolder.
 install via the QTS Desktop app center, or via the commandline on the NAS 'sh build/HDHomeRunDVR.ver.qpkg'
 
-**_History_**
-[0.1.1] Added script to fetch the DVR Build
-[0.1]   Initial version to install binary, start/stop service, icons, etc.
