@@ -6,19 +6,29 @@ HDHR_UI_PATH=$HDHR_QPKG_PATH/ui
 HDHR_UI_VARS=$HDHR_UI_PATH/vars.php
 HDHR_DVR_BIN=hdhomerun_record_linux
 
+PKG_MAIN_REMOVE="{
+    if [! -L $SYS_WEB_PATH/HDHomeRunDVR ]; then
+        $CMD_RM $SYS_WEB_PATH/HDHomeRunDVR
+    fi
+}"
+
+
+pkg_init(){
+    add_qpkg_config $HDHR_CONF 8d3ec1e23d8b659eb2c0d1bf927abf43
+}
+
+
 pkg_install(){
     # Discover Recordings directory
     # For this version - just use the /share/Recordings and create a HDHomeRunDVR folder
-    $CMD_MKDIR -p $HDHR_REC_PATH
-    if [ -f "$HDHR_QPKG_PATH/$HDHR_CONF" ]; then
-        $CMD_SED -i "s!\(RecordPath=\).*!\1$HDHR_REC_PATH!" $HDHR_QPKG_PATH/$HDHR_CONF
-    else
-        $CMD_ECHO "RecordPath=$HDHR_REC_PATH" > $HDHR_QPKG_PATH/$HDHR_CONF
+    if [ ! -f $HDHR_REC_PATH ]; then
+        $CMD_MKDIR -p $HDHR_REC_PATH
     fi
-    $CMD_CHMOD 644 $HDHR_QPKG_PATH/$HDHR_CONF
     
     # PatchUp the UI Vars File
 
     # Softlink the UI to the Web Path
-    $CMD_LN -s $HDHR_UI_PATH $SYS_WEB_PATH/HDHomeRunDVR
+    if [ ! -f $SYS_WEB_PATH/HDHomeRunDVR ]; then
+        $CMD_LN -s $HDHR_UI_PATH $SYS_WEB_PATH/HDHomeRunDVR
+    fi
 }
