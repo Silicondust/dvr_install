@@ -6,12 +6,14 @@ class DVRUI_Engine_Config {
 	
 	private $configFileName = NULL;
 	private $configFileExists = False;
+	private $configArray = NULL;
 	
 	// Default Constructor - nothing provided - do nothing yet...
 	public function DVRUI_Engine_Config() {
 		if (file_exists(DVRUI_Vars::DVR_qpkgPath . "/" . DVRUI_Vars::DVR_config)) {
 			$this->configFileName = DVRUI_Vars::DVR_qpkgPath . "/" .  DVRUI_Vars::DVR_config;
 			$this->configFileExists = True;
+			$this->configArray = parse_ini_file(DVRUI_Vars::DVR_qpkgPath . "/" . DVRUI_Vars::DVR_config);
 		} else {
 			$this->configFileName = DVRUI_Vars::DVR_qpkgPath . "/" . DVRUI_Vars::DVR_config . " Does Not Exist";
 			$this->configFileExists = False;
@@ -27,7 +29,12 @@ class DVRUI_Engine_Config {
 	}
 	
 	public function getRecordPath() {
-		return "";
+		$retVal = 'Path not Set';
+		if (array_key_exists('RecordPath', $this->configArray)) {
+			$retVal = $this->configArray['RecordPath'];
+			print('Test');
+		}
+		return $retVal;
 	}
 	
 	public function setRecordPath() {

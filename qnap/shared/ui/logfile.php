@@ -1,7 +1,7 @@
 <?php
   require_once("TinyAjaxBehavior.php");
   require_once("vars.php");
-  require_once("incldues/dvrui_recordengine_logfile.php");
+  //require_once("incldues/dvrui_recordengine_logfile.php");
 
   function getLogFile($logfile) {
     // prep

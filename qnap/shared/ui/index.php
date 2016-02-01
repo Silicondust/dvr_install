@@ -1,4 +1,5 @@
 <?php
+  ini_set('display_errors', 'On');
   error_reporting(E_ALL);
   define('TINYAJAX_PATH', '.');
   require_once("TinyAjax.php");
@@ -7,6 +8,7 @@
   require_once("includes/dvrui_recordengine_config.php");
   require_once("includes/dvrui_recordengine_loglist.php");
   require_once("logfile.php");
+  require_once("configfile.php");
 
   /* Prepare Ajax */
   $ajax = new TinyAjax();
@@ -16,6 +18,7 @@
   /* Export the PHP Interface */
   $ajax->exportFunction("getLogFile", "logfile");
   $ajax->exportFunction("rmLogFile", "logfile");
+  $ajax->exportFunction("updateRecordPath");
   
   session_start();
 
@@ -35,10 +38,10 @@
 		</div>';
 
   // Build the Data
-  
   $configFile = new DVRUI_Engine_Config();
   if ($configFile->configFileExists()) {
-  	$config_data = "Parsing ConfigFile: " . $configFile->getConfigFileName();
+  	$config_data = "ConfigFile: " . $configFile->getConfigFileName();
+  	$config_data .= '<br/> RecordPath Set: ' . $configFile->getRecordPath();
   } else {
   	$config_data = "ERROR: " . $configFile->getConfigFileName();
   }

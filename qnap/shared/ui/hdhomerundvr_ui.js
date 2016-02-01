@@ -88,3 +88,8 @@ function deleteLogFile(def_id)
 {
     rmLogFile(def_id);
 }
+
+function changeRecordPath(def_id)
+{
+    updateRecordPath(def_id);
+}
