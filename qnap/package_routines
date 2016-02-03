@@ -26,6 +26,9 @@ pkg_install(){
     fi
     
     # PatchUp the UI Vars File
+    
+    # Make Config File world writable (will see if I can reduce to just group later)
+    $CMD_CHMOD a+w $HDHR_CONF
 
     # Softlink the UI to the Web Path
     if [ ! -f $SYS_WEB_PATH/HDHomeRunDVR ]; then
