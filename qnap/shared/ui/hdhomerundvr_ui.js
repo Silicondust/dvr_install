@@ -89,7 +89,8 @@ function deleteLogFile(def_id)
     rmLogFile(def_id);
 }
 
-function changeRecordPath(def_id)
+function changeRecordPath()
 {
-    updateRecordPath(def_id);
+    var id = document.getElementById('recordPath').value;
+    updateRecordPath(id);
 }

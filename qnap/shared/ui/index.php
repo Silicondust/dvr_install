@@ -18,7 +18,10 @@
   /* Export the PHP Interface */
   $ajax->exportFunction("getLogFile", "logfile");
   $ajax->exportFunction("rmLogFile", "logfile");
-  $ajax->exportFunction("updateRecordPath");
+  $ajax->exportFunction("updateRecordPath","recordPath");
+
+  /* GO */
+  $ajax->process();                // Process our callback
   
   session_start();
 
@@ -39,11 +42,12 @@
 
   // Build the Data
   $configFile = new DVRUI_Engine_Config();
+  $configEntry = file_get_contents('style/config_entry.html');
   if ($configFile->configFileExists()) {
-  	$config_data = "ConfigFile: " . $configFile->getConfigFileName();
-  	$config_data .= '<br/> RecordPath Set: ' . $configFile->getRecordPath();
+  	$config_data = str_replace('<!-- dvrui_config_file_name -->',$configFile->getConfigFileName(),$configEntry);
+  	$config_data = str_replace('<!-- dvrui_config_recordpath_value -->',$configFile->getRecordPath(),$config_data);
   } else {
-  	$config_data = "ERROR: " . $configFile->getConfigFileName();
+  	$config_data = "ERROR: Can't Parse Config File: " . $configFile->getConfigFileName();
   }
   
   //Construct the List of LogFiles
@@ -98,8 +102,6 @@
   // --- include footer ---
   $pagecontent .= file_get_contents('style/footer.html');
 
-  /* GO */
-  $ajax->process();                // Process our callback
  	echo($pagecontent);
 ?>
 
