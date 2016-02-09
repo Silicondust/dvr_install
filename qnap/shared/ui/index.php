@@ -100,7 +100,7 @@
   $pagecontent .= $indexPage;
   
   // --- include footer ---
-  $footer .= file_get_contents('style/footer.html');
+  $footer = file_get_contents('style/footer.html');
   
   $pagecontent .= $footer;
  	echo($pagecontent);
