@@ -7,63 +7,71 @@ class DVRUI_Engine_LogEntry {
 	private $filename = '';
 	private $info = '';
 	
-	private $timestamp_pattern = '/\d{8}-\d{2}:\d{2}:\d{2} /';
-	private $type_pattern = '/ [a-zA-Z]*: /';
-	private $subtype_pattern = '/: [a-zA-Z]*: /';
-	private $info_pattern = '/: [a-zA-Z]*$/';
+	private $timestamp_pattern = "/\d{8}-\d{2}:\d{2}:\d{2}\s/";
+	private $type_pattern = '/\s?[a-zA-Z]*:\s/';
+	private $subtype_pattern = '/\s?[a-zA-Z]*: /';
+	private $info_pattern = '/\s?[a-zA-Z]*$/';
 	
 	private function extractTimeStamp($entry) {
-		$strings = preg_split($timestamp_pattern, $entry, 1);
-		$timestamp = $strings[0];
-		return $strings[1];
+		if (preg_match($this->timestamp_pattern, $entry, $matches)) {
+			$this->timestamp = trim($matches[0]);
+			$remainder = str_replace($matches[0],"",$entry);
+			return $remainder;
+		}
+		return $entry;
 	}
 
 	private function extractType($entry) {
-		$strings = preg_split($type_pattern, $entry, 1);
-		$type = $strings[0];
-		return $strings[1];
+		if (preg_match($this->type_pattern, $entry, $matches)) {
+			$this->type = trim($matches[0]);
+			$remainder = str_replace($matches[0],"",$entry);
+			return $remainder;
+		}
+		return $entry;
 	}
 
 	private function extractSubType($entry) {
-		$strings = preg_split($subtype_pattern, $entry, 1);
-		$subtype = $strings[0];
-		return $strings[1];
+		if (preg_match($this->subtype_pattern, $entry, $matches)) {
+			$this->subtype = trim($matches[0]);
+			$remainder = str_replace($matches[0],"",$entry);
+			return $remainder;
+		}
+		return $entry;
 	}
 
 	private function extractFilename($entry) {
+		return $entry;
 	}
 
 	private function extractInfo($entry) {
-		$strings = preg_split($info_pattern, $entry, 1);
-		$info = $strings[0];
-		return $strings[1];
+		$this->info = $entry;
 	}
 
-	public function DVRUI_Engine_LogList($entry) {
-		$remainder = extractTimeStamp($entry);
-		$remainder = extractType($remainder);
-		if !(strcmp($remainder,'Recorded') 
+	public function DVRUI_Engine_LogEntry($entry) {
+		$remainder = $this->extractTimeStamp($entry);
+		$remainder = $this->extractType($remainder);
+		if (!strcmp($remainder,'Recorded') 
 		   or strcmp($remainder,'Recording')
 		   or strcmp($remainder,'System')){
-			remainder = extractSubType($remainder);
+			$remainder = $this->extractSubType($remainder);
 		}
-		extractInfo($remainder);
+		$this->ExtractInfo($remainder);
 	}
 
 	public function getLogTimestamp() {
-		return $timestamp;
+		return $this->timestamp;
 	}
 	public function getLogType() {
-		return $type;
+		return $this->type;
 	}
 	public function getLogSubType() {
-		return $subtype;
+		return $this->subtype;
 	}
 	public function getFilename() {
-		return $filename;
+		return $this->filename;
 	}
 	public function getLogInfo() {
-		return $info;
+		return $this->info;
 	}
 }
 

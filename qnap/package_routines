@@ -33,5 +33,8 @@ pkg_install(){
     # Softlink the UI to the Web Path
     if [ ! -f $SYS_WEB_PATH/HDHomeRunDVR ]; then
         $CMD_LN -s $HDHR_UI_PATH $SYS_WEB_PATH/HDHomeRunDVR
+    else
+        $CMD_RM $SYS_WEB_PATH/HDHomeRunDVR
+        $CMD_LN -s $HDHR_UI_PATH $SYS_WEB_PATH/HDHomeRunDVR
     fi
 }

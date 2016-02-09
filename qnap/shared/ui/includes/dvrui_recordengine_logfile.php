@@ -1,39 +1,45 @@
 <?php
   
-require_once("incldues/dvrui_recordengine_logfile.php");
+require_once("includes/dvrui_recordengine_logentry.php");
   
 class DVRUI_Engine_LogFile {
-	$logEntries = {};
-	$position = 0;
+	
+	private $logEntries = array();
+	private $position = 0;
 	
 	public function DVRUI_Engine_LogFile($filename) {
-		// open file
-		if file_exists($filename) {
+		if (file_exists($filename)) {
+
 			$lines = file($filename);
 			// read line and convert to entry
 			for ($i=0; $i<count($lines); $i++) {
-				$entry = new DVRUI_Engine_LogEntry($line);
-				$logEntries[$i]['Timestamp'] = $entry->getLogTimestamp();
-				$logEntries[$i]['Type'] = $entry->getLogType();
-				$logEntries[$i]['SubType'] = $entry->getLogSubType();
-				$logEntries[$i]['Info'] = $entry->getLogInfo();
+				$entry = new DVRUI_Engine_LogEntry($lines[$i]);
+				$this->logEntries[$i]['Timestamp'] = $entry->getLogTimestamp();
+				$this->logEntries[$i]['Type'] = $entry->getLogType();
+				$this->logEntries[$i]['SubType'] = $entry->getLogSubType();
+				$this->logEntries[$i]['Info'] = $entry->getLogInfo();
 			}
 		}
 	}
 	
 	public function getNextEntry() {
-		$position++;
-		return $logEntries[$position];
+		$this->position++;
+		return $this->logEntries[$this->position];
 	}
 	
 	public function getPrevEntry() {
-		$position--;
-		return $logEntries[$position];
+		$this->position--;
+		return $this->logEntries[$this->position];
 	}
 	
 	public function getEntryAt($pos) {
-		$position = $pos;
-		return $logEntries[$position];
+		$this->position = $pos;
+		return $this->logEntries[$this->position];
 	}
+	
+	public function getNumEntry() {
+		return count($this->logEntries);
+	}
+	
 }
 ?>

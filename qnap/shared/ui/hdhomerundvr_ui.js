@@ -79,9 +79,9 @@ function setStatus(msg)
     document.getElementById('statusMessage').innerHTML = msg;
 }
 
-function openLogFile(def_id)
+function openLogFile(value)
 {
-    getLogFile(def_id);
+    getLogFile(value);
 }
 
 function deleteLogFile(def_id)
