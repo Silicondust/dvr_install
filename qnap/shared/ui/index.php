@@ -51,7 +51,7 @@
   }
   
   //Construct the List of LogFiles
-  $logList = new DVRUI_Engine_LogList();
+  $logList = new DVRUI_Engine_LogList($configFile->getRecordPath());
   $logListEntry = file_get_contents('style/loglist_entry.html');
   if ($logList->pathExists()) {
   	$sidebar_data = '<ul>';
