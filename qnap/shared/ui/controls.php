@@ -10,8 +10,27 @@
 		$tab = new TinyAjaxBehavior();
 	
 		//create output
-		$htmlStr = 'Changing State of the DVR: ' . $option;
+		$hdhr = new DVRUI_HDHRcontrols(DVRUI_Vars::DVR_qpkgPath . '/' . DVRUI_Vars::DVR_sh);
+		switch ($option) {
+			case 'start':
+				$htmlStr = 'Starting up the DVR record engine';
+				if ($hdhr->start_DVR())
+					$htmlStr .= ' - DONE';
+				break;
+			case 'stop':
+				$htmlStr = 'Shutting down the DVR record engine';
+				if ($hdhr->shutdown_DVR())
+					$htmlStr .= ' - DONE';
+				break;
+			case 'restart':
+				$htmlStr = 'Restarting the DVR record engine';
+				if ($hdhr->restart_DVR())
+					$htmlStr .= ' - DONE';
+				break;
+		}
 
+		$statusmsg = getLatestHDHRStatus();
+		
 		//get data
 		$result = ob_get_contents();
 		ob_end_clean();

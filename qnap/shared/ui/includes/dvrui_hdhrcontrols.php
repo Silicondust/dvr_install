@@ -13,6 +13,9 @@ class DVRUI_HDHRcontrols {
 		if ($this->hdhr_sh != '') {
 			$cmd = $this->hdhr_sh . ' ' . $option;
 			$output = shell_exec($cmd);
+			echo $output;
+			$output = 'executed shell with option: ' . $option;
+
 			return $output;
 		}
 		return NULL;
