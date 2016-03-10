@@ -16,9 +16,9 @@ class DVRUI_Engine_LogList {
 			}
 		} elseif (file_exists(DVRUI_Vars::DVR_recPath)) {
 			$this->pathExists = True;
-      foreach(glob(DVRUI_Vars::DVR_recPath . "/*.log") as $filename) {
-      	array_push($this->logfiles, $filename);
-      }
+			foreach(glob(DVRUI_Vars::DVR_recPath . "/*.log") as $filename) {
+				array_push($this->logfiles, $filename);
+			}
 		}
 	}
 	
@@ -34,6 +34,18 @@ class DVRUI_Engine_LogList {
 		if ($index <= count($this->logfiles)) {
 			return $this->logfiles[$index];
 		}
+	}
+	
+	public function getNewestLogFile() {
+		$lastMod = 0;
+		$lastModFile = '';
+		foreach ($this->logfiles as $filename) {
+			if (is_file($filename) && (filemtime($filename) > $lastMod)) {
+				$lastMod = filemtime($filename);
+				$lastModFile = $filename;
+			}
+		}
+		return $lastModFile;
 	}
 }
 ?>

@@ -1,5 +1,5 @@
 /******************************************************************************
- * @file league.js
+ * @file hdhomerunedvrui.js
  * @description
  * @version 1.0
  * @author Rik Dunphy
@@ -21,76 +21,80 @@
  *              
  */
 function setUIState(state)
-{        
-    if (admin_on != 0)
-    {
-        document.getElementById('layer_admin').style.display='block';
-    }
-    else
-    {
-        document.getElementById('layer_admin').style.display='none';
-    }
-    
-    if(state == 10)
-    {
-    	// keep state as is.
-    	return;
-    }
-    
-    if((state == 1) || (state == 2))
-    // Display an all clan league.
-    {
-        document.getElementById('layer_main').style.display='block';
-        doAutoRefresh = 0;
-    }
-    else if(state == 3)
-    // Display a 1v1 clan league.
-    {
-        document.getElementById('layer_main').style.display='none';
-    }
-    else if(state == 4)
-    // Display a 1v1 clan league.
-    {
-        document.getElementById('layer_main').style.display='none';
-    }
-    else if(state == 5)
-    // Display a 1v1 clan league.
-    {
-        document.getElementById('layer_main').style.display='none';
-    }
-    else
-    // State unknown/daemon unreachable
-    {
-        document.getElementById('layer_main').style.display='none';
-    }
-    doAutoRefresh = 0;
+{
+	if (admin_on != 0)
+	{
+		document.getElementById('layer_admin').style.display='block';
+	}
+	else
+	{
+		document.getElementById('layer_admin').style.display='none';
+	}
+	   
+	if(state == 10)
+	{
+		// keep state as is.
+		return;
+	}
+	
+	if((state == 1) || (state == 2))
+	// Display an all clan league.
+	{
+		document.getElementById('layer_main').style.display='block';
+		doAutoRefresh = 0;
+	}
+	else if(state == 3)
+	// Display a 1v1 clan league.
+	{
+		document.getElementById('layer_main').style.display='none';
+	}
+	else if(state == 4)
+	// Display a 1v1 clan league.
+	{
+		document.getElementById('layer_main').style.display='none';
+	}
+	else if(state == 5)
+	// Display a 1v1 clan league.
+	{
+		document.getElementById('layer_main').style.display='none';
+	}
+	else
+	// State unknown/daemon unreachable
+	{
+		document.getElementById('layer_main').style.display='none';
+	}
+	doAutoRefresh = 0;
 }
 
 /* Set the status message */
 function setStatus(msg)
 {
-    isStatusIdle = 0;
-    if(msg == '' || msg == null || msg == undefined)
-    {
-        isStatusIdle = 1;
-        msg = "Idle.";
-    }
-
-    document.getElementById('statusMessage').innerHTML = msg;
+	isStatusIdle = 0;
+	if(msg == '' || msg == null || msg == undefined)
+	{
+		isStatusIdle = 1;
+		msg = "Idle.";
+	}
+	document.getElementById('statusMessage').innerHTML = msg;
 }
 
 function openLogFile(value)
 {
-    getLogFile(value);
+	getLogFile(value);
 }
 
-function deleteLogFile(def_id)
+function deleteLogFile(value)
 {
-    rmLogFile(def_id);
+	rmLogFile(value);
+}
+
+function restartService(value)
+{
+	changeDvrState(value);
 }
 
 function changeRecordPath()
 {
-    var id = document.getElementById('recordPath').value;
-    updateRecordPath(id);
+	var id = document.getElementById('recordPath').value;
+	updateRecordPath(id);
 }

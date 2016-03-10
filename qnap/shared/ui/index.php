@@ -1,108 +1,108 @@
 <?php
-  ini_set('display_errors', 'On');
-  error_reporting(E_ALL);
-  define('TINYAJAX_PATH', '.');
-  require_once("TinyAjax.php");
-  require_once("TinyAjaxBehavior.php");
-  require_once("vars.php");
-  require_once("includes/dvrui_recordengine_config.php");
-  require_once("includes/dvrui_recordengine_loglist.php");
-  require_once("logfile.php");
-  require_once("configfile.php");
+	error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
+	define('TINYAJAX_PATH', '.');
+	require_once("TinyAjax.php");
+	require_once("TinyAjaxBehavior.php");
+	require_once("vars.php");
+	require_once("includes/dvrui_recordengine_config.php");
+	require_once("includes/dvrui_recordengine_loglist.php");
+	require_once("includes/dvrui_hdhrbintools.php");
+	require_once("logfile.php");
+	require_once("configfile.php");
+	require_once("statusmessage.php");
+	require_once("controls.php");
 
-  /* Prepare Ajax */
-  $ajax = new TinyAjax();
-  $ajax->setRequestType("POST");    // Change request-type from GET to POST
-  $ajax->showLoading();             // Show loading while callback is in progress
-   
-  /* Export the PHP Interface */
-  $ajax->exportFunction("getLogFile", "logfile");
-  $ajax->exportFunction("rmLogFile", "logfile");
-  $ajax->exportFunction("updateRecordPath","recordPath");
+	/* Prepare Ajax */
+	$ajax = new TinyAjax();
+	$ajax->setRequestType("POST");    // Change request-type from GET to POST
+	$ajax->showLoading();             // Show loading while callback is in progress
+	/* Export the PHP Interface */
+	$ajax->exportFunction("getLogFile", "filename");
+	$ajax->exportFunction("rmLogFile", "filename");
+	$ajax->exportFunction("updateRecordPath","recordPath");
+	$ajax->exportFunction("changeDvrState","option");
 
-  /* GO */
-  $ajax->process();                // Process our callback
-  
-  session_start();
-
+	/* GO */
+	$ajax->process();                // Process our callback
+	
 	// Prep data for the page
 	$loginform = "";
 	$sidebar_data = "";
 	$content_data = "";
 	
-  $sidebar_data = '<div class="box">
-			Log Files will be listed here
-		</div>';
-	$content_data = '<div class="box">
-			Log File data will be displayed here
-		</div>';
-	$config_data = '<div class="box">
-			Config File Data will Appear here
-		</div>';
+	// Build the Data
+	$configFile = new DVRUI_Engine_Config();
+	$configEntry = file_get_contents('style/config_entry.html');
+	if ($configFile->configFileExists()) {
+		$config_data = str_replace('<!-- dvrui_config_file_name -->',$configFile->getConfigFileName(),$configEntry);
+		$config_data = str_replace('<!-- dvrui_config_recordpath_value -->',$configFile->getRecordPath(),$config_data);
+	} else {
+		$config_data = "ERROR: Can't Parse Config File: " . $configFile->getConfigFileName();
+	}
 
-  // Build the Data
-  $configFile = new DVRUI_Engine_Config();
-  $configEntry = file_get_contents('style/config_entry.html');
-  if ($configFile->configFileExists()) {
-  	$config_data = str_replace('<!-- dvrui_config_file_name -->',$configFile->getConfigFileName(),$configEntry);
-  	$config_data = str_replace('<!-- dvrui_config_recordpath_value -->',$configFile->getRecordPath(),$config_data);
-  } else {
-  	$config_data = "ERROR: Can't Parse Config File: " . $configFile->getConfigFileName();
-  }
-  
-  //Construct the List of LogFiles
-  $logList = new DVRUI_Engine_LogList($configFile->getRecordPath());
-  $logListEntry = file_get_contents('style/loglist_entry.html');
-  if ($logList->pathExists()) {
-  	$sidebar_data = '<ul>';
-  	for ($i = $logList->getListLength() - 1 ; $i >= 0 ; $i--) {
-    	$logfile = basename($logList->getNextLogFile($i),'.log');
-    	$logEntry = str_replace('<!--logfile-name -->',$logfile,$logListEntry);
-    	$sidebar_data .= $logEntry;
-  	}
-  	$sidebar_data .= '</ul>';
-    //$sidebar_data = "Loading Logfile Lists [" . $logList->getListLength() . "]";
-    
-  } else {
-  	$sidebar_data = "ERROR: recording path is invalid";
-  }
-  
-  // --- Build Page Here ---
-  $pageName = DVRUI_Vars::DVRUI_name;
-  $UIVersion = "UI Version:" . DVRUI_Vars::DVRUI_version;
-  $DVRVersion = "Record Engine Version: " . DVRUI_Vars::DVR_version;
-  $pagecontent = "";
+	$statusmsg  = getLatestHDHRStatus();
+	//Construct the List of LogFiles
+	$sidebar_data = getLogFileList($configFile->getRecordPath());
+	
+	$hdhr = DVRUI_Vars::DVR_qpkgPath . '/' . DVRUI_Vars::DVR_bin;
+	$DVRBin = new DVRUI_HDHRbintools($hdhr);
+	$DVRBinVersion = $DVRBin->get_DVR_version();
+	
+	$hdhr = new DVRUI_HDHRjson();
+	$devices =  $hdhr->device_count();
+	$hdhrListEntry = file_get_contents('style/hdhrlist_entry.html');
+	$hdhr_data = '<ul>';
+	for ($i=0; $i < $devices; $i++) {
+		$hdhr_device_data = "<a href=" . $hdhr->get_device_baseurl($i) . ">" . $hdhr->get_device_id($i) . "</a>";
+		$hdhr_lineup_data = "<a href=" . $hdhr->get_device_lineup($i) . ">" . $hdhr->get_device_channels($i) . " Channels</a>";
+		$hdhrEntry = str_replace('<!--hdhr_device-->',$hdhr_device_data,$hdhrListEntry);
+		$hdhrEntry = str_replace('<!--hdhr_model-->',$hdhr->get_device_model($i),$hdhrEntry);
+		$hdhrEntry = str_replace('<!--hdhr_channels-->',$hdhr_lineup_data,$hdhrEntry);
+		$hdhr_data .= $hdhrEntry;
+	}
+	$hdhr_data .= '</ul>';
+	
+	// --- Build Page Here ---
+	$pageName = DVRUI_Vars::DVRUI_name;
+	$UIVersion = "UI Version:" . DVRUI_Vars::DVRUI_version;
+	$DVRVersion = "Record Engine Version: <i>" . $DVRBinVersion . "</i>";
+	$pagecontent = "";
 
-  // --- include header ---
-  $header = file_get_contents('style/header.html');
-  $pagecontent = str_replace('[[pagetitle]]',$pageName,$header);
-  $pagecontent = str_replace('<!-- tinyAjax -->',$ajax->drawJavaScript(false, true),$pagecontent);
+	// --- include header ---
+	$header = file_get_contents('style/header.html');
+	$pagecontent = str_replace('[[pagetitle]]',$pageName,$header);
+	$pagecontent = str_replace('<!-- tinyAjax -->',$ajax->drawJavaScript(false, true),$pagecontent);
 
-  // --- Build Body ---
-  $indexPage = file_get_contents('style/index_page.html');
-  $topmenu = file_get_contents('style/topmenu.html');
-  $configbox = file_get_contents('style/index_config.html');
-  $logfilelist = file_get_contents('style/index_loglist.html');
-  $logfiledata = file_get_contents('style/index_logdata.html');
+	// --- Build Body ---
+	$indexPage = file_get_contents('style/index_page.html');
+	$topmenu = file_get_contents('style/topmenu.html');
+	$configbox = file_get_contents('style/index_config.html');
+	$logfilelist = file_get_contents('style/index_loglist.html');
+	$hdhrlist = file_get_contents('style/hdhrlist.html');
+	$logfiledata = file_get_contents('style/index_logdata.html');
 
-  $topmenu = str_replace('[[pagetitle]]',$pageName,$topmenu);
-  $topmenu = str_replace('[[UI-Version]]',$UIVersion,$topmenu);
-  $topmenu = str_replace('[[DVR-Version]]',$DVRVersion,$topmenu);
-  $configbox = str_replace('<!-- dvrui_config_data -->',$config_data,$configbox);
-  $logfiledata = str_replace('<!-- dvrui_content_data -->',$content_data,$logfiledata);
-  $logfilelist = str_replace('<!-- dvrui_sidebar_data -->',$sidebar_data,$logfilelist);
-  $indexPage = str_replace('<!-- dvrui_topmenu -->',$topmenu,$indexPage);
-  $indexPage = str_replace('<!-- dvrui_config -->',$configbox,$indexPage);
-  $indexPage = str_replace('<!-- dvrui_loglist -->',$logfilelist,$indexPage);
-  $indexPage = str_replace('<!-- dvrui_logfile -->',$logfiledata,$indexPage);
+	$topmenu = str_replace('[[pagetitle]]',$pageName,$topmenu);
+	$topmenu = str_replace('[[UI-Version]]',$UIVersion,$topmenu);
+	$topmenu = str_replace('[[DVR-Version]]',$DVRVersion,$topmenu);
 
-  // -- Attach the Index to the Page
-  $pagecontent .= $indexPage;
-  
-  // --- include footer ---
-  $footer = file_get_contents('style/footer.html');
-  
-  $pagecontent .= $footer;
- 	echo($pagecontent);
+	$configbox = str_replace('<!-- dvrui_config_data -->',$config_data,$configbox);
+	$logfiledata = str_replace('<!-- dvrui_content_data -->',$content_data,$logfiledata);
+	$logfilelist = str_replace('<!-- dvrui_sidebar_data -->',$sidebar_data,$logfilelist);
+	$hdhrlist = str_replace('<!-- dvrui_hdhrlist_data -->',$hdhr_data,$hdhrlist);
+
+	$indexPage = str_replace('<!-- dvrui_topmenu -->',$topmenu,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_config -->',$configbox,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_hdhrlist -->',$hdhrlist,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_loglist -->',$logfilelist,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_logfile -->',$logfiledata,$indexPage);
+
+	// -- Attach the Index to the Page
+	$pagecontent .= $indexPage;
+
+	// --- include footer ---
+	$footer = file_get_contents('style/footer.html');
+	$footer = str_replace('<!--dvr-statusmsg-->',$statusmsg,$footer);
+	$pagecontent .= $footer;
+	echo($pagecontent);
 ?>
 

@@ -1,10 +1,10 @@
 <ul>
 	<li><label for='ConfigPath'>Reading Config from:</label><input type='text' id='configPath' name='ConfigPath' value='<!-- dvrui_config_file_name -->'></li>
 	<li><label for='RecordPath'>RecordPath set to:</label><input type='text' id='recordPath' name='RecordPath' value='<!-- dvrui_config_recordpath_value -->'>
-   	<button name="updateRecordPath" class='btn_20_120 updateButton' onClick="changeRecordPath()">Update</button></li>
+	<button name="updateRecordPath" class='btn_20_120 updateButton' onClick="changeRecordPath()">Update</button></li>
 </ul>
 <div id='serverControls'>
-   	<button name="updateRecordPath" class='btn_32_120 startButton' onClick="restartService()">Start</button>
-   	<button name="updateRecordPath" class='btn_32_120 stopButton' onClick="restartService()">Stop</button>
-   	<button name="updateRecordPath" class='btn_32_120 restartButton' onClick="restartService()">Restart</button>
+	<button name="startDVR" class='btn_32_120 startButton' value="start" onClick="restartService(this.value)">Start</button>
+	<button name="stopDVR" class='btn_32_120 stopButton' value="stop" onClick="restartService(this.value)">Stop</button>
+	<button name="restartDVR" class='btn_32_120 restartButton' value="restart" onClick="restartService(this.value)">Restart</button>
 </div>
