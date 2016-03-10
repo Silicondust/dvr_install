@@ -41,8 +41,3 @@ chmod a+x $DVR_BIN
 echo "--- Done, returning to $QDK_ROOT."
 cd $QDK_ROOT
 
-echo "--- Patching UI vars"
-VER_CHECK=$(shared/hdhomerun_record_linux version | grep -i version | awk '{print $4}')
-VER_STR="\"$VER_CHECK\";"
-sed -i "s!\(DVR_version=\).*!\1$VER_STR!" shared/ui/vars.php
-
