@@ -11,6 +11,7 @@ class DVRUI_HDHRjson {
 	private $hdhrkey_modelName = 'FriendlyName';
 	private $hdhrkey_fwVer = 'FirmwareVersion';
 	private $hdhrkey_fwName = 'FirmwareName';
+	private $hdhrkey_tuners= 'TunerCount';
 	
 	private $hdhrlist = array();
 	private $hdhrlist_key_channelcount = 'ChannelCount';
@@ -39,6 +40,7 @@ class DVRUI_HDHRjson {
 										$this->hdhrkey_lineupURL => $hdhr[$this->hdhrkey_lineupURL],
 										$this->hdhrkey_modelName =>$hdhr_info[$this->hdhrkey_modelName],
 										$this->hdhrkey_fwVer => $hdhr_info[$this->hdhrkey_fwVer],
+										$this->hdhrkey_tuners => $hdhr_info[$this->hdhrkey_tuners],
 										$this->hdhrkey_fwName => $hdhr_info[$this->hdhrkey_fwName]);
 		}
 	}
@@ -79,5 +81,14 @@ class DVRUI_HDHRjson {
 		return $device[$this->hdhrkey_baseURL];
 	}
 
+	public function get_device_firmware($pos) {
+		$device = $this->hdhrlist[$pos];
+		return $device[$this->hdhrkey_fwVer];
+	}
+
+	public function get_device_tuners($pos) {
+		$device = $this->hdhrlist[$pos];
+		return $device[$this->hdhrkey_tuners];
+	}
 }
 ?>

@@ -57,8 +57,10 @@
 		$hdhr_lineup_data = "<a href=" . $hdhr->get_device_lineup($i) . ">" . $hdhr->get_device_channels($i) . " Channels</a>";
 		$hdhrEntry = str_replace('<!--hdhr_device-->',$hdhr_device_data,$hdhrListEntry);
 		$hdhrEntry = str_replace('<!--hdhr_model-->',$hdhr->get_device_model($i),$hdhrEntry);
+		$hdhrEntry = str_replace('<!--hdhr_tuners-->',$hdhr->get_device_tuners($i) . ' tuners',$hdhrEntry);
+		$hdhrEntry = str_replace('<!--hdhr_firmware-->',$hdhr->get_device_firmware($i),$hdhrEntry);
 		$hdhrEntry = str_replace('<!--hdhr_channels-->',$hdhr_lineup_data,$hdhrEntry);
-		$hdhr_data .= $hdhrEntry;
+		$hdhr_data .= $hdhrEntry ;
 	}
 	$hdhr_data .= '</ul>';
 	

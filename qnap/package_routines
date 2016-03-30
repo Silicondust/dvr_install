@@ -7,7 +7,7 @@ HDHR_UI_VARS=$HDHR_UI_PATH/vars.php
 HDHR_DVR_BIN=hdhomerun_record_linux
 
 PKG_MAIN_REMOVE="{
-    if [! -L $SYS_WEB_PATH/HDHomeRunDVR ]; then
+    if [ -L $SYS_WEB_PATH/HDHomeRunDVR ]; then
         $CMD_RM $SYS_WEB_PATH/HDHomeRunDVR
     fi
 }"
