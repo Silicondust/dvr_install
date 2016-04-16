@@ -7,7 +7,7 @@ HDHR_UI_VARS=$HDHR_UI_PATH/vars.php
 HDHR_DVR_BIN=hdhomerun_record_linux
 
 PKG_MAIN_REMOVE="{
-    if [ -L $SYS_WEB_PATH/HDHomeRunDVR ]; then
+    if [ -f $SYS_WEB_PATH/HDHomeRunDVR ]; then
         $CMD_RM $SYS_WEB_PATH/HDHomeRunDVR
     fi
 }"
@@ -25,10 +25,11 @@ pkg_install(){
         $CMD_MKDIR -p $HDHR_REC_PATH
     fi
     
-    # PatchUp the UI Vars File
+    # PatchUp the UI Vars File to point to the installation
+    $CMD_SED -i "s!\(DVR_qpkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
     
     # Make Config File world writable (will see if I can reduce to just group later)
-    $CMD_CHMOD a+w $HDHR_CONF
+    $CMD_CHMOD g+w $HDHR_QPKG_PATH/$HDHR_CONF
 
     # Softlink the UI to the Web Path
     if [ ! -f $SYS_WEB_PATH/HDHomeRunDVR ]; then
