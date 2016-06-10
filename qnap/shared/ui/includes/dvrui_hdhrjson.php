@@ -33,15 +33,26 @@ class DVRUI_HDHRjson {
 			$hdhr_info = json_decode($hdhr_info_json, true);
 			$hdhr_lineup_json = file_get_contents($hdhr[$this->hdhrkey_lineupURL]);
 			$hdhr_lineup = json_decode($hdhr_lineup_json, true);
-			$this->hdhrlist[] = array( $this->hdhrkey_devID => $hdhr[$this->hdhrkey_devID],
-										$this->hdhrkey_modelNum => $hdhr_info[$this->hdhrkey_modelNum],
-										$this->hdhrlist_key_channelcount => count($hdhr_lineup),
-										$this->hdhrkey_baseURL => $hdhr_base,
-										$this->hdhrkey_lineupURL => $hdhr[$this->hdhrkey_lineupURL],
-										$this->hdhrkey_modelName =>$hdhr_info[$this->hdhrkey_modelName],
-										$this->hdhrkey_fwVer => $hdhr_info[$this->hdhrkey_fwVer],
-										$this->hdhrkey_tuners => $hdhr_info[$this->hdhrkey_tuners],
-										$this->hdhrkey_fwName => $hdhr_info[$this->hdhrkey_fwName]);
+			if (array_key_exists($this->hdhrkey_tuners,$hdhr_info)) {
+				$this->hdhrlist[] = array( $this->hdhrkey_devID => $hdhr[$this->hdhrkey_devID],
+											$this->hdhrkey_modelNum => $hdhr_info[$this->hdhrkey_modelNum],
+											$this->hdhrlist_key_channelcount => count($hdhr_lineup),
+											$this->hdhrkey_baseURL => $hdhr_base,
+											$this->hdhrkey_lineupURL => $hdhr[$this->hdhrkey_lineupURL],
+											$this->hdhrkey_modelName =>$hdhr_info[$this->hdhrkey_modelName],
+											$this->hdhrkey_fwVer => $hdhr_info[$this->hdhrkey_fwVer],
+											$this->hdhrkey_tuners => $hdhr_info[$this->hdhrkey_tuners],
+											$this->hdhrkey_fwName => $hdhr_info[$this->hdhrkey_fwName]);
+			} else {
+				$this->hdhrlist[] = array( $this->hdhrkey_devID => $hdhr[$this->hdhrkey_devID],
+											$this->hdhrkey_modelNum => $hdhr_info[$this->hdhrkey_modelNum],
+											$this->hdhrlist_key_channelcount => count($hdhr_lineup),
+											$this->hdhrkey_baseURL => $hdhr_base,
+											$this->hdhrkey_lineupURL => $hdhr[$this->hdhrkey_lineupURL],
+											$this->hdhrkey_modelName =>$hdhr_info[$this->hdhrkey_modelName],
+											$this->hdhrkey_fwVer => $hdhr_info[$this->hdhrkey_fwVer],
+											$this->hdhrkey_fwName => $hdhr_info[$this->hdhrkey_fwName]);
+			}
 		}
 	}
 	
@@ -88,7 +99,11 @@ class DVRUI_HDHRjson {
 
 	public function get_device_tuners($pos) {
 		$device = $this->hdhrlist[$pos];
-		return $device[$this->hdhrkey_tuners];
+		if (array_key_exists($this->hdhrkey_tuners,$device)) {
+			return $device[$this->hdhrkey_tuners];
+		} else {
+			return '??';
+		}
 	}
 }
 ?>

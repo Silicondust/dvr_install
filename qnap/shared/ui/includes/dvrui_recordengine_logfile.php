@@ -41,5 +41,65 @@ class DVRUI_Engine_LogFile {
 		return count($this->logEntries);
 	}
 	
+	public function isTypeError($pos) {
+		$this->position = $pos;
+		$entry = $this->logEntries[$this->position];
+		if ($entry['Type']=='Error:') {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function isTypeStatus($pos) {
+		$this->position = $pos;
+		$entry = $this->logEntries[$this->position];
+		if ($entry['Type']=='Status:') {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function isTypePlayback($pos) {
+		$this->position = $pos;
+		$entry = $this->logEntries[$this->position];
+		if ($entry['Type']=='Playback:') {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function isTypeRecording($pos) {
+		$this->position = $pos;
+		$entry = $this->logEntries[$this->position];
+		if ($entry['Type']=='Recording:') {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function isTypeRecorded($pos) {
+		$this->position = $pos;
+		$entry = $this->logEntries[$this->position];
+		if ($entry['Type']=='Recorded:') {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function infoContainsError($pos) {
+		$this->position = $pos;
+		$entry = $this->logEntries[$this->position];
+		if (strpos($entry['Info'], 'error') !== false) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
 }
 ?>

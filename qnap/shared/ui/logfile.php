@@ -10,15 +10,38 @@
 		$tab = new TinyAjaxBehavior();
 	
 		//create output
-		$htmlStr = '';
 		$logfile = new DVRUI_Engine_LogFile(DVRUI_Vars::DVR_recPath . '/' . $filename);
+		$logEntry = file_get_contents('style/logfile_entry.html');
+		$htmlStr = '';
+
 		for ($i=0; $i < $logfile->getNumEntry(); $i++) {
 			$entry = $logfile->getEntryAt($i);
-			$htmlStr .= $entry['Timestamp'];
-			$htmlStr .= $entry['Type'];
-			$htmlStr .= $entry['SubType'];
-			$htmlStr .= $entry['Info'];
-			$htmlStr .= '<br/>';
+			$entryStr = str_replace('<!--log-time-->',$entry['Timestamp'],$logEntry);
+			
+			if ($logfile->isTypeError($i)) {
+				$entryStr = str_replace('<!--logtype-class-->','logTypeError',$entryStr);
+			} else if ($logfile->isTypeStatus($i)) {
+				$entryStr = str_replace('<!--logtype-class-->','logTypeStatus',$entryStr);
+			} else if ($logfile->isTypePlayback($i)) {
+				$entryStr = str_replace('<!--logtype-class-->','logTypePlayback',$entryStr);
+			} else if ($logfile->isTypeRecording($i)) {
+				$entryStr = str_replace('<!--logtype-class-->','logTypeRecording',$entryStr);
+			} else if ($logfile->isTypeRecorded($i)) {
+				$entryStr = str_replace('<!--logtype-class-->','logTypeRecorded',$entryStr);
+			} else {
+				$entryStr = str_replace('<!--logtype-class-->','logTypeInfo',$entryStr);
+			}
+			
+			$entryStr = str_replace('<!--log-type-->',$entry['Type'],$entryStr);
+			$entryStr = str_replace('<!--logsubtype-class-->','',$entryStr);
+			$entryStr = str_replace('<!--log-subtype-->',$entry['SubType'],$entryStr);
+			if ($logfile->infoContainsError($i)) {
+				$entryStr = str_replace('<!--logentry-class-->','logInfoError',$entryStr);
+			} else {
+				$entryStr = str_replace('<!--logentry-class-->','',$entryStr);
+			}
+			$entryStr = str_replace('<!--log-entry-->',$entry['Info'],$entryStr);
+			$htmlStr.= $entryStr;
 		}
 	
 		$statusmsg = getLatestHDHRStatus();

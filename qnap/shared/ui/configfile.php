@@ -2,6 +2,7 @@
 	require_once("TinyAjaxBehavior.php");
 	require_once("vars.php");
 	require_once("logfile.php");
+	require_once("includes/dvrui_recordengine_config.php");
 	
 	function updateRecordPath($recordPath) {
 		// prep

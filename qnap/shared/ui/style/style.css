@@ -330,3 +330,43 @@ input[type="text"]:focus {
 	background: green;
 	color: white;
 }
+
+/* Span templates for logfile info */
+.logDate {
+	font-style: italic;
+}
+
+.logTypeError {
+	font-style: bold;
+	color: red;
+}
+
+.logTypeStatus {
+	font-style: bold;
+	color: blue;
+}
+
+.logTypePlayback {
+	font-style: bold;
+	color: green;
+}
+
+.logTypeRecording {
+	font-style: bold;
+	color: orange;
+}
+
+.logTypeRecorded {
+	font-style: underline;
+	color: orange;
+}
+
+.logTypeInfo {
+	font-style: bold;
+	color: black;
+}
+
+.logInfoError {
+	font-style: italic;
+	color: red;
+}
