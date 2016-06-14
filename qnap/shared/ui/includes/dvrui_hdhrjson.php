@@ -9,9 +9,10 @@ class DVRUI_HDHRjson {
 	private $hdhrkey_lineupURL = 'LineupURL';
 	private $hdhrkey_modelNum = 'ModelNumber';
 	private $hdhrkey_modelName = 'FriendlyName';
+	private $hdhrkey_auth = 'DeviceAuth';
 	private $hdhrkey_fwVer = 'FirmwareVersion';
 	private $hdhrkey_fwName = 'FirmwareName';
-	private $hdhrkey_tuners= 'TunerCount';
+	private $hdhrkey_tuners = 'TunerCount';
 	
 	private $hdhrlist = array();
 	private $hdhrlist_key_channelcount = 'ChannelCount';
@@ -40,6 +41,7 @@ class DVRUI_HDHRjson {
 											$this->hdhrkey_baseURL => $hdhr_base,
 											$this->hdhrkey_lineupURL => $hdhr[$this->hdhrkey_lineupURL],
 											$this->hdhrkey_modelName =>$hdhr_info[$this->hdhrkey_modelName],
+											$this->hdhrkey_auth =>$hdhr_info[$this->hdhrkey_auth],
 											$this->hdhrkey_fwVer => $hdhr_info[$this->hdhrkey_fwVer],
 											$this->hdhrkey_tuners => $hdhr_info[$this->hdhrkey_tuners],
 											$this->hdhrkey_fwName => $hdhr_info[$this->hdhrkey_fwName]);
@@ -50,6 +52,7 @@ class DVRUI_HDHRjson {
 											$this->hdhrkey_baseURL => $hdhr_base,
 											$this->hdhrkey_lineupURL => $hdhr[$this->hdhrkey_lineupURL],
 											$this->hdhrkey_modelName =>$hdhr_info[$this->hdhrkey_modelName],
+											$this->hdhrkey_auth =>$hdhr_info[$this->hdhrkey_auth],
 											$this->hdhrkey_fwVer => $hdhr_info[$this->hdhrkey_fwVer],
 											$this->hdhrkey_fwName => $hdhr_info[$this->hdhrkey_fwName]);
 			}
@@ -101,6 +104,15 @@ class DVRUI_HDHRjson {
 		$device = $this->hdhrlist[$pos];
 		if (array_key_exists($this->hdhrkey_tuners,$device)) {
 			return $device[$this->hdhrkey_tuners];
+		} else {
+			return '??';
+		}
+	}
+
+	public function get_device_auth($pos) {
+		$device = $this->hdhrlist[$pos];
+		if (array_key_exists($this->hdhrkey_auth,$device)) {
+			return $device[$this->hdhrkey_auth];
 		} else {
 			return '??';
 		}

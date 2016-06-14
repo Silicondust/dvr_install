@@ -64,11 +64,6 @@ html {
 	background: #004d39;
 }
 
-body {
-	color: #6B7C93;
-	font-size: 12.5pt;
-}
-
 body,input {
 	font-family: Arial, sans-serif;
 }
@@ -112,9 +107,28 @@ img.aligntop {
 
 #page {
 	position: relative;
-	margin: 10px 0 10px 0;
+	margin: 0px;
+	padding: 5px;
+	width: 85%;
+}
+
+#rules_page {
+	position: relative;
 	padding: 0;
 	width: 100%;
+	border-radius: 0px 0px 10px 10px;
+	border: solid 2px #020;
+
+}
+
+
+#log_page {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	min-width: 800px;
+	display: block;
 }
 
 .box {
@@ -127,6 +141,7 @@ img.aligntop {
 	margin: 0 auto 0 auto;
 	padding: 10px 0 0 0;
 	width: 90%;
+	min-width: 1080px;
 }
 
 
@@ -180,19 +195,15 @@ img.aligntop {
 
 #hdhrlist {
 	float: right;
-	clear left;
 	text-align: center;
 	background: #EAEEF2;
-	margin: 10px 0 10px 0;
-	width: 120px;
+	width: 10%;
 	padding: 10px;
-	height: 660px;
+	height: 700px;
 	border-radius: 10px;
 	border: solid 2px #FFFFFF;
 	text-shadow: 0 1px 0 #FFFFFF;
 	overflow: auto;
-	position: relative;
-	z-index: 1;
 }
 
 #hdhrlist_box {
@@ -217,49 +228,16 @@ img.aligntop {
 	text-shadow: 0 1px 0 #FFFFFF;
 }
 
-#sidebar {
-	text-align: center;
-	float: left;
-	background: #EAEEF2;
-	width: 180px;
-	padding: 10px;
-	height: 500px;
-	border-radius: 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
-	overflow: auto;
-}
-
-#sidebar h4 {
-	text-shadow: 0 1px 0 #FFFFFF;
-}
-
-#sidebar_box {
-	padding: 0px;
-}
-
-#sidebar ul {
-	list-style: none;
-}
-
-#sidebar ul li {
-	padding: 5px 0 5px 0;
-	border-top: dotted 1px #C5CDD8;
-}
-
-#sidebar ul li.first {
-	border-top: 0;
-	padding-top: 0;
-}
-
 #config_box {
 	background: #EAEEF2;
-	margin: 10px 160px 10px 0;
+	margin: 10px 10px 10px 0px;
 	padding: 5px;
 	border-radius: 10px;
 	border: solid 2px #FFFFFF;
 	text-shadow: 0 1px 0 #FFFFFF;
 	line-height: 1;
+	width: 85%;
+	height: 150px;
 }
 
 #config_box h4 {
@@ -285,23 +263,63 @@ img.aligntop {
 	line-height: 1;
 }
 
-#serverControls {
-	position: relative;
-	margin: 0 auto 0 auto;
-	padding: 10px 0 0 0;
-	width: 30%;
-}
-
 #config_box ul li label{
 	display: inline-block;
-  width: 160px;
+	width: 160px;
+}
+
+#serverParams {
+	float: left;
+	width: 80%;
+}
+
+#serverControls {
+	position: right;
+	margin-left: 80%;
+	width: 20%;
+}
+
+
+#sidebar {
+	float: left;
+	width: 20%;
+	height: 500px;
+	text-align: center;
+	overflow: auto;
+	background: #EAEEF2;
+	border-radius: 0px 0px 10px 10px;
+	border: solid 2px #FFFFFF;
+	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+#sidebar h4 {
+	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+#sidebar_box {
+	padding: 0px;
+}
+
+#sidebar ul {
+	list-style: none;
+}
+
+#sidebar ul li {
+	padding: 2px 0 2px 0;
+	border-top: dotted 1px #C5CDD8;
+}
+
+#sidebar ul li.first {
+	border-top: 0;
+	padding-top: 0;
 }
 
 #content {
+	position: right;
+	margin-left: 21%;
+	width: 79%;
 	background: #EAEEF2;
-	padding: 10px;
-	margin: 0 160px  0 220px;
-	border-radius: 10px;
+	border-radius: 0px 0px 10px 10px;
 	border: solid 2px #FFFFFF;
 	text-shadow: 0 1px 0 #FFFFFF;
 	height: 500px;
@@ -310,13 +328,30 @@ img.aligntop {
 #logfile_box {
 	height:100%;
 	width:100%;
-	overflow: auto;
+	overflow-x: scroll;
+	overflow-y: scroll;
+}
+
+#rules_content {
+	width: 100%;
+	background: #EAEEF2;
+	border-radius: 0px 0px 10px 10px;
+	border: solid 2px #FFFFFF;
+	text-shadow: 0 1px 0 #FFFFFF;
+	height: 500px;
+}
+
+#rules_box {
+	height:100%;
+	width:100%;
+	overflow-x: scroll;
+	overflow-y: scroll;
 }
 
 input[type="text"] {
 	background: #EAEEF2;
   margin: 0;
-  width: 75%;
+  width: 60%;
   appearance: none;
   box-shadow: none;
   border-radius: none;
@@ -370,3 +405,36 @@ input[type="text"]:focus {
 	font-style: italic;
 	color: red;
 }
+
+ul.tabmenu {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: none;
+}
+
+ul.tabmenu li {
+	float: left;
+}
+
+ul.tabmenu li a {
+	display: inline-block;
+	color: white;
+	text-align: center;
+	padding: 10px 10px;
+	text-decoration: none;
+	transition: 0.1s;
+	font-size: 20px;
+	border-radius: 10px 10px 0px 0px;
+	border: solid 1px #020;
+}
+
+ul.tabmenu li a:hover {background-color: #070;}
+
+ul.tabmenu li a:focus, a.active {background-color: #070;}
+
+.tabcontent {
+	display: none;
+}
+

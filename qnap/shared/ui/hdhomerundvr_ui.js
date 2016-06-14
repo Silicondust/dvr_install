@@ -9,61 +9,24 @@
  * any liability for errors or problems arising from it's use. 
  *****************************************************************************/
 
-/**
- * Updates the UI state.
- * @param state 
- *         1 indicates show main Data.
- *         2 indicates show a 1v1 league
- *         3 indicates show add game data page.
- *         4 indicates report loss page.
- *         5 indicates show my fixtures.
- *        10 indicates do nothing (useful for admin bar changes)
- *              
- */
-function setUIState(state)
-{
-	if (admin_on != 0)
-	{
-		document.getElementById('layer_admin').style.display='block';
-	}
-	else
-	{
-		document.getElementById('layer_admin').style.display='none';
-	}
-	   
-	if(state == 10)
-	{
-		// keep state as is.
-		return;
+function openTab(evt, tabname) {
+	var i, tabcontent, tablinks;
+	
+	// get elements with class="tabcontent" and hide
+	tabcontent = document.getElementsByClassName("tabcontent");
+	for (i=-0; i < tabcontent.length; i++) {
+		tabcontent[i].style.display = "none";
 	}
 	
-	if((state == 1) || (state == 2))
-	// Display an all clan league.
-	{
-		document.getElementById('layer_main').style.display='block';
-		doAutoRefresh = 0;
+	// get elements with class="tablink" and remove the active
+	tablinks = document.getElementsByClassName("tablink");
+	for (i=0; i < tablinks.length; i++) {
+		tablinks[i].className = tablinks[i].className.replace(" active", "");
 	}
-	else if(state == 3)
-	// Display a 1v1 clan league.
-	{
-		document.getElementById('layer_main').style.display='none';
-	}
-	else if(state == 4)
-	// Display a 1v1 clan league.
-	{
-		document.getElementById('layer_main').style.display='none';
-	}
-	else if(state == 5)
-	// Display a 1v1 clan league.
-	{
-		document.getElementById('layer_main').style.display='none';
-	}
-	else
-	// State unknown/daemon unreachable
-	{
-		document.getElementById('layer_main').style.display='none';
-	}
-	doAutoRefresh = 0;
+	
+	//show the tablinks
+	document.getElementById(tabname).style.display = "block";
+	evt.currentTarget.className += " active";
 }
 
 /* Set the status message */
@@ -97,4 +60,10 @@ function changeRecordPath()
 {
 	var id = document.getElementById('recordPath').value;
 	updateRecordPath(id);
+}
+
+function changeServerPort()
+{
+	var id = document.getElementById('serverPort').value;
+	updateServerPort(id);
 }

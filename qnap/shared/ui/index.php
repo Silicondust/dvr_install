@@ -6,7 +6,9 @@
 	require_once("vars.php");
 	require_once("includes/dvrui_recordengine_config.php");
 	require_once("includes/dvrui_recordengine_loglist.php");
+	require_once("includes/dvrui_hdhrjson.php");
 	require_once("includes/dvrui_hdhrbintools.php");
+	require_once("includes/dvrui_rules.php");
 	require_once("logfile.php");
 	require_once("configfile.php");
 	require_once("statusmessage.php");
@@ -16,10 +18,12 @@
 	$ajax = new TinyAjax();
 	$ajax->setRequestType("POST");    // Change request-type from GET to POST
 	$ajax->showLoading();             // Show loading while callback is in progress
+	
 	/* Export the PHP Interface */
 	$ajax->exportFunction("getLogFile", "filename");
 	$ajax->exportFunction("rmLogFile", "filename");
 	$ajax->exportFunction("updateRecordPath","recordPath");
+	$ajax->exportFunction("updateServerPort","serverPort");
 	$ajax->exportFunction("changeDvrState","option");
 
 	/* GO */
@@ -36,6 +40,7 @@
 	if ($configFile->configFileExists()) {
 		$config_data = str_replace('<!-- dvrui_config_file_name -->',$configFile->getConfigFileName(),$configEntry);
 		$config_data = str_replace('<!-- dvrui_config_recordpath_value -->',$configFile->getRecordPath(),$config_data);
+		$config_data = str_replace('<!-- dvrui_config_port_value -->',$configFile->getServerPort(),$config_data);
 	} else {
 		$config_data = "ERROR: Can't Parse Config File: " . $configFile->getConfigFileName();
 	}
@@ -48,6 +53,7 @@
 	$DVRBin = new DVRUI_HDHRbintools($hdhr);
 	$DVRBinVersion = $DVRBin->get_DVR_version();
 	
+	// Discover HDHR Devices
 	$hdhr = new DVRUI_HDHRjson();
 	$devices =  $hdhr->device_count();
 	$hdhrListEntry = file_get_contents('style/hdhrlist_entry.html');
@@ -63,6 +69,26 @@
 		$hdhr_data .= $hdhrEntry ;
 	}
 	$hdhr_data .= '</ul>';
+
+	// Discover Recording Rules
+	$hdhr_rules = new DVRUI_Rules($hdhr);
+	$num_rules = $hdhr_rules->getRuleCount();
+	$rules_data = '';
+	for ($i=0; $i < $num_rules; $i++) {
+		$rules_data .= $hdhr_rules->getRuleString($i) . '<br/>';
+	}
+	
+  //Build navigation menu for pages
+  $pageTitles = array('Logs','Rules');
+  $pageNames = array('log_page', 'rules_page');
+  $menu_data = file_get_contents('style/pagemenu.html');
+  $menuEntries = '';
+  for ($i=0; $i < count($pageNames); $i++) {
+  	$menuEntry = str_replace('<!-- dvrui_menu_pagename-->',$pageNames[$i],file_get_contents('style/pagemenu_entry.html'));
+  	$menuEntry = str_replace('<!-- dvrui_menu_pagetitle-->',$pageTitles[$i],$menuEntry);
+  	$menuEntries .= $menuEntry;
+  }
+  $menu_data = str_replace('<!-- dvrui_pagemenu_entries-->',$menuEntries,$menu_data);
 	
 	// --- Build Page Here ---
 	$pageName = DVRUI_Vars::DVRUI_name;
@@ -82,21 +108,26 @@
 	$logfilelist = file_get_contents('style/index_loglist.html');
 	$hdhrlist = file_get_contents('style/hdhrlist.html');
 	$logfiledata = file_get_contents('style/index_logdata.html');
+	$rulesdata = file_get_contents('style/rules.html');
 
 	$topmenu = str_replace('[[pagetitle]]',$pageName,$topmenu);
 	$topmenu = str_replace('[[UI-Version]]',$UIVersion,$topmenu);
 	$topmenu = str_replace('[[DVR-Version]]',$DVRVersion,$topmenu);
 
+
 	$configbox = str_replace('<!-- dvrui_config_data -->',$config_data,$configbox);
 	$logfiledata = str_replace('<!-- dvrui_content_data -->',$content_data,$logfiledata);
 	$logfilelist = str_replace('<!-- dvrui_sidebar_data -->',$sidebar_data,$logfilelist);
+	$rulesdata = str_replace('<!-- dvrui_rules_data -->',$rules_data,$rulesdata);
 	$hdhrlist = str_replace('<!-- dvrui_hdhrlist_data -->',$hdhr_data,$hdhrlist);
 
 	$indexPage = str_replace('<!-- dvrui_topmenu -->',$topmenu,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_config -->',$configbox,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_hdhrlist -->',$hdhrlist,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_pagemenu -->',$menu_data,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_loglist -->',$logfilelist,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_logfile -->',$logfiledata,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_ruleslist -->',$rulesdata,$indexPage);
 
 	// -- Attach the Index to the Page
 	$pagecontent .= $indexPage;

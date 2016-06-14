@@ -35,10 +35,22 @@ class DVRUI_Engine_Config {
 		}
 		return $retVal;
 	}
-	
-    public function setRecordPath($record_path) {
-        $this->configArray['RecordPath'] = $record_path;
-    }
+
+	public function setRecordPath($record_path) {
+		$this->configArray['RecordPath'] = $record_path;
+	}
+
+	public function getServerPort() {
+		$retVal = 'Path not Set';
+		if (array_key_exists('Port', $this->configArray)) {
+			$retVal = $this->configArray['Port'];
+		}
+		return $retVal;
+	}
+
+	public function setServerPort($serverPort) {
+		$this->configArray['Port'] = $serverPort;
+	}
 
     public function writeConfigFile() {
     	echo 'Writing Config File';
