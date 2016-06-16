@@ -8,9 +8,9 @@
 		// prep
 		ob_start();
 		$tab = new TinyAjaxBehavior();
-	
+		$configFile = new DVRUI_Engine_Config();
 		//create output
-		$logfile = new DVRUI_Engine_LogFile(DVRUI_Vars::DVR_recPath . '/' . $filename);
+		$logfile = new DVRUI_Engine_LogFile($configFile->getRecordPath() . '/' . $filename);
 		$logEntry = file_get_contents('style/logfile_entry.html');
 		$htmlStr = '';
 
@@ -62,15 +62,15 @@
 		// prep
 		ob_start();
 		$tab = new TinyAjaxBehavior();
+		$configFile = new DVRUI_Engine_Config();
 	
 		//create output
-		$logfile = DVRUI_Vars::DVR_recPath . '/' . $filename;
+		$logfile = $configFile->getRecordPath() . '/' . $filename;
 		$htmlStr = 'Deleting ' . $logfile;
 		if (file_exists($logfile)) {
 			$del = unlink($logfile);
 		}
 
-		$configFile = new DVRUI_Engine_Config();
 		$logFileList = getLogFileList($configFile->getRecordPath());
 		$statusmsg = getLatestHDHRStatus();
 		
