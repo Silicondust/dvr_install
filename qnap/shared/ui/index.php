@@ -13,6 +13,7 @@
 	require_once("configfile.php");
 	require_once("statusmessage.php");
 	require_once("controls.php");
+	require_once("rules.php");
 
 	/* Prepare Ajax */
 	$ajax = new TinyAjax();
@@ -25,10 +26,12 @@
 	$ajax->exportFunction("updateRecordPath","recordPath");
 	$ajax->exportFunction("updateServerPort","serverPort");
 	$ajax->exportFunction("changeDvrState","option");
+	$ajax->exportFunction("openLogPage","");
+	$ajax->exportFunction("openRulesPage","");
 
 	/* GO */
 	$ajax->process();                // Process our callback
-	
+
 	// Prep data for the page
 	$loginform = "";
 	$sidebar_data = "";
@@ -46,8 +49,9 @@
 	}
 
 	$statusmsg  = getLatestHDHRStatus();
+
 	//Construct the List of LogFiles
-	$sidebar_data = getLogFileList($configFile->getRecordPath());
+	$sidebar_data = '';
 	
 	$hdhr = DVRUI_Vars::DVR_qpkgPath . '/' . DVRUI_Vars::DVR_bin;
 	$DVRBin = new DVRUI_HDHRbintools($hdhr);
@@ -66,29 +70,24 @@
 		$hdhrEntry = str_replace('<!--hdhr_tuners-->',$hdhr->get_device_tuners($i) . ' tuners',$hdhrEntry);
 		$hdhrEntry = str_replace('<!--hdhr_firmware-->',$hdhr->get_device_firmware($i),$hdhrEntry);
 		$hdhrEntry = str_replace('<!--hdhr_channels-->',$hdhr_lineup_data,$hdhrEntry);
-		$hdhr_data .= $hdhrEntry ;
+		$hdhr_data .= $hdhrEntry ;	
 	}
 	$hdhr_data .= '</ul>';
 
 	// Discover Recording Rules
-	$hdhr_rules = new DVRUI_Rules($hdhr);
-	$num_rules = $hdhr_rules->getRuleCount();
 	$rules_data = '';
-	for ($i=0; $i < $num_rules; $i++) {
-		$rules_data .= $hdhr_rules->getRuleString($i) . '<br/>';
-	}
 	
-  //Build navigation menu for pages
-  $pageTitles = array('Logs','Rules');
-  $pageNames = array('log_page', 'rules_page');
-  $menu_data = file_get_contents('style/pagemenu.html');
-  $menuEntries = '';
-  for ($i=0; $i < count($pageNames); $i++) {
-  	$menuEntry = str_replace('<!-- dvrui_menu_pagename-->',$pageNames[$i],file_get_contents('style/pagemenu_entry.html'));
-  	$menuEntry = str_replace('<!-- dvrui_menu_pagetitle-->',$pageTitles[$i],$menuEntry);
-  	$menuEntries .= $menuEntry;
-  }
-  $menu_data = str_replace('<!-- dvrui_pagemenu_entries-->',$menuEntries,$menu_data);
+	//Build navigation menu for pages
+	$pageTitles = array('Logs','Rules');
+	$pageNames = array('log_page', 'rules_page');
+	$menu_data = file_get_contents('style/pagemenu.html');
+	$menuEntries = '';
+	for ($i=0; $i < count($pageNames); $i++) {
+		$menuEntry = str_replace('<!-- dvrui_menu_pagename-->',$pageNames[$i],file_get_contents('style/pagemenu_entry.html'));
+		$menuEntry = str_replace('<!-- dvrui_menu_pagetitle-->',$pageTitles[$i],$menuEntry);
+		$menuEntries .= $menuEntry;
+	}
+	$menu_data = str_replace('<!-- dvrui_pagemenu_entries-->',$menuEntries,$menu_data);
 	
 	// --- Build Page Here ---
 	$pageName = DVRUI_Vars::DVRUI_name;

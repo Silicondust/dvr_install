@@ -23,6 +23,8 @@ class DVRUI_Rules {
 	private $recordingCmd_change = 'change';
 	private $recordingCmd_add = 'add';
 	
+	private $execute_time = '';
+	
 	private $rules_list = array();
 	
 	public function DVRUI_Rules($hdhr) {
@@ -34,9 +36,13 @@ class DVRUI_Rules {
 			$auth .= $hdhr->get_device_auth($i);
 		}
 		
-		$rules_json = file_get_contents($this->recordingsURL . $auth);
+		$context = stream_context_create(
+				array('http' => array(
+					'header'=>'Connection: close\r\n',
+					'timeout' => 2.0)));
+		$rules_json = file_get_contents($this->recordingsURL . $auth,false,$context);		
+
 		$rules_info = json_decode($rules_json, true);
-		
 		for ($i = 0; $i < count($rules_info); $i++) {
 			$this->rules[] = array($this->recording_RecID => $rules_info[$i][$this->recording_RecID],
 					$this->recording_SeriesID => $rules_info[$i][$this->recording_SeriesID],
@@ -50,6 +56,10 @@ class DVRUI_Rules {
 	
 	public function getRuleCount() {
 		return count($this->rules);
+	}
+	
+	public function getExecutionTime() {
+		return $this->execute_time;
 	}
 	
 	public function getRuleString($pos) {

@@ -11,7 +11,6 @@
 
 function openTab(evt, tabname) {
 	var i, tabcontent, tablinks;
-	
 	// get elements with class="tabcontent" and hide
 	tabcontent = document.getElementsByClassName("tabcontent");
 	for (i=-0; i < tabcontent.length; i++) {
@@ -22,6 +21,14 @@ function openTab(evt, tabname) {
 	tablinks = document.getElementsByClassName("tablink");
 	for (i=0; i < tablinks.length; i++) {
 		tablinks[i].className = tablinks[i].className.replace(" active", "");
+	}
+	
+	// load the page
+	if (tabname == 'rules_page') {
+		openRulesPage();
+	}
+	if (tabname == 'log_page') {
+		openLogPage();
 	}
 	
 	//show the tablinks

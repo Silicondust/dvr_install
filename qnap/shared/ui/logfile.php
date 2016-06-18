@@ -3,6 +3,33 @@
 	require_once("vars.php");
 	require_once("statusmessage.php");
 	require_once("includes/dvrui_recordengine_logfile.php");
+	require_once("includes/dvrui_recordengine_config.php");
+
+	function openLogPage() {
+		// prep
+		ob_start();
+		$tab = new TinyAjaxBehavior();
+
+		//create output
+		//$htmlStr = getLogFileList($configFile->getRecordPath());
+		$configFile = new DVRUI_Engine_Config();
+		$htmlStr = getLogFileList($configFile->getRecordPath());
+		
+		//get data
+		$result = ob_get_contents();
+		ob_end_clean();
+
+		// get latest status	
+		$statusmsg = getLatestHDHRStatus();
+	
+		//display
+		$tab->add(TabInnerHtml::getBehavior("loglist", $htmlStr));
+		if ($result != '' && $result != NULL)
+			$tab->add(TabInnerHtml::getBehavior("statusMessage", $result));
+		else
+			$tab->add(TabInnerHtml::getBehavior("statusMessage", $statusmsg));
+		return $tab->getString();
+	}
 
 	function getLogFile($filename) {
 		// prep

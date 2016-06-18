@@ -118,6 +118,7 @@ img.aligntop {
 	width: 100%;
 	border-radius: 0px 0px 10px 10px;
 	border: solid 2px #020;
+	display: hidden;
 
 }
 
@@ -128,7 +129,7 @@ img.aligntop {
 	padding: 0;
 	width: 100%;
 	min-width: 800px;
-	display: block;
+	display: hidden;
 }
 
 .box {
