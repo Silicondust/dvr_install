@@ -35,7 +35,8 @@
 		$hdhr = new DVRUI_HDHRjson();
 		$hdhrRecordings = new DVRUI_Recordings($hdhr);
 		$numRecordings = $hdhrRecordings->getRecordingCount();
-		$recordingsData = "<TABLE>";
+		$recordingsData = 'Storage URL: ' . $hdhr->get_storage_url() . '<br/>';
+		$recordingsData .= "<TABLE>";
 		for ($i=0; $i < $numRecordings; $i++) {
 			$recordingsData .= $hdhrRecordings->getRecordingString($i) ;
 		}
