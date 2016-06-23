@@ -121,6 +121,15 @@ img.aligntop {
 	display: hidden;
 
 }
+#recordings_page {
+	position: relative;
+	padding: 0;
+	width: 100%;
+	border-radius: 0px 0px 10px 10px;
+	border: solid 2px #020;
+	display: hidden;
+
+}
 
 
 #log_page {
@@ -341,8 +350,22 @@ img.aligntop {
 	text-shadow: 0 1px 0 #FFFFFF;
 	height: 500px;
 }
+#recordings_content {
+	width: 100%;
+	background: #EAEEF2;
+	border-radius: 0px 0px 10px 10px;
+	border: solid 2px #FFFFFF;
+	text-shadow: 0 1px 0 #FFFFFF;
+	height: 500px;
+}
 
 #rules_box {
+	height:100%;
+	width:100%;
+	overflow-x: scroll;
+	overflow-y: scroll;
+}
+#recordings_box {
 	height:100%;
 	width:100%;
 	overflow-x: scroll;
