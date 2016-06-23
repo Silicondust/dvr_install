@@ -23,9 +23,9 @@ class DVRUI_Rules {
 	private $recordingCmd_change = 'change';
 	private $recordingCmd_add = 'add';
 	
-	private $execute_time = '';
-	
 	private $rules_list = array();
+
+	private $auth = '';
 	
 	public function DVRUI_Rules($hdhr) {
 		//build up Auth string
@@ -35,13 +35,22 @@ class DVRUI_Rules {
 		for ($i=0; $i < $devices; $i++) {
 			$auth .= $hdhr->get_device_auth($i);
 		}
-		
-		$context = stream_context_create(
+		$this->auth = $auth;
+
+		if (in_array('curl', get_loaded_extensions())){
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $this->recordingsURL . $auth);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_CURLOPT_TIMEOUT, 2);
+			$rules_json = curl_exec($ch);
+			curl_close($ch);
+		} else { 
+			$context = stream_context_create(
 				array('http' => array(
 					'header'=>'Connection: close\r\n',
 					'timeout' => 2.0)));
-		$rules_json = file_get_contents($this->recordingsURL . $auth,false,$context);		
-
+			$rules_json = file_get_contents($this->recordingsURL . $auth,false,$context);	
+		}
 		$rules_info = json_decode($rules_json, true);
 		for ($i = 0; $i < count($rules_info); $i++) {
 			$this->rules[] = array($this->recording_RecID => $rules_info[$i][$this->recording_RecID],
@@ -53,15 +62,15 @@ class DVRUI_Rules {
 		}
 		
 	}
-	
+
 	public function getRuleCount() {
 		return count($this->rules);
 	}
 	
-	public function getExecutionTime() {
-		return $this->execute_time;
+	public function getAuth() {
+		return $this->auth;
 	}
-	
+
 	public function getRuleString($pos) {
 		$rule = $this->rules[$pos];
 		return 'Priority: ' . $rule[$this->recording_Priority]

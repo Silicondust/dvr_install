@@ -36,7 +36,7 @@
 		$hdhr = new DVRUI_HDHRjson();
 		$hdhrRules = new DVRUI_Rules($hdhr);
 		$numRules = $hdhrRules->getRuleCount();
-		$rulesData = $hdhrRules->getExecutionTime() . '<br/>';
+		$rulesData = 'AuthKey Used: ' . $hdhrRules->getAuth() . '<br/>';
 		for ($i=0; $i < $numRules; $i++) {
 			$rulesData .= $hdhrRules->getRuleString($i) . '<br/>';
 		}
