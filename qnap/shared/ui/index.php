@@ -14,6 +14,7 @@
 	require_once("statusmessage.php");
 	require_once("controls.php");
 	require_once("rules.php");
+	require_once("recordings.php");
 
 	/* Prepare Ajax */
 	$ajax = new TinyAjax();
@@ -28,6 +29,7 @@
 	$ajax->exportFunction("changeDvrState","option");
 	$ajax->exportFunction("openLogPage","");
 	$ajax->exportFunction("openRulesPage","");
+	$ajax->exportFunction("openRecordingsPage","");
 
 	/* GO */
 	$ajax->process();                // Process our callback
@@ -78,8 +80,8 @@
 	$rules_data = '';
 	
 	//Build navigation menu for pages
-	$pageTitles = array('Logs','Rules');
-	$pageNames = array('log_page', 'rules_page');
+	$pageTitles = array('Logs','Rules','Recordings');
+	$pageNames = array('log_page', 'rules_page','recordings_page');
 	$menu_data = file_get_contents('style/pagemenu.html');
 	$menuEntries = '';
 	for ($i=0; $i < count($pageNames); $i++) {
@@ -108,6 +110,7 @@
 	$hdhrlist = file_get_contents('style/hdhrlist.html');
 	$logfiledata = file_get_contents('style/index_logdata.html');
 	$rulesdata = file_get_contents('style/rules.html');
+	$recordingsdata = file_get_contents('style/recordings.html');
 
 	$topmenu = str_replace('[[pagetitle]]',$pageName,$topmenu);
 	$topmenu = str_replace('[[UI-Version]]',$UIVersion,$topmenu);
@@ -118,6 +121,7 @@
 	$logfiledata = str_replace('<!-- dvrui_content_data -->',$content_data,$logfiledata);
 	$logfilelist = str_replace('<!-- dvrui_sidebar_data -->',$sidebar_data,$logfilelist);
 	$rulesdata = str_replace('<!-- dvrui_rules_data -->',$rules_data,$rulesdata);
+	$recordingsdata = str_replace('<!-- dvrui_recordings_data -->',$recordings_data,$recordingsdata);
 	$hdhrlist = str_replace('<!-- dvrui_hdhrlist_data -->',$hdhr_data,$hdhrlist);
 
 	$indexPage = str_replace('<!-- dvrui_topmenu -->',$topmenu,$indexPage);
@@ -127,6 +131,7 @@
 	$indexPage = str_replace('<!-- dvrui_loglist -->',$logfilelist,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_logfile -->',$logfiledata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_ruleslist -->',$rulesdata,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_recordingslist -->',$recordingsdata,$indexPage);
 
 	// -- Attach the Index to the Page
 	$pagecontent .= $indexPage;
