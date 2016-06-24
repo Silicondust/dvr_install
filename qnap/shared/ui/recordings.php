@@ -35,16 +35,27 @@
 		$hdhr = new DVRUI_HDHRjson();
 		$hdhrRecordings = new DVRUI_Recordings($hdhr);
 		$numRecordings = $hdhrRecordings->getRecordingCount();
-		$recordingsData = 'Storage URL: ' . $hdhr->get_storage_url() . '<br/>';
-		$recordingsData .= 'Found: ' . $numRecordings . ' Recordings<br/>';
-		$recordingsData .= "<TABLE>";
-		for ($i=0; $i < $numRecordings; $i++) {
-			$recordingsData .= $hdhrRecordings->getRecordingString($i) ;
-		}
-		$recordingsData .= "</TABLE>";
-		$recordingsStr = file_get_contents('style/recordings.html');
-		$recordingsStr = str_replace('<!-- dvrui_recordings_data -->',$recordingsData,$recordingsStr);
+		$recordingsData = '';
+              	for ($i=0; $i < $numRecordings; $i++) {
+                        $recordingsEntry = file_get_contents('style/recordings_entry.html');
+                        $recordingsEntry = str_replace('<!-- dvr_recordings_links -->',$hdhrRecordings->getLinks($i),$recordingsEntry);
+                        $recordingsEntry = str_replace('<!-- dvr_recordings_image -->',$hdhrRecordings->getRecordingImage($i),$recordingsEntry);
+                        $recordingsEntry = str_replace('<!-- dvr_recordings_show -->',$hdhrRecordings->getEpisodeTitle($i),$recordingsEntry);
+                        $recordingsEntry = str_replace('<!-- dvr_recordings_title -->',$hdhrRecordings->getTitle($i),$recordingsEntry);
+                        $recordingsEntry = str_replace('<!-- dvr_recordings_synopsis -->',$hdhrRecordings->getSynopsis($i),$recordingsEntry);
+                        $recordingsData .= $recordingsEntry;
+                }
+                $recordingsList = file_get_contents('style/recordings_list.html');
+                $recordingsList = str_replace('<!-- dvr_recordings_count -->','Found: ' . $numRecordings . ' Recordings<br/>',$recordingsList);
+                $recordingsList = str_replace('<!-- dvr_recordings_list -->',$recordingsData,$recordingsList);
+
+
+
+
+
+
+
 		
-		return $recordingsStr;
+		return $recordingsList;
 	}
 ?>
