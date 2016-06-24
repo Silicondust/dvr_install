@@ -76,7 +76,7 @@ strong {
 	color: #333333;
 }
 
-h1,h2,h3,h4 {
+h1,h2,h3 {
 	text-shadow: 0 2px 0 #888888;
 }
 
@@ -119,8 +119,8 @@ img.aligntop {
 	border-radius: 0px 0px 10px 10px;
 	border: solid 2px #020;
 	display: hidden;
-
 }
+
 #recordings_page {
 	position: relative;
 	padding: 0;
@@ -344,12 +344,9 @@ img.aligntop {
 
 #rules_content {
 	width: 100%;
-	background: #EAEEF2;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
 	height: 500px;
 }
+
 #recordings_content {
 	width: 100%;
 	background: #EAEEF2;
@@ -365,6 +362,11 @@ img.aligntop {
 	overflow-x: scroll;
 	overflow-y: scroll;
 }
+
+#rules_box::-webkit-scrollbar {
+	display: none;
+}
+
 #recordings_box {
 	height:100%;
 	width:100%;
@@ -374,15 +376,15 @@ img.aligntop {
 
 input[type="text"] {
 	background: #EAEEF2;
-  margin: 0;
-  width: 60%;
-  appearance: none;
-  box-shadow: none;
-  border-radius: none;
+	margin: 0;
+	width: 60%;
+	appearance: none;
+	box-shadow: none;
+	border-radius: none;
 }
 
 input[type="text"]:focus {
-  outline: none;
+	outline: none;
 }
 
 #statusMessage {
@@ -462,3 +464,33 @@ ul.tabmenu li a:focus, a.active {background-color: #070;}
 	display: none;
 }
 
+#rule_entry {
+	border-top: dotted 1px #C5CDD8;
+	background: #002200;
+	height: 100px;
+}
+
+#rule_img {
+	float: left;
+	height: 100px;
+	width: 100px;
+}
+
+#rule_select {
+	height: 20px;
+	width: 20px;
+	float: right;
+}
+
+.rule_entry h4 {
+	color: white;
+}
+
+.rules {
+	color: white;
+}
+
+.rule_entry p {
+	font-style: italic;
+	color: white;
+}
