@@ -33,6 +33,12 @@ function openTab(evt, tabname) {
 	if (tabname == 'log_page') {
 		openLogPage();
 	}
+	if (tabname == 'server_page') {
+		openServerPage();
+	}
+	if (tabname == 'hdhr_page') {
+		openHDHRPage();
+	}
 	
 	//show the tablinks
 	document.getElementById(tabname).style.display = "block";
@@ -77,3 +83,4 @@ function changeServerPort()
 	var id = document.getElementById('serverPort').value;
 	updateServerPort(id);
 }
+

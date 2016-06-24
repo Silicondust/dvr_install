@@ -15,6 +15,8 @@
 	require_once("controls.php");
 	require_once("rules.php");
 	require_once("recordings.php");
+	require_once("server.php");
+	require_once("hdhr.php");
 
 	/* Prepare Ajax */
 	$ajax = new TinyAjax();
@@ -30,58 +32,24 @@
 	$ajax->exportFunction("openLogPage","");
 	$ajax->exportFunction("openRulesPage","");
 	$ajax->exportFunction("openRecordingsPage","");
+	$ajax->exportFunction("openHDHRPage","");
+	$ajax->exportFunction("openServerPage","");
 
 	/* GO */
 	$ajax->process();                // Process our callback
 
 	// Prep data for the page
-	$loginform = "";
-	$sidebar_data = "";
-	$content_data = "";
-	
-	// Build the Data
-	$configFile = new DVRUI_Engine_Config();
-	$configEntry = file_get_contents('style/config_entry.html');
-	if ($configFile->configFileExists()) {
-		$config_data = str_replace('<!-- dvrui_config_file_name -->',$configFile->getConfigFileName(),$configEntry);
-		$config_data = str_replace('<!-- dvrui_config_recordpath_value -->',$configFile->getRecordPath(),$config_data);
-		$config_data = str_replace('<!-- dvrui_config_port_value -->',$configFile->getServerPort(),$config_data);
-	} else {
-		$config_data = "ERROR: Can't Parse Config File: " . $configFile->getConfigFileName();
-	}
-
 	$statusmsg  = getLatestHDHRStatus();
 
-	//Construct the List of LogFiles
-	$sidebar_data = '';
-	
+	// Get HDHR Version
 	$hdhr = DVRUI_Vars::DVR_qpkgPath . '/' . DVRUI_Vars::DVR_bin;
 	$DVRBin = new DVRUI_HDHRbintools($hdhr);
 	$DVRBinVersion = $DVRBin->get_DVR_version();
 	
-	// Discover HDHR Devices
-	$hdhr = new DVRUI_HDHRjson();
-	$devices =  $hdhr->device_count();
-	$hdhrListEntry = file_get_contents('style/hdhrlist_entry.html');
-	$hdhr_data = '<ul>';
-	for ($i=0; $i < $devices; $i++) {
-		$hdhr_device_data = "<a href=" . $hdhr->get_device_baseurl($i) . ">" . $hdhr->get_device_id($i) . "</a>";
-		$hdhr_lineup_data = "<a href=" . $hdhr->get_device_lineup($i) . ">" . $hdhr->get_device_channels($i) . " Channels</a>";
-		$hdhrEntry = str_replace('<!--hdhr_device-->',$hdhr_device_data,$hdhrListEntry);
-		$hdhrEntry = str_replace('<!--hdhr_model-->',$hdhr->get_device_model($i),$hdhrEntry);
-		$hdhrEntry = str_replace('<!--hdhr_tuners-->',$hdhr->get_device_tuners($i) . ' tuners',$hdhrEntry);
-		$hdhrEntry = str_replace('<!--hdhr_firmware-->',$hdhr->get_device_firmware($i),$hdhrEntry);
-		$hdhrEntry = str_replace('<!--hdhr_channels-->',$hdhr_lineup_data,$hdhrEntry);
-		$hdhr_data .= $hdhrEntry ;	
-	}
-	$hdhr_data .= '</ul>';
-
-	// Discover Recording Rules
-	$rules_data = '';
 	
 	//Build navigation menu for pages
-	$pageTitles = array('Logs','Rules','Recordings');
-	$pageNames = array('log_page', 'rules_page','recordings_page');
+	$pageTitles = array('Server', 'HDHRs', 'Logs','Rules','Recordings');
+	$pageNames = array('server_page', 'hdhr_page', 'log_page', 'rules_page','recordings_page');
 	$menu_data = file_get_contents('style/pagemenu.html');
 	$menuEntries = '';
 	for ($i=0; $i < count($pageNames); $i++) {
@@ -105,33 +73,25 @@
 	// --- Build Body ---
 	$indexPage = file_get_contents('style/index_page.html');
 	$topmenu = file_get_contents('style/topmenu.html');
-	$configbox = file_get_contents('style/index_config.html');
-	$hdhrlist = file_get_contents('style/hdhrlist.html');
 	$logfilelist = file_get_contents('style/index_loglist.html');
 	$logfiledata = file_get_contents('style/index_logdata.html');
 	$rulesdata = file_get_contents('style/rules.html');
 	$recordingsdata = file_get_contents('style/recordings.html');
+	$serverdata = file_get_contents('style/server.html');
+	$hdhrdata = file_get_contents('style/hdhr.html');
 
 	$topmenu = str_replace('[[pagetitle]]',$pageName,$topmenu);
 	$topmenu = str_replace('[[UI-Version]]',$UIVersion,$topmenu);
 	$topmenu = str_replace('[[DVR-Version]]',$DVRVersion,$topmenu);
 
-
-	$configbox = str_replace('<!-- dvrui_config_data -->',$config_data,$configbox);
-	$logfiledata = str_replace('<!-- dvrui_content_data -->',$content_data,$logfiledata);
-	$logfilelist = str_replace('<!-- dvrui_sidebar_data -->',$sidebar_data,$logfilelist);
-	$rulesdata = str_replace('<!-- dvrui_rules_data -->',$rules_data,$rulesdata);
-	$recordingsdata = str_replace('<!-- dvrui_recordings_data -->',$recordings_data,$recordingsdata);
-	$hdhrlist = str_replace('<!-- dvrui_hdhrlist_data -->',$hdhr_data,$hdhrlist);
-
 	$indexPage = str_replace('<!-- dvrui_topmenu -->',$topmenu,$indexPage);
-	$indexPage = str_replace('<!-- dvrui_config -->',$configbox,$indexPage);
-	$indexPage = str_replace('<!-- dvrui_hdhrlist -->',$hdhrlist,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_pagemenu -->',$menu_data,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_loglist -->',$logfilelist,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_logfile -->',$logfiledata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_ruleslist -->',$rulesdata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_recordingslist -->',$recordingsdata,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_serverlist -->',$serverdata,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_hdhrlist -->',$hdhrdata,$indexPage);
 
 	// -- Attach the Index to the Page
 	$pagecontent .= $indexPage;
