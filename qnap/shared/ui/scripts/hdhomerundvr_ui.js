@@ -24,6 +24,9 @@ function openTab(evt, tabname) {
 	}
 	
 	// load the page
+	if (tabname == 'recordings_page') {
+		openRecordingsPage();
+	}
 	if (tabname == 'rules_page') {
 		openRulesPage();
 	}

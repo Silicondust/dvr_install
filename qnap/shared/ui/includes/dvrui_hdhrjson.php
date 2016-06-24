@@ -13,11 +13,15 @@ class DVRUI_HDHRjson {
 	private $hdhrkey_fwVer = 'FirmwareVersion';
 	private $hdhrkey_fwName = 'FirmwareName';
 	private $hdhrkey_tuners = 'TunerCount';
-	
+
+	private $hdhrkey_storageID = 'StorageID';
+	private $hdhrkey_storageURL = 'StorageURL';
+	private $storageURL = "??";
 	private $hdhrlist = array();
 	private $hdhrlist_key_channelcount = 'ChannelCount';
-	
+
 	public function DVRUI_HDHRjson() {
+		$storageURL = "??";
 		$json = file_get_contents($this->myhdhrurl);
 		$hdhr_data = json_decode($json, true);
 		for ($i=0;$i<count($hdhr_data);$i++) {
@@ -29,11 +33,17 @@ class DVRUI_HDHRjson {
 				// for DVR
 				continue;
 			}
-			
+			if ($hdhr[$this->hdhrkey_storageURL] != null){
+				// this is a record engine!
+				$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
+				continue;
+				
+			}
 			$hdhr_info_json = file_get_contents($hdhr[$this->hdhrkey_discoverURL]);
 			$hdhr_info = json_decode($hdhr_info_json, true);
 			$hdhr_lineup_json = file_get_contents($hdhr[$this->hdhrkey_lineupURL]);
 			$hdhr_lineup = json_decode($hdhr_lineup_json, true);
+		
 			if (array_key_exists($this->hdhrkey_tuners,$hdhr_info)) {
 				$this->hdhrlist[] = array( $this->hdhrkey_devID => $hdhr[$this->hdhrkey_devID],
 											$this->hdhrkey_modelNum => $hdhr_info[$this->hdhrkey_modelNum],
@@ -69,7 +79,9 @@ class DVRUI_HDHRjson {
 		          . ' Model Number: ' . $device[$this->hdhrkey_modelNum] 
 		          . ' Channels: ' . $device[$this->hdhrlist_key_channelcount] . ' ';
 	}
-	
+	public function get_storage_url(){
+		return $this->storageURL;
+	}	
 	public function get_device_id($pos) {
 		$device = $this->hdhrlist[$pos];
 		return $device[$this->hdhrkey_devID];
