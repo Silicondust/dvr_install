@@ -106,8 +106,8 @@
 	$indexPage = file_get_contents('style/index_page.html');
 	$topmenu = file_get_contents('style/topmenu.html');
 	$configbox = file_get_contents('style/index_config.html');
-	$logfilelist = file_get_contents('style/index_loglist.html');
 	$hdhrlist = file_get_contents('style/hdhrlist.html');
+	$logfilelist = file_get_contents('style/index_loglist.html');
 	$logfiledata = file_get_contents('style/index_logdata.html');
 	$rulesdata = file_get_contents('style/rules.html');
 	$recordingsdata = file_get_contents('style/recordings.html');

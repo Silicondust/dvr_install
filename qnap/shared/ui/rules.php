@@ -36,13 +36,26 @@
 		$hdhr = new DVRUI_HDHRjson();
 		$hdhrRules = new DVRUI_Rules($hdhr);
 		$numRules = $hdhrRules->getRuleCount();
-		$rulesData = 'AuthKey Used: ' . $hdhrRules->getAuth() . '<br/>';
+		$rulesData = '';
 		for ($i=0; $i < $numRules; $i++) {
-			$rulesData .= $hdhrRules->getRuleString($i) . '<br/>';
+			$rulesEntry = file_get_contents('style/rules_entry.html');
+			$rulesEntry = str_replace('<!-- dvr_rules_id -->', 'Rule ' . $i,$rulesEntry);
+			$rulesEntry = str_replace('<!-- dvr_rules_image -->',$hdhrRules->getRuleImage($i),$rulesEntry);
+			$rulesEntry = str_replace('<!-- dvr_rules_priority -->',$hdhrRules->getRulePriority($i),$rulesEntry);
+			$rulesEntry = str_replace('<!-- dvr_rules_title -->',$hdhrRules->getRuleTitle($i),$rulesEntry);
+			$rulesEntry = str_replace('<!-- dvr_rules_synopsis -->',$hdhrRules->getRuleSynopsis($i),$rulesEntry);
+			$rulesEntry = str_replace('<!-- dvr_rules_startpad -->',$hdhrRules->getRuleStartPad($i),$rulesEntry);
+			$rulesEntry = str_replace('<!-- dvr_rules_endpad -->',$hdhrRules->getRuleEndPad($i),$rulesEntry);
+			$rulesEntry = str_replace('<!-- dvr_rules_channels -->',$hdhrRules->getRuleChannels($i),$rulesEntry);
+			$rulesEntry = str_replace('<!-- dvr_rules_recent -->',$hdhrRules->getRuleRecent($i),$rulesEntry);
+			$rulesData .= $rulesEntry;
 		}
-		$rulesStr = file_get_contents('style/rules.html');
-		$rulesStr = str_replace('<!-- dvrui_rules_data -->',$rulesData,$rulesStr);
+		$rulesList = file_get_contents('style/rules_list.html');
+		$rulesList = str_replace('<!-- dvr_rules_auth -->','AuthKey Used: ' . $hdhrRules->getAuth() . '<br/>',$rulesList);
+		$rulesList = str_replace('<!-- dvr_rules_count -->','Found: ' . $numRules . ' Rules<br/>',$rulesList);
+		$rulesList = str_replace('<!-- dvr_rules_list -->',$rulesData,$rulesList);
+
 		
-		return $rulesStr;
+		return $rulesList;
 	}
 ?>

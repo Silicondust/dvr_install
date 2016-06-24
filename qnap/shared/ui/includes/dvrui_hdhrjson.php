@@ -33,12 +33,14 @@ class DVRUI_HDHRjson {
 				// for DVR
 				continue;
 			}
+			
 			if ($hdhr[$this->hdhrkey_storageURL] != null){
 				// this is a record engine!
 				$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
 				continue;
 				
 			}
+			
 			$hdhr_info_json = file_get_contents($hdhr[$this->hdhrkey_discoverURL]);
 			$hdhr_info = json_decode($hdhr_info_json, true);
 			$hdhr_lineup_json = file_get_contents($hdhr[$this->hdhrkey_lineupURL]);

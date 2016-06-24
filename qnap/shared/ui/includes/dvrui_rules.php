@@ -2,9 +2,38 @@
 	require_once("includes/dvrui_hdhrjson.php");
 
 class DVRUI_Rules {
-	
+	/*
+	 * Documentation on How the HDHR system exposes Recording rules is explained
+	 * https://github.com/Silicondust/documentation/wiki/DVR%20Recording%20Rules
+	 */
 	private $recordingsURL = 'http://my.hdhomerun.com/api/recording_rules?DeviceAuth=';
 	
+	/*
+	 * The following are the Parameters that can be included in a rule created
+	 * on the SiliconDust HDHR DVR
+	 * There can be a few different Combinations
+	 * One Time Recordings:
+	 *   - Does Not contain a Priority
+	 *   - Contains a ChannelOnly Parameter
+	 *   - Contains a DateTimeOnly Parameter
+	 * Series Recordings
+	 *   - Always contains a Priority
+	 *   - Always contains a SeriesID
+	 *   - Option can contain a ChannelOnly parameter
+	 *   - Option can contain a RecentOnly parameter 
+	 * Sports and Movies
+	 *   - As Series Recordings
+	 *   - Sports can optionally contain a TeamOnly parameter
+	 * All Recordings
+	 *   - contain a RecordingRulesID
+	 *   - contain a Title
+	 *   - contain an ImageURL
+	 *   - contain a Synopsis
+	 *   - contain a StartPadding
+	 *   - contain an EndPadding
+	 * Unknown
+	 *   - An option is there for AfterOriginalAirdateOnly. No Idea why though
+	 */
 	private $recording_RecID = 'RecordingRuleID';
 	private $recording_SeriesID = 'SeriesID';
 	private $recording_Title = 'Title';
@@ -17,6 +46,7 @@ class DVRUI_Rules {
 	private $recording_Channel = 'ChannelOnly';
 	private $recording_Team = 'TeamOnly';
 	private $recording_Airdate = 'AfterOriginalAirdateOnly';
+	private $recording_DateTimeOnly = 'DateTimeOnly';
 
 	
 	private $recordingCmd_delete = 'delete';
@@ -53,12 +83,52 @@ class DVRUI_Rules {
 		}
 		$rules_info = json_decode($rules_json, true);
 		for ($i = 0; $i < count($rules_info); $i++) {
-			$this->rules[] = array($this->recording_RecID => $rules_info[$i][$this->recording_RecID],
-					$this->recording_SeriesID => $rules_info[$i][$this->recording_SeriesID],
-					$this->recording_Priority => $rules_info[$i][$this->recording_Priority],
-					$this->recording_StartPad => $rules_info[$i][$this->recording_StartPad],
-					$this->recording_EndPad => $rules_info[$i][$this->recording_EndPad],
-					$this->recording_Title => $rules_info[$i][$this->recording_Title]);
+			$recID = $rules_info[$i][$this->recording_RecID];
+			$seriesID = $rules_info[$i][$this->recording_SeriesID];
+			$image = $rules_info[$i][$this->recording_ImageURL];
+			$title = $rules_info[$i][$this->recording_Title];
+			$synopsis = $rules_info[$i][$this->recording_Synopsis];
+			$startPad = $rules_info[$i][$this->recording_StartPad];
+			$endPad = $rules_info[$i][$this->recording_EndPad];
+			$priority = 'X';
+			$dateTimeOnly = 'X';
+			$channelOnly = 'All';
+			$teamOnly = 'X';
+			$recentOnly = 'X';
+			$airdate = 'X';
+			
+			if (array_key_exists($this->recording_Priority,$rules_info[$i])){
+				$priority = $rules_info[$i][$this->recording_Priority];
+			}
+			if (array_key_exists($this->recording_DateTimeOnly,$rules_info[$i])){
+				$dateTimeOnly = $rules_info[$i][$this->recording_DateTimeOnly];
+			}
+			if (array_key_exists($this->recording_Channel,$rules_info[$i])) {
+				$channelOnly = $rules_info[$i][$this->recording_Channel];
+			}
+			if (array_key_exists($this->recording_Team,$rules_info[$i])) {
+				$teamOnly = $rules_info[$i][$this->recording_Team];
+			}
+			if (array_key_exists($this->recording_Recent,$rules_info[$i])) {
+				$recentOnly = $rules_info[$i][$this->recording_Recent];
+			}
+			if (array_key_exists($this->recording_Airdate,$rules_info[$i])) {
+				$airdate = $rules_info[$i][$this->recording_Airdate];
+			}
+			
+			$this->rules[] = array($this->recording_RecID => $recID,
+					$this->recording_SeriesID => $seriesID,
+					$this->recording_ImageURL => $image,
+					$this->recording_Title => $title,
+					$this->recording_Synopsis => $synopsis,
+					$this->recording_StartPad => $startPad,
+					$this->recording_EndPad => $endPad,
+					$this->recording_Priority => $priority,
+					$this->recording_DateTimeOnly => $dateTimeOnly,
+					$this->recording_Channel => $channelOnly,
+					$this->recording_Team => $teamOnly,
+					$this->recording_Recent => $recentOnly,
+					$this->recording_Airdate => $airdate);
 		}
 		
 	}
@@ -70,6 +140,39 @@ class DVRUI_Rules {
 	public function getAuth() {
 		return $this->auth;
 	}
+	
+	public function getRulePriority($pos) {
+		return $this->rules[$pos][$this->recording_Priority];
+	}
+	public function getRuleRecID($pos) {
+		return $this->rules[$pos][$this->recording_RecID];
+	}
+	public function getRuleSeriesID($pos) {
+		return $this->rules[$pos][$this->recording_SeriesID];
+	}
+	public function getRuleTitle($pos) {
+		return $this->rules[$pos][$this->recording_Title];
+	}
+	public function getRuleImage($pos) {
+		return $this->rules[$pos][$this->recording_ImageURL];
+	}
+	public function getRuleSynopsis($pos) {
+		return $this->rules[$pos][$this->recording_Synopsis];
+	}
+	public function getRuleStartPad($pos) {
+		return $this->rules[$pos][$this->recording_StartPad];
+	}
+	public function getRuleEndPad($pos) {
+		return $this->rules[$pos][$this->recording_EndPad];
+	}
+	public function getRuleChannels($pos) {
+		return $this->rules[$pos][$this->recording_Channel];
+	}
+	public function getRuleRecent($pos) {
+		return $this->rules[$pos][$this->recording_Recent];
+	}
+	
+	
 
 	public function getRuleString($pos) {
 		$rule = $this->rules[$pos];
