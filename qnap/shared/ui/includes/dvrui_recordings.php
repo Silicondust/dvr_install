@@ -155,8 +155,8 @@ class DVRUI_Recordings {
         }
         public function getLinks($pos) {
 		return  '[<a href="' . $this->recordings[$pos][$this->recording_PlayURL] . '">Play</a>] ' .
-			'[<a href="' . $this->recordings[$pos][$this->recording_PlayURL] . '&cmd=delete&rerecord=0" target=new>Del</a>] ' .
-			'[<a href="' . $this->recordings[$pos][$this->recording_PlayURL] . '&cmd=delete&rerecord=1" target=new>Rerecord</a>] ' ;
+			'[<a href="' . $this->recordings[$pos][$this->recording_CmdURL] . '&cmd=delete&rerecord=0" target=new>Del</a>] ' .
+			'[<a href="' . $this->recordings[$pos][$this->recording_CmdURL] . '&cmd=delete&rerecord=1" target=new>Rerecord</a>] ' ;
         }
 
 
