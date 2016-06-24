@@ -17,30 +17,43 @@ class DVRUI_HDHRjson {
 	private $hdhrkey_storageID = 'StorageID';
 	private $hdhrkey_storageURL = 'StorageURL';
 	private $storageURL = "??";
+	private $myip = "??";
 	private $hdhrlist = array();
 	private $hdhrlist_key_channelcount = 'ChannelCount';
 
 	public function DVRUI_HDHRjson() {
 		$storageURL = "??";
+		$myip = getHostByName(getHostName());
 		$json = file_get_contents($this->myhdhrurl);
 		$hdhr_data = json_decode($json, true);
 		for ($i=0;$i<count($hdhr_data);$i++) {
 			$hdhr = $hdhr_data[$i];
 			$hdhr_base = $hdhr[$this->hdhrkey_baseURL];
+			$hdhr_ip = $hdhr[$this->hdhrkey_localIP];
 			
 			if ($hdhr[$this->hdhrkey_discoverURL] == null) {
 				// Skip this HDHR - it doesn't support the newer HTTP interface
 				// for DVR
 				continue;
 			}
-			
+
 			if ($hdhr[$this->hdhrkey_storageURL] != null){
 				// this is a record engine!
-				$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
-				continue;
 				
+				//get the IP address of record engine.
+				$hdhr_ip = $hdhr[$this->hdhrkey_localIP];
+				// Split IP and port
+				if (preg_match('/^(\d[\d.]+):(\d+)\b/', $hdhr_ip, $matches)) {
+				    $ip = $matches[1];
+				    $port = $matches[2];
+				    // if IP of record engine matches the IP of this server
+				    // return storageURL
+				    if($ip == $myip){	
+					$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
+					continue;
+				    }
+				}
 			}
-			
 			$hdhr_info_json = file_get_contents($hdhr[$this->hdhrkey_discoverURL]);
 			$hdhr_info = json_decode($hdhr_info_json, true);
 			$hdhr_lineup_json = file_get_contents($hdhr[$this->hdhrkey_lineupURL]);

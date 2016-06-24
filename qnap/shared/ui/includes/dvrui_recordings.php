@@ -17,9 +17,8 @@ class DVRUI_Recordings {
 	private $recording_Title = 'Title';
 	private $recording_DisplayGroupTitle = 'DisplayGroupTitle';
 	private $recording_PlayURL = 'PlayURL';
+	private $recording_CmdURL = 'CmdURL';
 
-	
-	private $recordingCmd_delete = 'delete';
 	
 	private $recordings_list = array();
 
@@ -43,35 +42,133 @@ class DVRUI_Recordings {
 		}
 		$recordings_info = json_decode($recordings_json, true);
 		for ($i = 0; $i < count($recordings_info); $i++) {
-				try {
-					$this->recordings_list[] = array($this->recording_DisplayGroupTitle => $recordings_info[$i][$this->recording_DisplayGroupTitle],
-						$this->recording_Category => $recordings_info[$i][$this->recording_Category],
-						$this->recording_ChannelImageURL => $recordings_info[$i][$this->recording_ChannelImageURL],
-						$this->recording_ChannelName => $recordings_info[$i][$this->recording_ChannelName],
-						$this->recording_ChannelNumber => $recordings_info[$i][$this->recording_ChannelNumber],
-						$this->recording_EpisodeNumber => $recordings_info[$i][$this->recording_EpisodeNumber],
-						$this->recording_ImageURL => $recordings_info[$i][$this->recording_ImageURL],
-						$this->recording_EpisodeTitle => $recordings_info[$i][$this->recording_EpisodeTitle],
-						$this->recording_OriginalAirDate => $recordings_info[$i][$this->recording_OriginalAirDate],
-						$this->recording_RecordStartTime => $recordings_info[$i][$this->recording_RecordStartTime],
-						$this->recording_Synopsis => $recordings_info[$i][$this->recording_Synopsis],
-						$this->recording_PlayURL => $recordings_info[$i][$this->recording_PlayURL],
-						$this->recording_Title => $recordings_info[$i][$this->recording_Title]);
-					} catch (Exception $e){
-					echo('Exception on processing a recording: ' . $e->getMessage());
+				$playURL = $recordings_info[$i][$this->recording_PlayURL];
+				$cmdURL = $recordings_info[$i][$this->recording_CmdURL];
+				$category = 'X';
+				$channelImageURL = 'X';
+				$channelName = 'X';
+				$channelNumber = 'X';
+				$episodeNumber = 'X';
+				$imageURL = 'X';
+				$episodeTitle = 'X';
+				$originalAirDate = 'X';
+				$recordStartTime = 'X';
+				$synopsis = 'X';
+				$title = 'X';
+
+
+				if (array_key_exists($this->recording_Category,$recordings_info[$i])){
+					$category = $recordings_info[$i][$this->recording_Category];
 				}
+				if (array_key_exists($this->recording_ChannelImageURL,$recordings_info[$i])){
+					$channelImageURL = $recordings_info[$i][$this->recording_ChannelImageURL];
+				}
+				if (array_key_exists($this->recording_ChannelName,$recordings_info[$i])){
+					$channelName = $recordings_info[$i][$this->recording_ChannelName];
+				}
+				if (array_key_exists($this->recording_ChannelNumber,$recordings_info[$i])){
+					$channelNumber = $recordings_info[$i][$this->recording_ChannelNumber];
+				}
+				if (array_key_exists($this->recording_EpisodeNumber,$recordings_info[$i])){
+					$episodeNumber = $recordings_info[$i][$this->recording_EpisodeNumber];
+				}
+				if (array_key_exists($this->recording_ImageURL,$recordings_info[$i])){
+					$imageURL = $recordings_info[$i][$this->recording_ImageURL];
+				}
+				if (array_key_exists($this->recording_EpisodeTitle,$recordings_info[$i])){
+					$episodeTitle = $recordings_info[$i][$this->recording_EpisodeTitle];
+				}
+				if (array_key_exists($this->recording_OriginalAirDate,$recordings_info[$i])){
+					$originalAirDate = $recordings_info[$i][$this->recording_OriginalAirDate];
+				}
+				if (array_key_exists($this->recording_RecordStartTime,$recordings_info[$i])){
+					$recordStartTime = $recordings_info[$i][$this->recording_RecordStartTime];
+				}
+				if (array_key_exists($this->recording_Synopsis,$recordings_info[$i])){
+					$synopsis = $recordings_info[$i][$this->recording_Synopsis];
+				}
+				if (array_key_exists($this->recording_Title,$recordings_info[$i])){
+					$title = $recordings_info[$i][$this->recording_Title];
+				}
+
+				$this->recordings[] = array(
+					$this->recording_PlayURL => $playURL,
+					$this->recording_CmdURL => $cmdURL,
+					$this->recording_Category => $category,
+					$this->recording_ChannelImageURL => $channelImageURL,
+					$this->recording_ChannelName => $channelName,
+					$this->recording_ChannelNumber => $channelNumber,
+					$this->recording_EpisodeNumber => $episodeNumber,
+					$this->recording_ImageURL => $imageURL,
+					$this->recording_EpisodeTitle => $episodeTitle,
+					$this->recording_OriginalAirDate => $originalAirDate,
+					$this->recording_RecordStartTime => $recordStartTime,
+					$this->recording_Synopsis => $synopsis,
+					$this->recording_Title => $title);
+
+
 		}
 	}
 
 	public function getRecordingCount() {
-		return count($this->recordings_list);
+		return count($this->recordings);
 	}
 
+        public function get_PlayURL($pos) {
+                return $this->recordings[$pos][$this->recording_PlayURL];
+        }
+        public function get_CmdURL($pos) {
+                return $this->recordings[$pos][$this->recording_CmdURL];
+        }
+        public function getRecordingImage($pos) {
+                return $this->recordings[$pos][$this->recording_ImageURL];
+        }
+        public function getCategory($pos) {
+                return $this->recordings[$pos][$this->recording_Category];
+        }
+        public function getChannelImageURL($pos) {
+                return $this->recordings[$pos][$this->recording_ChannelImageURL];
+        }
+        public function getChannelName($pos) {
+                return $this->recordings[$pos][$this->recording_ChannelName];
+        }
+        public function getChannelNumber($pos) {
+                return $this->recordings[$pos][$this->recording_ChannelNumber];
+        }
+        public function getEpisodeNumber($pos) {
+                return $this->recordings[$pos][$this->recording_EpisodeNumber];
+        }
+        public function getEpisodeTitle($pos) {
+                return $this->recordings[$pos][$this->recording_EpisodeTitle];
+        }
+        public function getOriginalAirDate($pos) {
+                return $this->recordings[$pos][$this->recording_OriginalAirDate];
+        }
+        public function getRecordStartTime($pos) {
+                return $this->recordings[$pos][$this->recording_RecordStartTime];
+        }
+        public function getSynopsis($pos) {
+                return $this->recordings[$pos][$this->recording_Synopsis];
+        }
+        public function getTitle($pos) {
+                return $this->recordings[$pos][$this->recording_Title];
+        }
+        public function getLinks($pos) {
+		return  '[<a href="' . $this->recordings[$pos][$this->recording_PlayURL] . '">Play</a>] ' .
+			'[<a href="' . $this->recordings[$pos][$this->recording_CmdURL] . '&cmd=delete&rerecord=0" target=new>Del</a>] ' .
+			'[<a href="' . $this->recordings[$pos][$this->recording_CmdURL] . '&cmd=delete&rerecord=1" target=new>Rerecord</a>] ' ;
+        }
+
+
 	public function getRecordingString($pos) {
-		$recording = $this->recordings_list[$pos];
-		return '<tr><td>' . $recording[$this->recording_Title] .
-			' </td><td><a href="' . $recording[$this->recording_PlayURL] . '">' .
-			$recording[$this->recording_EpisodeNumber] . ' ' . $recording[$this->recording_EpisodeTitle] . '</A></td></tr>'; 
+		$recording = $this->recordings[$pos];
+		return '<tr><td>' .
+			'[<a href="' . $recording[$this->recording_PlayURL] . '">Play</a>] ' .
+			'[<a href="' . $recording[$this->recording_CmdURL]  . '&cmd=delete&rerecord=0" target=new>Delete</a>] ' .
+			'[<a href="' . $recording[$this->recording_CmdURL] . '&cmd=delete&rerecord=1" target=new>Rerecord</a>]' .
+			'</td><td>' . $recording[$this->recording_Title] .
+			'</td><td>' . $recording[$this->recording_EpisodeNumber] . 
+			'</td><td>' . $recording[$this->recording_EpisodeTitle] . '</td></tr>'; 
 	}
 	
 }
