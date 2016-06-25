@@ -1,3 +1,5 @@
+@import "colors.less";
+
 #footer {
 	clear: both;
 	margin: 20px 0 20px 0;
@@ -11,8 +13,8 @@
 }
 
 #header {
-	background: #008800 ;
-	color: #000000;
+	background: @LogoBackgroundColor;
+	color: @LogoSecondaryTextColor;
 	height: 80px;
 	position: relative;
 	padding: 20px;
@@ -29,7 +31,7 @@
 
 #logo a {
 	text-decoration: none;
-	color: #FFFFFF;
+	color: @LogoMainTextColor;
 }
 
 #logo h1 {
@@ -40,8 +42,8 @@
 }
 
 #logo p {
-	margin: 0px 0px 0px 0px
-	padding: 0px 0px 0px 0px
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
 }
 
 
@@ -61,7 +63,7 @@ a:hover {
 }
 
 html {
-	background: #004d39;
+	background: @BodyBackgroundColor;
 }
 
 body,input {
@@ -76,7 +78,7 @@ strong {
 	color: #333333;
 }
 
-h1,h2,h3,h4 {
+h1,h2,h3 {
 	text-shadow: 0 2px 0 #888888;
 }
 
@@ -109,7 +111,7 @@ img.aligntop {
 	position: relative;
 	margin: 0px;
 	padding: 5px;
-	width: 85%;
+	width: 100%;
 }
 
 #rules_page {
@@ -119,8 +121,8 @@ img.aligntop {
 	border-radius: 0px 0px 10px 10px;
 	border: solid 2px #020;
 	display: hidden;
-
 }
+
 #recordings_page {
 	position: relative;
 	padding: 0;
@@ -131,7 +133,6 @@ img.aligntop {
 
 }
 
-
 #log_page {
 	position: relative;
 	margin: 0;
@@ -140,6 +141,34 @@ img.aligntop {
 	min-width: 800px;
 	display: hidden;
 }
+
+#hdhr_page {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	min-width: 800px;
+	display: hidden;
+}
+
+#server_page {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	min-width: 800px;
+	display: hidden;
+}
+
+#start_page {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	min-width: 800px;
+	display: block;
+}
+
 
 .box {
 	overflow: hidden;
@@ -185,6 +214,12 @@ img.aligntop {
 	background-size: contain;
 }
 
+.btn_100_100 {
+	width:100px;
+	height:100px;
+	border 0;
+}
+
 .btn_20_120 {
 	width:120px;
 	height:20px;
@@ -203,81 +238,6 @@ img.aligntop {
 	border 0;
 }
 
-#hdhrlist {
-	float: right;
-	text-align: center;
-	background: #EAEEF2;
-	width: 10%;
-	padding: 10px;
-	height: 700px;
-	border-radius: 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
-	overflow: auto;
-}
-
-#hdhrlist_box {
-	padding: 0px;
-}
-
-#hdhrlist ul {
-	list-style: none;
-}
-
-#hdhrlist ul li {
-	padding: 5px 0 5px 0;
-	border-top: dotted 1px #C5CDD8;
-}
-
-#hdhrlist ul li.first {
-	border-top: 0;
-	padding-top: 0;
-}
-
-#hdhrlist h4 {
-	text-shadow: 0 1px 0 #FFFFFF;
-}
-
-#config_box {
-	background: #EAEEF2;
-	margin: 10px 10px 10px 0px;
-	padding: 5px;
-	border-radius: 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
-	line-height: 1;
-	width: 85%;
-	height: 150px;
-}
-
-#config_box h4 {
-	text-shadow: 0 1px 0 #FFFFFF;
-}
-
-#config_box ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	line-height: 1;
-}
-
-#config_box ul li {
-	padding: 5px;
-	margin: 0;
-	line-height: 1;
-}
-
-#config_box ul li.first {
-	padding: 5px;
-	margin: 0;
-	line-height: 1;
-}
-
-#config_box ul li label{
-	display: inline-block;
-	width: 160px;
-}
-
 #serverParams {
 	float: left;
 	width: 80%;
@@ -289,11 +249,10 @@ img.aligntop {
 	width: 20%;
 }
 
-
-#sidebar {
+#loglist {
 	float: left;
 	width: 20%;
-	height: 500px;
+	height: 80%;
 	text-align: center;
 	overflow: auto;
 	background: #EAEEF2;
@@ -302,29 +261,29 @@ img.aligntop {
 	text-shadow: 0 1px 0 #FFFFFF;
 }
 
-#sidebar h4 {
+#loglist h4 {
 	text-shadow: 0 1px 0 #FFFFFF;
 }
 
-#sidebar_box {
+#loglist_box {
 	padding: 0px;
 }
 
-#sidebar ul {
+#loglist ul {
 	list-style: none;
 }
 
-#sidebar ul li {
+#loglist ul li {
 	padding: 2px 0 2px 0;
 	border-top: dotted 1px #C5CDD8;
 }
 
-#sidebar ul li.first {
+#loglist ul li.first {
 	border-top: 0;
 	padding-top: 0;
 }
 
-#content {
+#logfile_content {
 	position: right;
 	margin-left: 21%;
 	width: 79%;
@@ -332,7 +291,7 @@ img.aligntop {
 	border-radius: 0px 0px 10px 10px;
 	border: solid 2px #FFFFFF;
 	text-shadow: 0 1px 0 #FFFFFF;
-	height: 500px;
+	height: 80%;
 }
 
 #logfile_box {
@@ -344,50 +303,103 @@ img.aligntop {
 
 #rules_content {
 	width: 100%;
+	height: 80%;
+}
+
+#start_content {
+	width: 100%;
+	height: 80%;
+}
+
+#server_content {
+	width: 100%;
+	height: 80%;
 	background: #EAEEF2;
 	border-radius: 0px 0px 10px 10px;
 	border: solid 2px #FFFFFF;
 	text-shadow: 0 1px 0 #FFFFFF;
-	height: 500px;
 }
+
+#hdhr_content {
+	width: 100%;
+	height: 80%;
+}
+
 #recordings_content {
 	width: 100%;
-	background: #EAEEF2;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
-	height: 500px;
+	height: 80%;
 }
 
 #rules_box {
 	height:100%;
 	width:100%;
-	overflow-x: scroll;
-	overflow-y: scroll;
 }
-#recordings_box {
+
+#rules_list_box {
 	height:100%;
 	width:100%;
 	overflow-x: scroll;
 	overflow-y: scroll;
 }
 
+#rules_list_box::-webkit-scrollbar {
+	display: none;
+}
+
+#recordings_box {
+	height:100%;
+	width:100%;
+}
+
+#recordings_list_box {
+	height:100%;
+	width:100%;
+	overflow-x: scroll;
+	overflow-y: scroll;
+}
+
+#recordings_list_box::-webkit-scrollbar {
+	display: none;
+}
+
+#server_box {
+	height:100%;
+	width:100%;
+	overflow-x: scroll;
+	overflow-y: scroll;
+}
+
+#hdhr_box {
+	height:100%;
+	width:100%;
+	overflow-x: auto;
+	overflow-y: auto;
+}
+
+#hdhr_box::-webkit-scrollbar {
+	display: none;
+}
+
 input[type="text"] {
 	background: #EAEEF2;
-  margin: 0;
-  width: 60%;
-  appearance: none;
-  box-shadow: none;
-  border-radius: none;
+	margin: 0;
+	width: 60%;
+	appearance: none;
+	box-shadow: none;
+	border-radius: none;
 }
 
 input[type="text"]:focus {
-  outline: none;
+	outline: none;
 }
 
 #statusMessage {
-	background: green;
-	color: white;
+	background: @StatusBackgroundColor;
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	color: @StatusTextColor;
+	text-align: center;
 }
 
 /* Span templates for logfile info */
@@ -444,7 +456,7 @@ ul.tabmenu li {
 
 ul.tabmenu li a {
 	display: inline-block;
-	color: white;
+	color: @TabMenuTextColor;
 	text-align: center;
 	padding: 10px 10px;
 	text-decoration: none;
@@ -454,11 +466,164 @@ ul.tabmenu li a {
 	border: solid 1px #020;
 }
 
-ul.tabmenu li a:hover {background-color: #070;}
+ul.tabmenu li a:hover {background-color: @TabMenuHighlightColor;}
 
-ul.tabmenu li a:focus, a.active {background-color: #070;}
+ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 
 .tabcontent {
 	display: none;
 }
 
+#rule_entry {
+	border-top: dotted 1px #C5CDD8;
+	background: @DarkElementBackgroundColor;
+	height: 100px;
+}
+
+#rule_img {
+	float: left;
+	height: 100px;
+	width: 100px;
+}
+
+#rule_select {
+	height: 20px;
+	width: 20px;
+	float: right;
+}
+
+.rule_entry h4 {
+	color: @TextColor;
+}
+
+.rules {
+	color: @TextColor;
+}
+
+.rule_entry p {
+	font-style: italic;
+	color: @TextColor;
+}
+
+#rules_tools {
+	float:right;
+}
+
+#recording_entry {
+	border-top: dotted 1px #C5CDD8;
+	background: @DarkElementBackgroundColor;
+	height: 100px;
+}
+
+#recording_img {
+	float: left;
+	height: 100px;
+	width: 100px;
+}
+
+#recording_select {
+	height: 20px;
+	width: 20px;
+	float: right;
+}
+
+.recording_entry h4 {
+	color: @TextColor;
+}
+
+.recordings {
+	color: @TextColor;
+}
+
+.recording_entry p {
+	font-style: italic;
+	color: @TextColor;
+}
+
+#recordings_tools {
+	float:right;
+}
+
+
+#hdhr_entry {
+	border-top: dotted 1px #C5CDD8;
+	background: @DarkElementBackgroundColor;
+	height: 150px;
+}
+
+#hdhr_img {
+	display: block;
+	margin: 0 auto;
+	width: 145px;
+}
+
+#hdhr_img_cnt {
+	vertical-align: middle;
+	display: table-cell;
+}
+
+#hdhr_img_flt {
+	float: left;
+	background-color: darkslategrey;
+	width: 150px;
+	height: 150px;
+	margin: 0 10px 0 0;
+	display: table;
+}
+
+.hdhr_entry h4 {
+	color: @TextColor;
+}
+
+.hdhr_entry p {
+	font-style: italic;
+	color: @TextColor;
+}
+
+ul.rules_decorator {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: none;
+}
+
+ul.rules_decorator li {
+	float: left;
+	margin: 0px 10px;
+}
+
+ul.rules_decorator li p {
+	display: inline-block;
+	color: @TabMenuTextColor;
+	background-color: @TabMenuHighlightColor;
+	text-align: center;
+	padding: 2px 5px;
+	text-decoration: none;
+	transition: 0.1s;
+	border: none;
+}
+
+ul.recording_decorator {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: none;
+}
+
+ul.recording_decorator li {
+	float: left;
+	margin: 0px 10px;
+}
+
+ul.recording_decorator li a {
+	display: inline-block;
+	color: @TabMenuTextColor;
+	background-color: @TabMenuHighlightColor;
+	text-align: center;
+	padding: 2px 5px;
+	text-decoration: none;
+	transition: 0.1s;
+	border: none;
+}

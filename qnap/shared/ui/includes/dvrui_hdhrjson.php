@@ -144,5 +144,26 @@ class DVRUI_HDHRjson {
 			return '??';
 		}
 	}
+	
+	public function get_device_image($pos) {
+		$device = $this->hdhrlist[$pos];
+		switch ($device[$this->hdhrkey_modelNum]) {
+			case 'HDTC-2US':
+				return './images/extend-logo.png';
+			case 'HDHR3-CC':
+				return './images/prime-logo.png';
+			case 'HDHR3-EU':
+			case 'HDHR3-4DC':
+				return './images/expand-logo.png';
+			case 'HDHR3-US':
+			case 'HDHR3-DT':
+				return './images/notsupported.png';
+			case 'HDHR4-2US':
+			case 'HDHR4-2DT':
+				return './images/connect-logo.png';
+			default:
+				return $device[$this->hdhrkey_modelNum];
+		}
+	}
 }
 ?>

@@ -13,7 +13,8 @@
 		//create output
 		//$htmlStr = getLogFileList($configFile->getRecordPath());
 		$configFile = new DVRUI_Engine_Config();
-		$htmlStr = getLogFileList($configFile->getRecordPath());
+		$htmlStr = '<h4>Discovered Logfiles</h4>';
+		$htmlStr.= getLogFileList($configFile->getRecordPath());
 		
 		//get data
 		$result = ob_get_contents();
