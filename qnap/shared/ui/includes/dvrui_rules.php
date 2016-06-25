@@ -92,7 +92,7 @@ class DVRUI_Rules {
 			$endPad = $rules_info[$i][$this->recording_EndPad];
 			$priority = 'X';
 			$dateTimeOnly = 'X';
-			$channelOnly = 'All';
+			$channelOnly = 'All Channels';
 			$teamOnly = 'X';
 			$recentOnly = 'X';
 			$airdate = 'X';
@@ -104,7 +104,7 @@ class DVRUI_Rules {
 				$dateTimeOnly = $rules_info[$i][$this->recording_DateTimeOnly];
 			}
 			if (array_key_exists($this->recording_Channel,$rules_info[$i])) {
-				$channelOnly = $rules_info[$i][$this->recording_Channel];
+				$channelOnly = 'Channel' . $rules_info[$i][$this->recording_Channel];
 			}
 			if (array_key_exists($this->recording_Team,$rules_info[$i])) {
 				$teamOnly = $rules_info[$i][$this->recording_Team];
@@ -169,6 +169,12 @@ class DVRUI_Rules {
 		return $this->rules[$pos][$this->recording_Channel];
 	}
 	public function getRuleRecent($pos) {
+		$recent = $this->rules[$pos][$this->recording_Recent];
+		if ($recent == 'X'){
+			return 'All Episodes';
+		} else {
+			return 'Recent Only';
+		}
 		return $this->rules[$pos][$this->recording_Recent];
 	}
 	

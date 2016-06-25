@@ -327,10 +327,6 @@ img.aligntop {
 
 #recordings_content {
 	width: 100%;
-	background: #EAEEF2;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
 	height: 80%;
 }
 
@@ -353,8 +349,17 @@ img.aligntop {
 #recordings_box {
 	height:100%;
 	width:100%;
+}
+
+#recordings_list_box {
+	height:100%;
+	width:100%;
 	overflow-x: scroll;
 	overflow-y: scroll;
+}
+
+#recordings_list_box::-webkit-scrollbar {
+	display: none;
 }
 
 #server_box {
@@ -504,6 +509,42 @@ ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 	float:right;
 }
 
+#recording_entry {
+	border-top: dotted 1px #C5CDD8;
+	background: @DarkElementBackgroundColor;
+	height: 100px;
+}
+
+#recording_img {
+	float: left;
+	height: 100px;
+	width: 100px;
+}
+
+#recording_select {
+	height: 20px;
+	width: 20px;
+	float: right;
+}
+
+.recording_entry h4 {
+	color: @TextColor;
+}
+
+.recordings {
+	color: @TextColor;
+}
+
+.recording_entry p {
+	font-style: italic;
+	color: @TextColor;
+}
+
+#recordings_tools {
+	float:right;
+}
+
+
 #hdhr_entry {
 	border-top: dotted 1px #C5CDD8;
 	background: @DarkElementBackgroundColor;
@@ -511,9 +552,23 @@ ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 }
 
 #hdhr_img {
+	display: block;
+	margin: 0 auto;
+	width: 145px;
+}
+
+#hdhr_img_cnt {
+	vertical-align: middle;
+	display: table-cell;
+}
+
+#hdhr_img_flt {
 	float: left;
-	height: 150px;
+	background-color: darkslategrey;
 	width: 150px;
+	height: 150px;
+	margin: 0 10px 0 0;
+	display: table;
 }
 
 .hdhr_entry h4 {
@@ -523,4 +578,52 @@ ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 .hdhr_entry p {
 	font-style: italic;
 	color: @TextColor;
+}
+
+ul.rules_decorator {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: none;
+}
+
+ul.rules_decorator li {
+	float: left;
+	margin: 0px 10px;
+}
+
+ul.rules_decorator li p {
+	display: inline-block;
+	color: @TabMenuTextColor;
+	background-color: @TabMenuHighlightColor;
+	text-align: center;
+	padding: 2px 5px;
+	text-decoration: none;
+	transition: 0.1s;
+	border: none;
+}
+
+ul.recording_decorator {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: none;
+}
+
+ul.recording_decorator li {
+	float: left;
+	margin: 0px 10px;
+}
+
+ul.recording_decorator li a {
+	display: inline-block;
+	color: @TabMenuTextColor;
+	background-color: @TabMenuHighlightColor;
+	text-align: center;
+	padding: 2px 5px;
+	text-decoration: none;
+	transition: 0.1s;
+	border: none;
 }
