@@ -1,6 +1,7 @@
 <?php
 	error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 	define('TINYAJAX_PATH', '.');
+	opcache_reset();
 	require_once("TinyAjax.php");
 	require_once("TinyAjaxBehavior.php");
 	require_once("vars.php");
@@ -17,6 +18,7 @@
 	require_once("recordings.php");
 	require_once("server.php");
 	require_once("hdhr.php");
+	require_once("theme.php");
 
 	/* Prepare Ajax */
 	$ajax = new TinyAjax();
@@ -38,6 +40,9 @@
 	/* GO */
 	$ajax->process();                // Process our callback
 
+	// Apply default Theme */
+	applyDefaultTheme();
+	
 	// Prep data for the page
 	$statusmsg  = getLatestHDHRStatus();
 

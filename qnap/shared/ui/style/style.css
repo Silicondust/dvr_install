@@ -1,520 +1,435 @@
 #footer {
-	clear: both;
-	margin: 20px 0 20px 0;
-	text-align: center;
-	color: #626E7F;
-	text-shadow: 0 1px 0 #FFFFFF;
+  clear: both;
+  margin: 20px 0 20px 0;
+  text-align: center;
+  color: #626E7F;
+  text-shadow: 0 1px 0 #FFFFFF;
 }
-
 #footer a {
-	color: #626E7F;
+  color: #626E7F;
 }
-
 #header {
-	background: #008800 ;
-	color: #000000;
-	height: 80px;
-	position: relative;
-	padding: 20px;
-	border-radius: 10px;
-	border-top: solid 1px #96D0F7;
-	border-bottom: solid 1px #0C3459;
+  background: #008800;
+  color: #000000;
+  height: 80px;
+  position: relative;
+  padding: 20px;
+  border-radius: 10px;
+  border-top: solid 1px #96D0F7;
+  border-bottom: solid 1px #0C3459;
 }
-
 #logo {
-	height: 65px;
-	position: absolute;
-	left: 20px;
+  height: 65px;
+  position: absolute;
+  left: 20px;
 }
-
 #logo a {
-	text-decoration: none;
-	color: #FFFFFF;
+  text-decoration: none;
+  color: #FFFFFF;
 }
-
 #logo h1 {
-	top: 5px;
-	font-size: 2.8em;
-	text-shadow: 0 2px 2px #0E3E68;
-	bottom: 5px;
+  top: 5px;
+  font-size: 2.8em;
+  text-shadow: 0 2px 2px #0E3E68;
+  bottom: 5px;
 }
-
 #logo p {
-	margin: 0px 0px 0px 0px
-	padding: 0px 0px 0px 0px
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
 }
-
-
-/* BELOW HERE IS IN USE */
 * {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
-
 a {
-	color: #1D68AB;
-	text-decoration: underline;
+  color: #1D68AB;
+  text-decoration: underline;
 }
-
 a:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
-
 html {
-	background: #004d39;
+  background: #004d39;
 }
-
-body,input {
-	font-family: Arial, sans-serif;
+body,
+input {
+  font-family: Arial, sans-serif;
 }
-
 br.clearfix {
-	clear: both;
+  clear: both;
 }
-
 strong {
-	color: #333333;
+  color: #333333;
 }
-
-h1,h2,h3 {
-	text-shadow: 0 2px 0 #888888;
-}
-
-h2 {
-	font-size: 2.25em;
-}
-
-h2,h3,h4 {
-	color: #001739;
-}
-
+h1,
+h2,
 h3 {
-	font-size: 1.5em;
+  text-shadow: 0 2px 0 #888888;
 }
-
+h2 {
+  font-size: 2.25em;
+}
+h2,
+h3,
 h4 {
-	font-size: 1.25em;
+  color: #001739;
 }
-
+h3 {
+  font-size: 1.5em;
+}
+h4 {
+  font-size: 1.25em;
+}
 img.alignleft {
-	margin: 5px 20px 20px 0;
-	float: left;
+  margin: 5px 20px 20px 0;
+  float: left;
 }
-
 img.aligntop {
-	margin: 5px 0 20px 0;
+  margin: 5px 0 20px 0;
 }
-
 #page {
-	position: relative;
-	margin: 0px;
-	padding: 5px;
-	width: 100%;
+  position: relative;
+  margin: 0px;
+  padding: 5px;
+  width: 100%;
 }
-
 #rules_page {
-	position: relative;
-	padding: 0;
-	width: 100%;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #020;
-	display: hidden;
+  position: relative;
+  padding: 0;
+  width: 100%;
+  border-radius: 0px 0px 10px 10px;
+  border: solid 2px #020;
+  display: hidden;
 }
-
 #recordings_page {
-	position: relative;
-	padding: 0;
-	width: 100%;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #020;
-	display: hidden;
-
+  position: relative;
+  padding: 0;
+  width: 100%;
+  border-radius: 0px 0px 10px 10px;
+  border: solid 2px #020;
+  display: hidden;
 }
-
 #log_page {
-	position: relative;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	min-width: 800px;
-	display: hidden;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-width: 800px;
+  display: hidden;
 }
-
 #hdhr_page {
-	position: relative;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	min-width: 800px;
-	display: hidden;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-width: 800px;
+  display: hidden;
 }
-
 #server_page {
-	position: relative;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	min-width: 800px;
-	display: hidden;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-width: 800px;
+  display: hidden;
 }
-
 #start_page {
-	position: relative;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	min-width: 800px;
-	display: block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-width: 800px;
+  display: block;
 }
-
-
 .box {
-	overflow: hidden;
-	margin: 0 0 0 0;
+  overflow: hidden;
+  margin: 0 0 0 0;
 }
-
 #wrapper {
-	position: relative;
-	margin: 0 auto 0 auto;
-	padding: 10px 0 0 0;
-	width: 90%;
-	min-width: 1080px;
+  position: relative;
+  margin: 0 auto 0 auto;
+  padding: 10px 0 0 0;
+  width: 90%;
+  min-width: 1080px;
 }
-
-
 .viewbutton {
-	background: url('../images/view.png') no-repeat;
-	background-size: contain;
+  background: url('../images/view.png') no-repeat;
+  background-size: contain;
 }
-
 .deletebutton {
-	background: url('../images/delete.png') no-repeat;
-	background-size: contain;
+  background: url('../images/delete.png') no-repeat;
+  background-size: contain;
 }
-
 .updatebutton {
-	background: url('../images/update.png') no-repeat;
-	background-size: contain;
+  background: url('../images/update.png') no-repeat;
+  background-size: contain;
 }
-
 .restartbutton {
-	background: url('../images/restart.png') no-repeat;
-	background-size: contain;
+  background: url('../images/restart.png') no-repeat;
+  background-size: contain;
 }
-
 .stopbutton {
-	background: url('../images/shutdown.png') no-repeat;
-	background-size: contain;
+  background: url('../images/shutdown.png') no-repeat;
+  background-size: contain;
 }
-
 .startbutton {
-	background: url('../images/start.png') no-repeat;
-	background-size: contain;
+  background: url('../images/start.png') no-repeat;
+  background-size: contain;
 }
-
 .btn_100_100 {
-	width:100px;
-	height:100px;
-	border 0;
+  width: 100px;
+  height: 100px;
 }
-
 .btn_20_120 {
-	width:120px;
-	height:20px;
-	border 0;
+  width: 120px;
+  height: 20px;
 }
-
 .btn_32_120 {
-	width:120px;
-	height:32px;
-	border 0;
+  width: 120px;
+  height: 32px;
 }
-
 .btn_20 {
-	width:20px;
-	height:20px;
-	border 0;
+  width: 20px;
+  height: 20px;
 }
-
 #serverParams {
-	float: left;
-	width: 80%;
+  float: left;
+  width: 80%;
 }
-
 #serverControls {
-	position: right;
-	margin-left: 80%;
-	width: 20%;
+  position: right;
+  margin-left: 80%;
+  width: 20%;
 }
-
 #loglist {
-	float: left;
-	width: 20%;
-	height: 80%;
-	text-align: center;
-	overflow: auto;
-	background: #EAEEF2;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
+  float: left;
+  width: 20%;
+  height: 80%;
+  text-align: center;
+  overflow: auto;
+  background: #EAEEF2;
+  border-radius: 0px 0px 10px 10px;
+  border: solid 2px #FFFFFF;
+  text-shadow: 0 1px 0 #FFFFFF;
 }
-
 #loglist h4 {
-	text-shadow: 0 1px 0 #FFFFFF;
+  text-shadow: 0 1px 0 #FFFFFF;
 }
-
 #loglist_box {
-	padding: 0px;
+  padding: 0px;
 }
-
 #loglist ul {
-	list-style: none;
+  list-style: none;
 }
-
 #loglist ul li {
-	padding: 2px 0 2px 0;
-	border-top: dotted 1px #C5CDD8;
+  padding: 2px 0 2px 0;
+  border-top: dotted 1px #C5CDD8;
 }
-
 #loglist ul li.first {
-	border-top: 0;
-	padding-top: 0;
+  border-top: 0;
+  padding-top: 0;
 }
-
 #logfile_content {
-	position: right;
-	margin-left: 21%;
-	width: 79%;
-	background: #EAEEF2;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
-	height: 80%;
+  position: right;
+  margin-left: 21%;
+  width: 79%;
+  background: #EAEEF2;
+  border-radius: 0px 0px 10px 10px;
+  border: solid 2px #FFFFFF;
+  text-shadow: 0 1px 0 #FFFFFF;
+  height: 80%;
 }
-
 #logfile_box {
-	height:100%;
-	width:100%;
-	overflow-x: scroll;
-	overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
-
 #rules_content {
-	width: 100%;
-	height: 80%;
+  width: 100%;
+  height: 80%;
 }
-
 #start_content {
-	width: 100%;
-	height: 80%;
+  width: 100%;
+  height: 80%;
 }
-
 #server_content {
-	width: 100%;
-	height: 80%;
-	background: #EAEEF2;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
+  width: 100%;
+  height: 80%;
+  background: #EAEEF2;
+  border-radius: 0px 0px 10px 10px;
+  border: solid 2px #FFFFFF;
+  text-shadow: 0 1px 0 #FFFFFF;
 }
-
 #hdhr_content {
-	width: 100%;
-	height: 80%;
+  width: 100%;
+  height: 80%;
 }
-
 #recordings_content {
-	width: 100%;
-	background: #EAEEF2;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
-	height: 80%;
+  width: 100%;
+  background: #EAEEF2;
+  border-radius: 0px 0px 10px 10px;
+  border: solid 2px #FFFFFF;
+  text-shadow: 0 1px 0 #FFFFFF;
+  height: 80%;
 }
-
 #rules_box {
-	height:100%;
-	width:100%;
+  height: 100%;
+  width: 100%;
 }
-
 #rules_list_box {
-	height:100%;
-	width:100%;
-	overflow-x: scroll;
-	overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
-
 #rules_list_box::-webkit-scrollbar {
-	display: none;
+  display: none;
 }
-
 #recordings_box {
-	height:100%;
-	width:100%;
-	overflow-x: scroll;
-	overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
-
 #server_box {
-	height:100%;
-	width:100%;
-	overflow-x: scroll;
-	overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
-
 #hdhr_box {
-	height:100%;
-	width:100%;
-	overflow-x: auto;
-	overflow-y: auto;
+  height: 100%;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
 }
-
 #hdhr_box::-webkit-scrollbar {
-	display: none;
+  display: none;
 }
-
 input[type="text"] {
-	background: #EAEEF2;
-	margin: 0;
-	width: 60%;
-	appearance: none;
-	box-shadow: none;
-	border-radius: none;
+  background: #EAEEF2;
+  margin: 0;
+  width: 60%;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
 }
-
 input[type="text"]:focus {
-	outline: none;
+  outline: none;
 }
-
 #statusMessage {
-	background: green;
-	position: fixed;
-	bottom: 0px;
-	width: 100%;
-	color: white;
-	text-align: center;
+  background: green;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  color: white;
+  text-align: center;
 }
-
-/* Span templates for logfile info */
 .logDate {
-	font-style: italic;
+  font-style: italic;
 }
-
 .logTypeError {
-	font-style: bold;
-	color: red;
+  font-style: bold;
+  color: red;
 }
-
 .logTypeStatus {
-	font-style: bold;
-	color: blue;
+  font-style: bold;
+  color: blue;
 }
-
 .logTypePlayback {
-	font-style: bold;
-	color: green;
+  font-style: bold;
+  color: green;
 }
-
 .logTypeRecording {
-	font-style: bold;
-	color: orange;
+  font-style: bold;
+  color: orange;
 }
-
 .logTypeRecorded {
-	font-style: underline;
-	color: orange;
+  font-style: underline;
+  color: orange;
 }
-
 .logTypeInfo {
-	font-style: bold;
-	color: black;
+  font-style: bold;
+  color: black;
 }
-
 .logInfoError {
-	font-style: italic;
-	color: red;
+  font-style: italic;
+  color: red;
 }
-
 ul.tabmenu {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	border: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
 }
-
 ul.tabmenu li {
-	float: left;
+  float: left;
 }
-
 ul.tabmenu li a {
-	display: inline-block;
-	color: white;
-	text-align: center;
-	padding: 10px 10px;
-	text-decoration: none;
-	transition: 0.1s;
-	font-size: 20px;
-	border-radius: 10px 10px 0px 0px;
-	border: solid 1px #020;
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 10px 10px;
+  text-decoration: none;
+  transition: 0.1s;
+  font-size: 20px;
+  border-radius: 10px 10px 0px 0px;
+  border: solid 1px #020;
 }
-
-ul.tabmenu li a:hover {background-color: #070;}
-
-ul.tabmenu li a:focus, a.active {background-color: #070;}
-
+ul.tabmenu li a:hover {
+  background-color: #070;
+}
+ul.tabmenu li a:focus,
+a.active {
+  background-color: #070;
+}
 .tabcontent {
-	display: none;
+  display: none;
 }
-
 #rule_entry {
-	border-top: dotted 1px #C5CDD8;
-	background: #002200;
-	height: 100px;
+  border-top: dotted 1px #C5CDD8;
+  background: #002200;
+  height: 100px;
 }
-
 #rule_img {
-	float: left;
-	height: 100px;
-	width: 100px;
+  float: left;
+  height: 100px;
+  width: 100px;
 }
-
 #rule_select {
-	height: 20px;
-	width: 20px;
-	float: right;
+  height: 20px;
+  width: 20px;
+  float: right;
 }
-
 .rule_entry h4 {
-	color: white;
+  color: white;
 }
-
 .rules {
-	color: white;
+  color: white;
 }
-
 .rule_entry p {
-	font-style: italic;
-	color: white;
+  font-style: italic;
+  color: white;
 }
-
+#rules_tools {
+  float: right;
+}
 #hdhr_entry {
-	border-top: dotted 1px #C5CDD8;
-	background: #002200;
-	height: 150px;
+  border-top: dotted 1px #C5CDD8;
+  background: #002200;
+  height: 150px;
 }
-
 #hdhr_img {
-	float: left;
-	height: 150px;
-	width: 150px;
+  float: left;
+  height: 150px;
+  width: 150px;
 }
-
 .hdhr_entry h4 {
-	color: white;
+  color: white;
 }
-
 .hdhr_entry p {
-	font-style: italic;
-	color: white;
+  font-style: italic;
+  color: white;
 }
