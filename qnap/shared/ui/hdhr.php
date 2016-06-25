@@ -34,7 +34,7 @@
 		$hdhr = new DVRUI_HDHRjson();
 		$devices =  $hdhr->device_count();
 		$hdhrListEntry = file_get_contents('style/hdhrlist_entry.html');
-		$hdhr_data = '<ul>';
+		$hdhr_data = '';
 		for ($i=0; $i < $devices; $i++) {
 			$hdhr_device_data = "<a href=" . $hdhr->get_device_baseurl($i) . ">" . $hdhr->get_device_id($i) . "</a>";
 			$hdhr_lineup_data = "<a href=" . $hdhr->get_device_lineup($i) . ">" . $hdhr->get_device_channels($i) . " Channels</a>";
@@ -45,7 +45,6 @@
 			$hdhrEntry = str_replace('<!--hdhr_channels-->',$hdhr_lineup_data,$hdhrEntry);
 			$hdhr_data .= $hdhrEntry ;	
 		}
-		$hdhr_data .= '</ul>';
 		
 		return $hdhr_data;
 	}
