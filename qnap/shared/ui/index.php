@@ -1,15 +1,11 @@
 <?php
 	error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 	define('TINYAJAX_PATH', '.');
-	opcache_reset();
 	require_once("TinyAjax.php");
 	require_once("TinyAjaxBehavior.php");
 	require_once("vars.php");
-	require_once("includes/dvrui_recordengine_config.php");
-	require_once("includes/dvrui_recordengine_loglist.php");
-	require_once("includes/dvrui_hdhrjson.php");
 	require_once("includes/dvrui_hdhrbintools.php");
-	require_once("includes/dvrui_rules.php");
+	require_once("includes/dvrui_recordengine_loglist.php");
 	require_once("logfile.php");
 	require_once("configfile.php");
 	require_once("statusmessage.php");
@@ -38,19 +34,18 @@
 	$ajax->exportFunction("openServerPage","");
 
 	/* GO */
-	$ajax->process();                // Process our callback
+	$ajax->process(); // Process our callback
 
 	// Apply default Theme */
 	applyDefaultTheme();
 	
 	// Prep data for the page
-	$statusmsg  = getLatestHDHRStatus();
+	$statusmsg = getLatestHDHRStatus();
 
 	// Get HDHR Version
 	$hdhr = DVRUI_Vars::DVR_qpkgPath . '/' . DVRUI_Vars::DVR_bin;
 	$DVRBin = new DVRUI_HDHRbintools($hdhr);
 	$DVRBinVersion = $DVRBin->get_DVR_version();
-	
 	
 	//Build navigation menu for pages
 	$pageTitles = array('Server', 'HDHRs', 'Logs','Rules','Recordings');
