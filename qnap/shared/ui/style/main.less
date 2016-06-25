@@ -1,3 +1,5 @@
+@import "colors.less";
+
 #footer {
 	clear: both;
 	margin: 20px 0 20px 0;
@@ -11,8 +13,8 @@
 }
 
 #header {
-	background: #008800 ;
-	color: #000000;
+	background: @LogoBackgroundColor;
+	color: @LogoSecondaryTextColor;
 	height: 80px;
 	position: relative;
 	padding: 20px;
@@ -29,7 +31,7 @@
 
 #logo a {
 	text-decoration: none;
-	color: #FFFFFF;
+	color: @LogoMainTextColor;
 }
 
 #logo h1 {
@@ -61,7 +63,7 @@ a:hover {
 }
 
 html {
-	background: #004d39;
+	background: @BodyBackgroundColor;
 }
 
 body,input {
@@ -387,11 +389,11 @@ input[type="text"]:focus {
 }
 
 #statusMessage {
-	background: green;
+	background: @StatusBackgroundColor;
 	position: fixed;
 	bottom: 0px;
 	width: 100%;
-	color: white;
+	color: @StatusTextColor;
 	text-align: center;
 }
 
@@ -449,7 +451,7 @@ ul.tabmenu li {
 
 ul.tabmenu li a {
 	display: inline-block;
-	color: white;
+	color: @TabMenuTextColor;
 	text-align: center;
 	padding: 10px 10px;
 	text-decoration: none;
@@ -459,9 +461,9 @@ ul.tabmenu li a {
 	border: solid 1px #020;
 }
 
-ul.tabmenu li a:hover {background-color: #070;}
+ul.tabmenu li a:hover {background-color: @TabMenuHighlightColor;}
 
-ul.tabmenu li a:focus, a.active {background-color: #070;}
+ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 
 .tabcontent {
 	display: none;
@@ -469,7 +471,7 @@ ul.tabmenu li a:focus, a.active {background-color: #070;}
 
 #rule_entry {
 	border-top: dotted 1px #C5CDD8;
-	background: #002200;
+	background: @DarkElementBackgroundColor;
 	height: 100px;
 }
 
@@ -486,16 +488,16 @@ ul.tabmenu li a:focus, a.active {background-color: #070;}
 }
 
 .rule_entry h4 {
-	color: white;
+	color: @TextColor;
 }
 
 .rules {
-	color: white;
+	color: @TextColor;
 }
 
 .rule_entry p {
 	font-style: italic;
-	color: white;
+	color: @TextColor;
 }
 
 #rules_tools {
@@ -504,7 +506,7 @@ ul.tabmenu li a:focus, a.active {background-color: #070;}
 
 #hdhr_entry {
 	border-top: dotted 1px #C5CDD8;
-	background: #002200;
+	background: @DarkElementBackgroundColor;
 	height: 150px;
 }
 
@@ -515,10 +517,10 @@ ul.tabmenu li a:focus, a.active {background-color: #070;}
 }
 
 .hdhr_entry h4 {
-	color: white;
+	color: @TextColor;
 }
 
 .hdhr_entry p {
 	font-style: italic;
-	color: white;
+	color: @TextColor;
 }
