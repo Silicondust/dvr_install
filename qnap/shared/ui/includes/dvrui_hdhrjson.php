@@ -16,8 +16,6 @@ class DVRUI_HDHRjson {
 
 	private $hdhrkey_storageID = 'StorageID';
 	private $hdhrkey_storageURL = 'StorageURL';
-	private $storageURL = "??";
-	private $myip = "??";
 	private $hdhrlist = array();
 	private $hdhrlist_key_channelcount = 'ChannelCount';
 
@@ -37,7 +35,7 @@ class DVRUI_HDHRjson {
 				continue;
 			}
 
-			if ($hdhr[$this->hdhrkey_storageURL] != null){
+			if (array_key_exists($this->hdhrkey_storageURL,$hdhr)) {
 				// this is a record engine!
 				
 				//get the IP address of record engine.

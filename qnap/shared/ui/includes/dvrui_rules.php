@@ -71,7 +71,7 @@ class DVRUI_Rules {
 			$ch = curl_init();
 			curl_setopt($ch, CURLOPT_URL, $this->recordingsURL . $auth);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_CURLOPT_TIMEOUT, 2);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 2);
 			$rules_json = curl_exec($ch);
 			curl_close($ch);
 		} else { 
@@ -87,7 +87,6 @@ class DVRUI_Rules {
 			$seriesID = $rules_info[$i][$this->recording_SeriesID];
 			$image = $rules_info[$i][$this->recording_ImageURL];
 			$title = $rules_info[$i][$this->recording_Title];
-			$synopsis = $rules_info[$i][$this->recording_Synopsis];
 			$startPad = $rules_info[$i][$this->recording_StartPad];
 			$endPad = $rules_info[$i][$this->recording_EndPad];
 			$priority = 'X';
@@ -97,6 +96,9 @@ class DVRUI_Rules {
 			$recentOnly = 'X';
 			$airdate = 'X';
 			
+			if (array_key_exists($this->recording_Synopsis,$rules_info[$i])){
+				$synopsis = $rules_info[$i][$this->recording_Synopsis];
+			}
 			if (array_key_exists($this->recording_Priority,$rules_info[$i])){
 				$priority = $rules_info[$i][$this->recording_Priority];
 			}
