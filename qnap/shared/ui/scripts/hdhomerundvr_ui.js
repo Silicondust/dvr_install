@@ -45,6 +45,14 @@ function openTab(evt, tabname) {
 	evt.currentTarget.className += " active";
 }
 
+function updateRecording(evt, cmd) {
+	
+}
+
+function updateRule(evt, cmd) {
+	
+}
+
 /* Set the status message */
 function setStatus(msg)
 {

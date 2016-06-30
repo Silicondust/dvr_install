@@ -1,13 +1,14 @@
 <?php
 	error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 	define('TINYAJAX_PATH', '.');
+	opcache_reset();
 	require_once("TinyAjax.php");
 	require_once("TinyAjaxBehavior.php");
 	require_once("vars.php");
 	require_once("includes/dvrui_hdhrbintools.php");
 	require_once("includes/dvrui_recordengine_loglist.php");
 	require_once("logfile.php");
-	require_once("configfile.php");
+	//require_once("configfile.php");
 	require_once("statusmessage.php");
 	require_once("controls.php");
 	require_once("rules.php");
