@@ -1,7 +1,7 @@
 <?php
 final class DVRUI_Vars 
 {
-	const DVRUI_version	="u0.8.8";
+	const DVRUI_version	="u0.8.9";
 	const DVRUI_name	="HDHomeRun DVR UI";
 	const DVRUI_author	="Rik Dunphy";
 	const DVRUI_email	="d3monrik@gmail.com";

@@ -200,17 +200,17 @@ img.aligntop {
 }
 
 .restartbutton {
-	background: url('../images/restart.png') no-repeat;
+	background: url('../images/restart_large.png') no-repeat;
 	background-size: contain;
 }
 
 .stopbutton {
-	background: url('../images/shutdown.png') no-repeat;
+	background: url('../images/shutdown_large.png') no-repeat;
 	background-size: contain;
 }
 
 .startbutton {
-	background: url('../images/start.png') no-repeat;
+	background: url('../images/start_large.png') no-repeat;
 	background-size: contain;
 }
 
@@ -624,12 +624,15 @@ ul.recording_decorator li a {
 	text-align: center;
 	height: 100px;
 	width: 100%;
+	margin-bottom: 5px;
+		display: table;
 }
 
 #server_params_img {
 	display: block;
 	margin: 0 auto;
 	width: 100px;
+	max-height: 100px;
 }
 
 #server_params_cnt {
@@ -639,9 +642,29 @@ ul.recording_decorator li a {
 
 #server_params_flt {
 	float: left;
-	background-color: darkslategrey;
 	width: 100px;
 	height: 100px;
-	margin: 0 10px 0 0;
 	display: table;
+}
+
+#server_params_text {
+	vertical-align: middle;
+	text-align: left;
+	display: table-cell;
+	padding: 5px;
+	width: 100%;
+}
+
+textarea.server_param {
+	background: #EAEEF2;
+	margin: 0;
+	width: 60%;
+	appearance: none;
+	box-shadow: none;
+	border-radius: none;
+	height: 40px;
+}
+
+#server_param_name {
+	color: @TextColor;
 }
