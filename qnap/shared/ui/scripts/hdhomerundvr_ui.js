@@ -49,6 +49,9 @@ function openTab(evt, tabname) {
 	if (tabname == 'hdhr_page') {
 		openHDHRPage();
 	}
+	if (tabname == 'upcoming_page') {
+		openUpcomingPage();
+	}
 	
 	//show the tablinks
 	document.getElementById(tabname).style.display = "block";

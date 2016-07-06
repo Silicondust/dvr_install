@@ -1,14 +1,13 @@
 <?php
 	error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 	define('TINYAJAX_PATH', '.');
-
+	// opcache_reset();
 	require_once("TinyAjax.php");
 	require_once("TinyAjaxBehavior.php");
 	require_once("vars.php");
 	require_once("includes/dvrui_hdhrbintools.php");
 	require_once("includes/dvrui_recordengine_loglist.php");
 	require_once("logfile.php");
-	//require_once("configfile.php");
 	require_once("statusmessage.php");
 	require_once("controls.php");
 	require_once("rules.php");
@@ -16,6 +15,7 @@
 	require_once("server.php");
 	require_once("hdhr.php");
 	require_once("theme.php");
+	require_once("upcoming.php");
 
 	/* Prepare Ajax */
 	$ajax = new TinyAjax();
@@ -33,6 +33,7 @@
 	$ajax->exportFunction("openRecordingsPage","");
 	$ajax->exportFunction("openHDHRPage","");
 	$ajax->exportFunction("openServerPage","");
+	$ajax->exportFunction("openUpcomingPage","");
 
 	/* GO */
 	$ajax->process(); // Process our callback
@@ -49,8 +50,8 @@
 	$DVRBinVersion = $DVRBin->get_DVR_version();
 	
 	//Build navigation menu for pages
-	$pageTitles = array('Server', 'HDHRs', 'Logs','Rules','Recordings');
-	$pageNames = array('server_page', 'hdhr_page', 'log_page', 'rules_page','recordings_page');
+	$pageTitles = array('Server', 'HDHRs', 'Logs', 'Rules', 'Recordings', 'Upcoming');
+	$pageNames = array('server_page', 'hdhr_page', 'log_page', 'rules_page', 'recordings_page', 'upcoming_page');
 	$menu_data = file_get_contents('style/pagemenu.html');
 	$menuEntries = '';
 	for ($i=0; $i < count($pageNames); $i++) {
@@ -80,6 +81,7 @@
 	$recordingsdata = file_get_contents('style/recordings.html');
 	$serverdata = file_get_contents('style/server.html');
 	$hdhrdata = file_get_contents('style/hdhr.html');
+	$updata = file_get_contents('style/upcoming.html');
 
 	$topmenu = str_replace('[[pagetitle]]',$pageName,$topmenu);
 	$topmenu = str_replace('[[UI-Version]]',$UIVersion,$topmenu);
@@ -93,6 +95,7 @@
 	$indexPage = str_replace('<!-- dvrui_recordingslist -->',$recordingsdata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_serverlist -->',$serverdata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_hdhrlist -->',$hdhrdata,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_upcominglist -->',$updata,$indexPage);
 
 	// -- Attach the Index to the Page
 	$pagecontent .= $indexPage;

@@ -101,7 +101,7 @@ img.aligntop {
   border: solid 2px #020;
   display: hidden;
 }
-#recordings_page {
+#upcoming_page {
   position: relative;
   padding: 0;
   width: 100%;
@@ -264,6 +264,10 @@ img.aligntop {
   width: 100%;
   height: 80%;
 }
+#upcoming_content {
+  width: 100%;
+  height: 80%;
+}
 #rules_box {
   height: 100%;
   width: 100%;
@@ -288,6 +292,19 @@ img.aligntop {
   overflow-y: scroll;
 }
 #recordings_list_box::-webkit-scrollbar {
+  display: none;
+}
+#upcominf_box {
+  height: 100%;
+  width: 100%;
+}
+#upcoming_list_box {
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: scroll;
+}
+#upcoming_list_box::-webkit-scrollbar {
   display: none;
 }
 #server_box {
@@ -440,6 +457,34 @@ a.active {
 #recordings_tools {
   float: right;
 }
+#upcoming_entry {
+  border-top: dotted 1px #C5CDD8;
+  background: #002200;
+  height: 150px;
+}
+#upcoming_img {
+  float: left;
+  height: 150px;
+  width: 150px;
+}
+#upcoming_select {
+  height: 20px;
+  width: 20px;
+  float: right;
+}
+.upcoming_entry h4 {
+  color: white;
+}
+.upcoming {
+  color: white;
+}
+.upcoming_entry p {
+  font-style: italic;
+  color: white;
+}
+#upcomings_tools {
+  float: right;
+}
 #hdhr_entry {
   border-top: dotted 1px #C5CDD8;
   background: #002200;
@@ -502,6 +547,27 @@ ul.recording_decorator li {
   margin: 0px 10px;
 }
 ul.recording_decorator li a {
+  display: inline-block;
+  color: white;
+  background-color: #008800;
+  text-align: center;
+  padding: 2px 5px;
+  text-decoration: none;
+  transition: 0.1s;
+  border: none;
+}
+ul.upcoming_decorator {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+}
+ul.upcoming_decorator li {
+  float: left;
+  margin: 0px 10px;
+}
+ul.upcoming_decorator li p {
   display: inline-block;
   color: white;
   background-color: #008800;
