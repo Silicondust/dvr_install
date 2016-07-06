@@ -29,7 +29,7 @@ class DVRUI_HDHRjson {
 			$hdhr_base = $hdhr[$this->hdhrkey_baseURL];
 			$hdhr_ip = $hdhr[$this->hdhrkey_localIP];
 			
-			if ($hdhr[$this->hdhrkey_discoverURL] == null) {
+			if (!array_key_exists($this->hdhrkey_discoverURL,$hdhr)) {
 				// Skip this HDHR - it doesn't support the newer HTTP interface
 				// for DVR
 				continue;

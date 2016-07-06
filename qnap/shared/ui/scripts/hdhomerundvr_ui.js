@@ -49,10 +49,21 @@ function openTab(evt, tabname) {
 	if (tabname == 'hdhr_page') {
 		openHDHRPage();
 	}
+	if (tabname == 'upcoming_page') {
+		openUpcomingPage();
+	}
 	
 	//show the tablinks
 	document.getElementById(tabname).style.display = "block";
 	evt.currentTarget.className += " active";
+}
+
+function updateRecording(evt, cmd) {
+	
+}
+
+function updateRule(evt, cmd) {
+	
 }
 
 /* Set the status message */
@@ -82,15 +93,27 @@ function restartService(value)
 	changeDvrState(value);
 }
 
+function updateServerParam(param) {
+	if (param == 'RecordPath') {
+		changeRecordPath();
+		return;
+	}
+	if (param == 'Port') {
+		changeServerPort();
+		return;
+	}
+	
+}
+
 function changeRecordPath()
 {
-	var id = document.getElementById('recordPath').value;
+	var id = document.getElementById('RecordPath').value;
 	updateRecordPath(id);
 }
 
 function changeServerPort()
 {
-	var id = document.getElementById('serverPort').value;
+	var id = document.getElementById('Port').value;
 	updateServerPort(id);
 }
 
