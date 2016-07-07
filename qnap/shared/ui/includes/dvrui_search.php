@@ -122,8 +122,12 @@ class DVRUI_Search {
 	public function getSearchResultOriginalAirDate($pos) {
 		return $this->searchResults[$pos][$this->search_OriginalAirDate];
 	}
-	public function getSearchResultRecordingRule($pos) {
-		return $this->searchResults[$pos][$this->search_RecordingRule];
+	public function getSearchResultRecordingRules($pos) {
+		if ($this->searchResults[$pos][$this->search_RecordingRule] > 0){
+			return "***HAS EXISTING RULES***";
+		}else{
+			return "";
+		}
 	}
 	
 	public function getRecordRecentURL($pos) {
