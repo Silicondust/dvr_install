@@ -40,6 +40,9 @@
 			$searchEntry = str_replace('<!-- dvr_search_image -->',$hdhrSearchResults->getSearchResultImage($i),$searchEntry);
 			$searchEntry = str_replace('<!-- dvr_search_title -->',$hdhrSearchResults->getSearchResultTitle($i),$searchEntry);
 			$searchEntry = str_replace('<!-- dvr_search_synopsis -->',$hdhrSearchResults->getSearchResultSynopsis($i),$searchEntry);
+			$searchEntry = str_replace('<!-- dvr_search_channelNumber -->',$hdhrSearchResults->getSearchResultChannelNumber($i),$searchEntry);
+			$searchEntry = str_replace('<!-- dvr_search_channelName -->',$hdhrSearchResults->getSearchResultChannelName($i),$searchEntry);
+			$searchEntry = str_replace('<!-- dvr_search_hasRules -->',$hdhrSearchResults->getSearchResultRecordingRules($i),$searchEntry);
 			$searchEntry = str_replace('<!-- dvr_record_recent -->',$hdhrSearchResults->getRecordRecentURL($i),$searchEntry);
 			$searchEntry = str_replace('<!-- dvr_record_all -->',$hdhrSearchResults->getRecordAllURL($i),$searchEntry);
 			$searchData .= $searchEntry;
