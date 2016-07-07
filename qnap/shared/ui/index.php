@@ -1,7 +1,7 @@
 <?php
 	error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 	define('TINYAJAX_PATH', '.');
-	// opcache_reset();
+	opcache_reset();
 	require_once("TinyAjax.php");
 	require_once("TinyAjaxBehavior.php");
 	require_once("vars.php");
@@ -16,6 +16,7 @@
 	require_once("hdhr.php");
 	require_once("theme.php");
 	require_once("upcoming.php");
+	require_once("search.php");
 
 	/* Prepare Ajax */
 	$ajax = new TinyAjax();
@@ -33,6 +34,8 @@
 	$ajax->exportFunction("openRecordingsPage","");
 	$ajax->exportFunction("openHDHRPage","");
 	$ajax->exportFunction("openServerPage","");
+	$ajax->exportFunction("openSearchPage","searchString");
+	//$ajax->exportFunction("openSearchPage","");
 	$ajax->exportFunction("openUpcomingPage","");
 
 	/* GO */
@@ -50,8 +53,8 @@
 	$DVRBinVersion = $DVRBin->get_DVR_version();
 	
 	//Build navigation menu for pages
-	$pageTitles = array('Server', 'HDHRs', 'Logs', 'Rules', 'Recordings', 'Upcoming');
-	$pageNames = array('server_page', 'hdhr_page', 'log_page', 'rules_page', 'recordings_page', 'upcoming_page');
+	$pageTitles = array('Server', 'HDHRs', 'Logs', 'Rules', 'Recordings', 'Upcoming', 'Search');
+	$pageNames = array('server_page', 'hdhr_page', 'log_page', 'rules_page', 'recordings_page', 'upcoming_page', 'search_page');
 	$menu_data = file_get_contents('style/pagemenu.html');
 	$menuEntries = '';
 	for ($i=0; $i < count($pageNames); $i++) {
@@ -82,6 +85,7 @@
 	$serverdata = file_get_contents('style/server.html');
 	$hdhrdata = file_get_contents('style/hdhr.html');
 	$updata = file_get_contents('style/upcoming.html');
+	$searchdata = file_get_contents('style/search.html');
 
 	$topmenu = str_replace('[[pagetitle]]',$pageName,$topmenu);
 	$topmenu = str_replace('[[UI-Version]]',$UIVersion,$topmenu);
@@ -96,6 +100,7 @@
 	$indexPage = str_replace('<!-- dvrui_serverlist -->',$serverdata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_hdhrlist -->',$hdhrdata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_upcominglist -->',$updata,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_searchlist -->',$searchdata,$indexPage);
 
 	// -- Attach the Index to the Page
 	$pagecontent .= $indexPage;
