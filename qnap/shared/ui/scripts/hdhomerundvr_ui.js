@@ -9,6 +9,16 @@
  * any liability for errors or problems arising from it's use. 
  *****************************************************************************/
 
+function createRecording(url){
+	var result = confirm("Are you sure you want to create this rule?");
+	if (result){
+		var request = new XMLHttpRequest();
+		request.open("GET", url, true);
+		request.send(null);
+		openRulesPage();
+	}
+}
+
 function confirmDeleteRecording(url){
 	var result = confirm("Are you sure?");
 	if (result){
@@ -39,6 +49,9 @@ function openTab(evt, tabname) {
 	}
 	if (tabname == 'rules_page') {
 		openRulesPage();
+	}
+	if (tabname == 'search_page') {
+		openSearchPage();
 	}
 	if (tabname == 'log_page') {
 		openLogPage();
@@ -77,7 +90,6 @@ function setStatus(msg)
 	}
 	document.getElementById('statusMessage').innerHTML = msg;
 }
-
 function openLogFile(value)
 {
 	getLogFile(value);
@@ -105,6 +117,11 @@ function updateServerParam(param) {
 	
 }
 
+function goSearch()
+{
+	var str = document.getElementById('searchString').value;
+	openSearchPage(str);
+}
 function changeRecordPath()
 {
 	var id = document.getElementById('RecordPath').value;
