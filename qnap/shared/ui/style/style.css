@@ -401,6 +401,50 @@ a.active {
 .tabcontent {
   display: none;
 }
+#server_controls {
+  padding: 20px;
+  text-align: center;
+}
+#server_controls_box {
+  float: right;
+  position: relative;
+  left: -50%;
+  text-align: left;
+}
+ul.serverctrls {
+  position: relative;
+  left: 50%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  text-align: center;
+}
+ul.serverctrls li {
+  float: left;
+  list-style-type: none;
+  margin: 20px;
+}
+ul.serverctrls li a {
+  background-color: #400;
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 50px 50px;
+  text-decoration: none;
+  transition: 0.1s;
+  font-size: 20px;
+  border-radius: 60px 60px 60px 60px;
+  border: solid 1px #020;
+}
+ul.serverctrls li a:hover {
+  background-color: #008800;
+}
+ul.serverctrls li a:focus,
+a.active {
+  background-color: #008800;
+}
 #rule_entry {
   border-top: dotted 1px #C5CDD8;
   background: #002200;

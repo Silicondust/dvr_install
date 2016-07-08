@@ -1,5 +1,9 @@
-<div id='serverControls'>
-	<button name="startDVR" title='Start Record Engine' class='btn_100_100 startButton' value="start" onClick="restartService(this.value)"></button>
-	<button name="stopDVR" title='Stop Record Engine' class='btn_100_100 stopButton' value="stop" onClick="restartService(this.value)"></button>
-	<button name="restartDVR" title='Restart Record Engine' class='btn_100_100 restartButton' value="restart" onClick="restartService(this.value)"></button>
+<div id='server_controls'>
+	<div id='server_controls_box'>
+	<ul class='serverctrls'>
+		<li><a href="#" class="serverctrl_link" onclick="restartService('start')">Start</a></li>
+		<li><a href="#" class="serverctrl_link" onclick="restartService('stop')">Stop</a></li>
+		<li><a href="#" class="serverctrl_link" onclick="restartService('restart')">Restart</a></li>
+	</ul>
+	</div>
 </div>
