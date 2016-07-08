@@ -113,7 +113,6 @@ class DVRUI_Rules {
 	private function processRule($rule) {
 		$recID = $rule[$this->recording_RecID];
 		$seriesID = $rule[$this->recording_SeriesID];
-		$image = $rule[$this->recording_ImageURL];
 		$title = $rule[$this->recording_Title];
 		$startPad = $rule[$this->recording_StartPad];
 		$endPad = $rule[$this->recording_EndPad];
@@ -123,7 +122,12 @@ class DVRUI_Rules {
 		$teamOnly = 'X';
 		$recentOnly = 'X';
 		$airdate = 'X';
-			
+		$synopsis = "";
+		$image = "";
+	
+		if (array_key_exists($this->recording_ImageURL,$rule)){
+			$image = $rule[$this->recording_ImageURL];
+		}
 		if (array_key_exists($this->recording_Synopsis,$rule)){
 			$synopsis = $rule[$this->recording_Synopsis];
 		}
@@ -204,6 +208,9 @@ class DVRUI_Rules {
 			return 'Recent Only';
 		}
 		return $this->rules[$pos][$this->recording_Recent];
+	}
+	public function getRuleDeleteURL($pos) {
+		return "https://my.hdhomerun.com/api/recording_rules?DeviceAuth=" . $this->auth . "&cmd=delete&RecordingRuleID=" .  $this->rules[$pos][$this->recording_RecID];
 	}
 	
 	
