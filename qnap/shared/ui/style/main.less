@@ -522,20 +522,20 @@ ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 }
 
 #server_controls_box {
-        float: right;
-        position: relative;
-        left: -50%; /* or right 50% */
-        text-align: left;
+	float: right;
+	position: relative;
+	left: -50%; /* or right 50% */
+	text-align: left;
 }
 
 ul.serverctrls {
 	position: relative;
-        left: 50%; 
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        border: none;
+	left: 50%; 
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: none;
 	text-align: center;
 }
 ul.serverctrls li {
@@ -546,124 +546,54 @@ ul.serverctrls li {
 
 ul.serverctrls li a {
 	background-color: #400;
-        display: inline-block;
-        color: @TabMenuTextColor;
-        text-align: center;
-        padding: 50px 50px;
-        text-decoration: none;
-        transition: 0.1s;
-        font-size: 20px;
-        border-radius: 60px 60px 60px 60px;
-        border: solid 1px #020;
+	display: inline-block;
+	color: @TabMenuTextColor;
+	text-align: center;
+	padding: 50px 50px;
+	text-decoration: none;
+	transition: 0.1s;
+	font-size: 20px;
+	border-radius: 60px 60px 60px 60px;
+	border: solid 1px #020;
 }
+
 ul.serverctrls li a:hover {background-color: @TabMenuHighlightColor;}
 
 ul.serverctrls li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 
+#rules_tools, #recordings_tools, #upcoming_tools, #search_tools {
+	float:right;
+}
 
-#rule_entry {
+#upcoming_entry, #search_entry, #rule_entry, #recording_entry {
 	border-top: dotted 1px #C5CDD8;
 	background: @DarkElementBackgroundColor;
-	height: 100px;
+	height: 128px;
 }
 
-#rule_img {
+#upcoming_img, #search_img, #rule_img, #recording_img {
 	float: left;
-	height: 100px;
-	width: 100px;
+	height: 128px;
+	width: 128px;
 }
 
-#rule_select {
+#upcoming_select, #search_select, #rule_select, #recordings_select {
 	height: 20px;
 	width: 20px;
 	float: right;
 }
 
-.rule_entry h4 {
+.upcoming_entry h4, .search_entry h4, .rule_entry h4, .recording_entry h4 {
 	color: @TextColor;
 }
 
-.rules {
+.upcoming, .search , .recordings, .rules {
 	color: @TextColor;
 }
 
-.rule_entry p {
+.upcoming_entry p , .search_entry p, .recording_entry p, .rule_entry p {
 	font-style: italic;
 	color: @TextColor;
-}
-
-#rules_tools {
-	float:right;
-}
-
-#recording_entry {
-	border-top: dotted 1px #C5CDD8;
-	background: @DarkElementBackgroundColor;
-	height: 100px;
-}
-
-#recording_img {
-	float: left;
-	height: 100px;
-	width: 100px;
-}
-
-#recording_select {
-	height: 20px;
-	width: 20px;
-	float: right;
-}
-
-.recording_entry h4 {
-	color: @TextColor;
-}
-
-.recordings {
-	color: @TextColor;
-}
-
-.recording_entry p {
-	font-style: italic;
-	color: @TextColor;
-}
-
-#recordings_tools {
-	float:right;
-}
-
-#upcoming_entry, #search_entry {
-	border-top: dotted 1px #C5CDD8;
-	background: @DarkElementBackgroundColor;
-	height: 150px;
-}
-
-#upcoming_img, #search_img {
-	float: left;
-	height: 150px;
-	width: 150px;
-}
-
-#upcoming_select, #search_select {
-	height: 20px;
-	width: 20px;
-	float: right;
-}
-
-.upcoming_entry h4, .search_entry h4 {
-	color: @TextColor;
-}
-
-.upcoming, .search {
-	color: @TextColor;
-}
-
-.upcoming_entry p , .search_entry p {
-	font-style: italic;
-	color: @TextColor;
-}
-
-#upcomings_tools {
-	float:right;
 }
 
 #hdhr_entry {
@@ -701,7 +631,7 @@ ul.serverctrls li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 	color: @TextColor;
 }
 
-ul.rules_decorator, ul.search_decorator {
+ul.rules_decorator, ul.search_decorator, ul.recording_decorator, ul.upcoming_decorator {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -709,12 +639,12 @@ ul.rules_decorator, ul.search_decorator {
 	border: none;
 }
 
-ul.rules_decorator li, ul.search_decorator li {
+ul.rules_decorator li, ul.search_decorator li, ul.recording_decorator li, ul.upcoming_decorator li {
 	float: left;
 	margin: 0px 10px;
 }
 
-ul.rules_decorator li p, ul.search_decorator li p {
+ul.rules_decorator li p, ul.search_decorator li p, ul.upcoming_decorator li p {
 	display: inline-block;
 	color: @TabMenuTextColor;
 	background-color: @TabMenuHighlightColor;
@@ -723,19 +653,6 @@ ul.rules_decorator li p, ul.search_decorator li p {
 	text-decoration: none;
 	transition: 0.1s;
 	border: none;
-}
-
-ul.recording_decorator {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	border: none;
-}
-
-ul.recording_decorator li {
-	float: left;
-	margin: 0px 10px;
 }
 
 ul.recording_decorator li a, ul.search_decorator li a  {
@@ -749,29 +666,6 @@ ul.recording_decorator li a, ul.search_decorator li a  {
 	border: none;
 }
 
-ul.upcoming_decorator {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	border: none;
-}
-
-ul.upcoming_decorator li {
-	float: left;
-	margin: 0px 10px;
-}
-
-ul.upcoming_decorator li p {
-	display: inline-block;
-	color: @TabMenuTextColor;
-	background-color: @TabMenuHighlightColor;
-	text-align: center;
-	padding: 2px 5px;
-	text-decoration: none;
-	transition: 0.1s;
-	border: none;
-}
 
 #server_cfg_entry {
 	text-align: center;

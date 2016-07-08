@@ -39,6 +39,7 @@
 		$entryData = '';
 		$hdhr = new DVRUI_HDHRjson();
 		$hdhrRules = new DVRUI_Rules($hdhr);
+		$hdhrRules->processAllRules();
 		$upcoming = new DVRUI_Upcoming($hdhrRules);
 		$numRules = $upcoming->getSeriesCount();
 		for ($i=0; $i < $numRules; $i++) {
