@@ -6,6 +6,9 @@
 	require_once("includes/dvrui_rules.php");
 	require_once("includes/dvrui_upcoming.php");
 	
+	$upcoming_list_pos = 0;
+	$upcoming;
+	
 	function openUpcomingPage() {
 		// prep
 		ob_start();
@@ -36,6 +39,7 @@
 		$entryData = '';
 		$hdhr = new DVRUI_HDHRjson();
 		$hdhrRules = new DVRUI_Rules($hdhr);
+		$hdhrRules->processAllRules();
 		$upcoming = new DVRUI_Upcoming($hdhrRules);
 		$numRules = $upcoming->getSeriesCount();
 		for ($i=0; $i < $numRules; $i++) {
@@ -57,11 +61,12 @@
 			$entry = str_replace('<!-- dvr_upcoming_channels -->',$upcoming->getEpChannelNum($i),$entry);
 			$entryData .= $entry;
 		}
-	
+		$upcoming_list_pos = 5;
 		$htmlStr = file_get_contents('style/upcoming_list.html');
 		$htmlStr = str_replace('<!-- dvr_rules_auth -->','AuthKey Used: ' . $hdhrRules->getAuth() . '<br/>',$htmlStr);
 		$htmlStr = str_replace('<!-- dvr_upcoming_count -->','Found: ' . $numShows . ' Shows<br/>',$htmlStr);
 		$htmlStr = str_replace('<!-- dvr_upcoming_list -->',$entryData,$htmlStr);
 		return $htmlStr;
 	}
+
 ?>

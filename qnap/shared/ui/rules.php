@@ -35,6 +35,7 @@
 		// Discover Recording Rules
 		$hdhr = new DVRUI_HDHRjson();
 		$hdhrRules = new DVRUI_Rules($hdhr);
+		$hdhrRules->processAllRules();
 		$numRules = $hdhrRules->getRuleCount();
 		$rulesData = '';
 		for ($i=0; $i < $numRules; $i++) {

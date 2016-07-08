@@ -66,10 +66,12 @@ class DVRUI_Rules {
 			$auth .= $hdhr->get_device_auth($i);
 		}
 		$this->auth = $auth;
-
+	}
+	
+	public function processAllRules() {
 		if (in_array('curl', get_loaded_extensions())){
 			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $this->recordingsURL . $auth);
+			curl_setopt($ch, CURLOPT_URL, $this->recordingsURL . $this->auth);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_TIMEOUT, 2);
 			$rules_json = curl_exec($ch);
@@ -79,62 +81,86 @@ class DVRUI_Rules {
 				array('http' => array(
 					'header'=>'Connection: close\r\n',
 					'timeout' => 2.0)));
-			$rules_json = file_get_contents($this->recordingsURL . $auth,false,$context);	
+			$rules_json = file_get_contents($this->recordingsURL . $this->auth,false,$context);	
 		}
 		$rules_info = json_decode($rules_json, true);
 		for ($i = 0; $i < count($rules_info); $i++) {
-			$recID = $rules_info[$i][$this->recording_RecID];
-			$seriesID = $rules_info[$i][$this->recording_SeriesID];
-			$image = $rules_info[$i][$this->recording_ImageURL];
-			$title = $rules_info[$i][$this->recording_Title];
-			$startPad = $rules_info[$i][$this->recording_StartPad];
-			$endPad = $rules_info[$i][$this->recording_EndPad];
-			$priority = 'X';
-			$dateTimeOnly = 'X';
-			$channelOnly = 'All Channels';
-			$teamOnly = 'X';
-			$recentOnly = 'X';
-			$airdate = 'X';
-			
-			if (array_key_exists($this->recording_Synopsis,$rules_info[$i])){
-				$synopsis = $rules_info[$i][$this->recording_Synopsis];
-			}
-			if (array_key_exists($this->recording_Priority,$rules_info[$i])){
-				$priority = $rules_info[$i][$this->recording_Priority];
-			}
-			if (array_key_exists($this->recording_DateTimeOnly,$rules_info[$i])){
-				$dateTimeOnly = $rules_info[$i][$this->recording_DateTimeOnly];
-			}
-			if (array_key_exists($this->recording_Channel,$rules_info[$i])) {
-				$channelOnly = 'Channel' . $rules_info[$i][$this->recording_Channel];
-			}
-			if (array_key_exists($this->recording_Team,$rules_info[$i])) {
-				$teamOnly = $rules_info[$i][$this->recording_Team];
-			}
-			if (array_key_exists($this->recording_Recent,$rules_info[$i])) {
-				$recentOnly = $rules_info[$i][$this->recording_Recent];
-			}
-			if (array_key_exists($this->recording_Airdate,$rules_info[$i])) {
-				$airdate = $rules_info[$i][$this->recording_Airdate];
-			}
-			
-			$this->rules[] = array($this->recording_RecID => $recID,
-					$this->recording_SeriesID => $seriesID,
-					$this->recording_ImageURL => $image,
-					$this->recording_Title => $title,
-					$this->recording_Synopsis => $synopsis,
-					$this->recording_StartPad => $startPad,
-					$this->recording_EndPad => $endPad,
-					$this->recording_Priority => $priority,
-					$this->recording_DateTimeOnly => $dateTimeOnly,
-					$this->recording_Channel => $channelOnly,
-					$this->recording_Team => $teamOnly,
-					$this->recording_Recent => $recentOnly,
-					$this->recording_Airdate => $airdate);
+			$this->processRule($rules_info[$i]);
 		}
-		
+	}
+	
+	public function processRuleforSeries($seriesID){
+		if (in_array('curl', get_loaded_extensions())){
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $this->recordingsURL . $this->auth . '&SeriesID=' . $seriesID);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 2);
+			$rules_json = curl_exec($ch);
+			curl_close($ch);
+		} else { 
+			$context = stream_context_create(
+				array('http' => array(
+					'header'=>'Connection: close\r\n',
+					'timeout' => 2.0)));
+			$rules_json = file_get_contents($this->recordingsURL . $this->auth . '&SeriesID=' . $seriesID,false,$context);	
+		}
+		$rules_info = json_decode($rules_json, true);
+		for ($i = 0; $i < count($rules_info); $i++) {
+			$this->processRule($rules_info[$i]);
+		}
 	}
 
+	private function processRule($rule) {
+		$recID = $rule[$this->recording_RecID];
+		$seriesID = $rule[$this->recording_SeriesID];
+		$image = $rule[$this->recording_ImageURL];
+		$title = $rule[$this->recording_Title];
+		$startPad = $rule[$this->recording_StartPad];
+		$endPad = $rule[$this->recording_EndPad];
+		$priority = 'X';
+		$dateTimeOnly = 'X';
+		$channelOnly = 'All Channels';
+		$teamOnly = 'X';
+		$recentOnly = 'X';
+		$airdate = 'X';
+			
+		if (array_key_exists($this->recording_Synopsis,$rule)){
+			$synopsis = $rule[$this->recording_Synopsis];
+		}
+		if (array_key_exists($this->recording_Priority,$rule)){
+			$priority = $rule[$this->recording_Priority];
+		}
+		if (array_key_exists($this->recording_DateTimeOnly,$rule)){
+			$dateTimeOnly = $rule[$this->recording_DateTimeOnly];
+		}
+		if (array_key_exists($this->recording_Channel,$rule)) {
+			$channelOnly = 'Channel' . $rule[$this->recording_Channel];
+		}
+		if (array_key_exists($this->recording_Team,$rule)) {
+			$teamOnly = $rule[$this->recording_Team];
+		}
+		if (array_key_exists($this->recording_Recent,$rule)) {
+			$recentOnly = $rule[$this->recording_Recent];
+		}
+		if (array_key_exists($this->recording_Airdate,$rule)) {
+			$airdate = $rule[$this->recording_Airdate];
+		}
+			
+		$this->rules[] = array($this->recording_RecID => $recID,
+				$this->recording_SeriesID => $seriesID,
+				$this->recording_ImageURL => $image,
+				$this->recording_Title => $title,
+				$this->recording_Synopsis => $synopsis,
+				$this->recording_StartPad => $startPad,
+				$this->recording_EndPad => $endPad,
+				$this->recording_Priority => $priority,
+				$this->recording_DateTimeOnly => $dateTimeOnly,
+				$this->recording_Channel => $channelOnly,
+				$this->recording_Team => $teamOnly,
+				$this->recording_Recent => $recentOnly,
+				$this->recording_Airdate => $airdate);
+	}
+	
 	public function getRuleCount() {
 		return count($this->rules);
 	}
