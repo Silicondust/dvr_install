@@ -123,11 +123,7 @@ class DVRUI_Search {
 		return $this->searchResults[$pos][$this->search_OriginalAirDate];
 	}
 	public function getSearchResultRecordingRules($pos) {
-		if ($this->searchResults[$pos][$this->search_RecordingRule] > 0){
-			return "***HAS EXISTING RULES***";
-		}else{
-			return "";
-		}
+		return $this->searchResults[$pos][$this->search_RecordingRule];
 	}
 	
 	public function getRecordRecentURL($pos) {

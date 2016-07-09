@@ -210,7 +210,7 @@ class DVRUI_Rules {
 		return $this->rules[$pos][$this->recording_Recent];
 	}
 	public function getRuleDeleteURL($pos) {
-		return "https://my.hdhomerun.com/api/recording_rules?DeviceAuth=" . $this->auth . "&cmd=delete&RecordingRuleID=" .  $this->rules[$pos][$this->recording_RecID];
+		return "https://my.hdhomerun.com/api/recording_rules?DeviceAuth=" . $this->auth . "&Cmd=delete&RecordingRuleID=" .  $this->rules[$pos][$this->recording_RecID];
 	}
 	
 	
