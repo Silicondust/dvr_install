@@ -4,6 +4,7 @@
 	require_once("statusmessage.php");
 	require_once("includes/dvrui_hdhrjson.php");
 	require_once("includes/dvrui_search.php");
+	require_once("includes/dvrui_rules.php");
 	
 	function openSearchPage($searchString) {
 		// prep
@@ -42,9 +43,29 @@
 			$searchEntry = str_replace('<!-- dvr_search_synopsis -->',$hdhrSearchResults->getSearchResultSynopsis($i),$searchEntry);
 			$searchEntry = str_replace('<!-- dvr_search_channelNumber -->',$hdhrSearchResults->getSearchResultChannelNumber($i),$searchEntry);
 			$searchEntry = str_replace('<!-- dvr_search_channelName -->',$hdhrSearchResults->getSearchResultChannelName($i),$searchEntry);
-			$searchEntry = str_replace('<!-- dvr_search_hasRules -->',$hdhrSearchResults->getSearchResultRecordingRules($i),$searchEntry);
-			$searchEntry = str_replace('<!-- dvr_record_recent -->',$hdhrSearchResults->getRecordRecentURL($i),$searchEntry);
-			$searchEntry = str_replace('<!-- dvr_record_all -->',$hdhrSearchResults->getRecordAllURL($i),$searchEntry);
+			$searchEntry = str_replace('<!-- dvr_search_originalAirDate -->',$hdhrSearchResults->getSearchResultOriginalAirDate($i),$searchEntry);
+
+			if($hdhrSearchResults->getSearchResultRecordingRules($i) == 0){
+				$actionLinks = file_get_contents('style/series_actions.html');
+				$actionLinks = str_replace('<!-- dvr_record_recent -->',$hdhrSearchResults->getRecordRecentURL($i),$actionLinks);
+				$actionLinks = str_replace('<!-- dvr_record_all -->',$hdhrSearchResults->getRecordAllURL($i),$actionLinks);
+				$searchEntry = str_replace('<!-- dvr_series_action_links -->',$actionLinks,$searchEntry);
+			}else{
+				$hdhrRules = new DVRUI_Rules($hdhr);
+				$hdhrRules->processRuleforSeries($hdhrSearchResults->getSearchResultSeriesID($i));
+				$numRules = $hdhrRules->getRuleCount();
+	      			for ($j=0; $j < $numRules; $j++) {
+					$rulesEntry = file_get_contents('style/rules_entry_small.html');
+					$rulesEntry = str_replace('<!-- dvr_rules_priority -->',$hdhrRules->getRulePriority($j),$rulesEntry);
+					$rulesEntry = str_replace('<!-- dvr_rules_startpad -->',$hdhrRules->getRuleStartPad($j),$rulesEntry);
+					$rulesEntry = str_replace('<!-- dvr_rules_endpad -->',$hdhrRules->getRuleEndPad($j),$rulesEntry);
+					$rulesEntry = str_replace('<!-- dvr_rules_channels -->',$hdhrRules->getRuleChannels($j),$rulesEntry);
+					$rulesEntry = str_replace('<!-- dvr_rules_recent -->',$hdhrRules->getRuleRecent($j),$rulesEntry);
+					$rulesEntry = str_replace('<!-- dvr_rules_delete -->',$hdhrRules->getRuleDeleteURL($j),$rulesEntry);
+					$searchEntry = str_replace('<!-- dvr_series_rule_list -->',$rulesEntry,$searchEntry);
+
+				}
+			}
 			$searchData .= $searchEntry;
 		}
 		$searchList = file_get_contents('style/search_list.html');

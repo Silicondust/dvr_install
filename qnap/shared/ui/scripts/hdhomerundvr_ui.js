@@ -8,6 +8,9 @@
  * You are free to use this file in your own programs, but I do not accept
  * any liability for errors or problems arising from it's use. 
  *****************************************************************************/
+function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
 
 function createRecording(url){
 	var result = confirm("Are you sure you want to create this rule?");
@@ -15,17 +18,37 @@ function createRecording(url){
 		var request = new XMLHttpRequest();
 		request.open("GET", url, true);
 		request.send(null);
-		openRulesPage();
+		sleep(500).then(() => {		
+			openSearchPage();
+		})
 	}
 }
 
 function confirmDeleteRecording(url){
-	var result = confirm("Are you sure?");
+	var result = confirm("Are you sure you want to delete this recording?\nThis action cannot be undone!");
 	if (result){
 		var request = new XMLHttpRequest();
 		request.open("GET", url, true);
 		request.send(null);
 		openRecordingsPage();
+	}
+}
+function confirmDeleteRule(url){
+	var result = confirm("Are you sure you want to delete this rule? ");
+	if (result){
+		var request = new XMLHttpRequest();
+		request.open("GET", url, true);
+		request.send(null);
+		openSearchPage();
+	}
+}
+function confirmDeleteRule2(url){
+	var result = confirm("Are you sure you want to delete this rule? ");
+	if (result){
+		var request = new XMLHttpRequest();
+		request.open("GET", url, true);
+		request.send(null);
+		openRulesPage();
 	}
 }
 

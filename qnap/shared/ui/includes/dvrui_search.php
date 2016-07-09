@@ -10,7 +10,7 @@ class DVRUI_Search {
 	private $search_ChannelName = 'ChannelName';
 	private $search_ChannelImageURL = 'ChannelImageURL';
 	private $search_RecordingRule = 'RecordingRule';
-	private $search_OriginalAirDate = 'OriginalAirDate';
+	private $search_OriginalAirDate = 'OriginalAirdate';
 	private $searchResults = array();
 	
 	private $search_list = array();
@@ -48,7 +48,7 @@ class DVRUI_Search {
 			$seriesID = $search_info[$i][$this->search_SeriesID];
 			$image = "";
 			$title = $search_info[$i][$this->search_Title];
-			$originalAirDate = "";	
+			$originalAirDate = 0;	
 			$recordingRule = 0;	
 			if (array_key_exists($this->search_ImageURL,$search_info[$i])){
 				$image = $search_info[$i][$this->search_ImageURL];
@@ -120,14 +120,15 @@ class DVRUI_Search {
 		return $this->searchResults[$pos][$this->search_ChannelImageURL];
 	}
 	public function getSearchResultOriginalAirDate($pos) {
-		return $this->searchResults[$pos][$this->search_OriginalAirDate];
+		
+		if($this->searchResults[$pos][$this->search_OriginalAirDate] == 0){
+			return "N/A";
+		}else{
+			return date("m/d/Y",$this->searchResults[$pos][$this->search_OriginalAirDate]);
+		}
 	}
 	public function getSearchResultRecordingRules($pos) {
-		if ($this->searchResults[$pos][$this->search_RecordingRule] > 0){
-			return "***HAS EXISTING RULES***";
-		}else{
-			return "";
-		}
+		return $this->searchResults[$pos][$this->search_RecordingRule];
 	}
 	
 	public function getRecordRecentURL($pos) {
