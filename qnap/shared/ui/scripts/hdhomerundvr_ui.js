@@ -34,12 +34,21 @@ function confirmDeleteRecording(url){
 	}
 }
 function confirmDeleteRule(url){
-	var result = confirm("Are you sure you want to delete this rule? " + url);
+	var result = confirm("Are you sure you want to delete this rule? ");
 	if (result){
 		var request = new XMLHttpRequest();
 		request.open("GET", url, true);
 		request.send(null);
 		openSearchPage();
+	}
+}
+function confirmDeleteRule2(url){
+	var result = confirm("Are you sure you want to delete this rule? ");
+	if (result){
+		var request = new XMLHttpRequest();
+		request.open("GET", url, true);
+		request.send(null);
+		openRulesPage();
 	}
 }
 
