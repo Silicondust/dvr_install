@@ -114,59 +114,14 @@ img.aligntop {
 	width: 100%;
 }
 
-#rules_page {
+#rules_page, #search_page, #recordings_page, #upcoming_page, #log_page, #hdhr_page, #server_page {
 	position: relative;
 	padding: 0;
 	width: 100%;
 	border-radius: 0px 0px 10px 10px;
 	border: solid 2px #020;
 	display: hidden;
-}
-
-#search_page {
-	position: relative;
-	padding: 0;
-	width: 100%;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #020;
-	display: hidden;
-}
-
-#upcoming_page {
-	position: relative;
-	padding: 0;
-	width: 100%;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #020;
-	display: hidden;
-
-}
-
-#log_page {
-	position: relative;
-	margin: 0;
-	padding: 0;
-	width: 100%;
 	min-width: 800px;
-	display: hidden;
-}
-
-#hdhr_page {
-	position: relative;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	min-width: 800px;
-	display: hidden;
-}
-
-#server_page {
-	position: relative;
-	padding: 0;
-	width: 100%;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #020;
-	display: hidden;
 }
 
 #start_page {
@@ -247,29 +202,24 @@ img.aligntop {
 	border 0;
 }
 
-#serverParams {
-	width: 80%;
-}
-
-#serverControls {
-	text-align: center;
- 	width: 100%;
-}
-
 #loglist {
+	background-color: @DarkElementBackgroundColor;
+	color: @TextColor;
 	float: left;
-	width: 20%;
+	width: 180px;
 	height: 80%;
 	text-align: center;
-	overflow: auto;
-	background: #EAEEF2;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
+	overflow-y: scroll;
+	overflow-x: none;
+}
+
+#loglist::-webkit-scrollbar {
+	display: none;
 }
 
 #loglist h4 {
 	text-shadow: 0 1px 0 #FFFFFF;
+	color: @TextColor;
 }
 
 #loglist_box {
@@ -282,7 +232,6 @@ img.aligntop {
 
 #loglist ul li {
 	padding: 2px 0 2px 0;
-	border-top: dotted 1px #C5CDD8;
 }
 
 #loglist ul li.first {
@@ -292,12 +241,9 @@ img.aligntop {
 
 #logfile_content {
 	position: right;
-	margin-left: 21%;
-	width: 79%;
+	margin-left: 185px;
+	width: 80%%;
 	background: #EAEEF2;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #FFFFFF;
-	text-shadow: 0 1px 0 #FFFFFF;
 	height: 80%;
 }
 
@@ -516,51 +462,6 @@ ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 	display: none;
 }
 
-#server_controls {
-	padding: 20px;
-	text-align: center;
-}
-
-#server_controls_box {
-	float: right;
-	position: relative;
-	left: -50%; /* or right 50% */
-	text-align: left;
-}
-
-ul.serverctrls {
-	position: relative;
-	left: 50%; 
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	border: none;
-	text-align: center;
-}
-ul.serverctrls li {
-	float: left;
-	list-style-type: none;
-	margin: 20px;
-}
-
-ul.serverctrls li a {
-	background-color: #400;
-	display: inline-block;
-	color: @TabMenuTextColor;
-	text-align: center;
-	padding: 50px 50px;
-	text-decoration: none;
-	transition: 0.1s;
-	font-size: 20px;
-	border-radius: 60px 60px 60px 60px;
-	border: solid 1px #020;
-}
-
-ul.serverctrls li a:hover {background-color: @TabMenuHighlightColor;}
-
-ul.serverctrls li a:focus, a.active {background-color: @TabMenuHighlightColor;}
-
 #rules_tools, #recordings_tools, #upcoming_tools, #search_tools {
 	float:right;
 }
@@ -568,13 +469,14 @@ ul.serverctrls li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 #upcoming_entry, #search_entry, #rule_entry, #recording_entry {
 	border-top: dotted 1px #C5CDD8;
 	background: @DarkElementBackgroundColor;
-	height: 150px;
+	height: 128px;
+	position: relative;
 }
 
 #upcoming_img, #search_img, #rule_img, #recording_img {
 	float: left;
-	height: 150px;
-	width: 200px;
+	height: 128px;
+	width: 172px;
 }
 
 #upcoming_select, #search_select, #rule_select, #recordings_select {
@@ -599,7 +501,7 @@ ul.serverctrls li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 #hdhr_entry {
 	border-top: dotted 1px #C5CDD8;
 	background: @DarkElementBackgroundColor;
-	height: 150px;
+	height: 128px;
 }
 
 #hdhr_img {
@@ -616,8 +518,8 @@ ul.serverctrls li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 #hdhr_img_flt {
 	float: left;
 	background-color: darkslategrey;
-	width: 150px;
-	height: 150px;
+	width: 172px;
+	height: 128px;
 	margin: 0 10px 0 0;
 	display: table;
 }
@@ -637,6 +539,9 @@ ul.rules_decorator, ul.search_decorator, ul.recording_decorator, ul.upcoming_dec
 	padding: 0;
 	overflow: hidden;
 	border: none;
+	position: absolute;
+	bottom: 0;
+	padding: 0px 0px 0px 200px;
 }
 
 ul.rules_decorator li, ul.search_decorator li, ul.recording_decorator li, ul.upcoming_decorator li {
@@ -667,51 +572,111 @@ ul.recording_decorator li a, ul.search_decorator li a, ul.rules_decorator li a  
 }
 
 
-#server_cfg_entry {
+#serverParams {
+	width: 100%;
+	margin: 130px 0px 0px 0px;
+}
+
+#serverControls {
 	text-align: center;
+ 	width: 100%;
+}
+
+#server_cfg_entry {
 	height: 100px;
 	width: 100%;
 	margin-bottom: 5px;
-		display: table;
-}
-
-#server_params_img {
-	display: block;
-	margin: 0 auto;
-	width: 100px;
-	max-height: 100px;
-}
-
-#server_params_cnt {
-	vertical-align: middle;
-	display: table-cell;
-}
-
-#server_params_flt {
-	float: left;
-	width: 100px;
-	height: 100px;
-	display: table;
 }
 
 #server_params_text {
-	vertical-align: middle;
-	text-align: left;
-	display: table-cell;
-	padding: 5px;
 	width: 100%;
 }
 
 textarea.server_param {
 	background: #EAEEF2;
 	margin: 0;
-	width: 60%;
+	width: 100%;
 	appearance: none;
 	box-shadow: none;
 	border-radius: none;
 	height: 40px;
+	color: @InputAreaTextColor;
+	background-color: @InputAreaBackgroundColor;
 }
 
 #server_param_name {
 	color: @TextColor;
+	background-color: @LogoBackgroundColor;
 }
+
+#server_param_detail {
+}
+
+#server_controls {
+	padding: 20px;
+	text-align: center;
+}
+
+#server_controls_box {
+	float: right;
+	position: relative;
+	left: -50%; /* or right 50% */
+	text-align: left;
+}
+
+ul.serverctrls {
+	position: relative;
+	left: 50%; 
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: none;
+	text-align: center;
+}
+ul.serverctrls li {
+	float: left;
+	list-style-type: none;
+	margin: 20px;
+}
+
+ul.serverctrls li a {
+	background-color: @DarkElementBackgroundColor;
+	display: inline-block;
+	color: @TabMenuTextColor;
+	text-align: center;
+	padding: 35px 35px;
+	text-decoration: none;
+	transition: 0.1s;
+	font-size: 20px;
+	border-radius: 60px 60px 60px 60px;
+	border: solid 1px #020;
+}
+
+ul.serverctrls li a:hover {background-color: @TabMenuHighlightColor;}
+
+ul.serverctrls li a:focus, a.active {background-color: @TabMenuHighlightColor;}
+
+#delete_button{
+        font-size: 14px;
+        border-radius: 5px 5px 5px 5px;
+        background-color: #FF0000;
+        padding: 2px 2px;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: bold;
+
+}
+#play_button, #record_button, #edit_button{
+        font-size: 14px;
+        border-radius: 5px 5px 5px 5px;
+        background-color: @TabMenuHighlightColor;
+        padding: 2px 2px;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: bold;
+}
+#search_prompt{
+        padding: 10px 10px 10px 10px;
+}
+
