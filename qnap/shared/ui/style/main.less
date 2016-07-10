@@ -533,7 +533,7 @@ ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 	color: @TextColor;
 }
 
-ul.rules_decorator, ul.search_decorator, ul.recording_decorator, ul.upcoming_decorator {
+ul.decorator {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -544,15 +544,15 @@ ul.rules_decorator, ul.search_decorator, ul.recording_decorator, ul.upcoming_dec
 	padding: 0px 0px 0px 200px;
 }
 
-ul.rules_decorator li, ul.search_decorator li, ul.recording_decorator li, ul.upcoming_decorator li {
+ul.decorator li {
 	float: left;
 	margin: 0px 10px;
 }
 
-ul.rules_decorator li p, ul.search_decorator li p, ul.upcoming_decorator li p {
+ul.decorator li p {
 	display: inline-block;
-	color: @TabMenuTextColor;
-	background-color: @TabMenuHighlightColor;
+	color: @DecoratorDefaultTextColor;
+	background-color: @DecoratorDefaultBackgroundColor;
 	text-align: center;
 	padding: 2px 5px;
 	text-decoration: none;
@@ -560,10 +560,10 @@ ul.rules_decorator li p, ul.search_decorator li p, ul.upcoming_decorator li p {
 	border: none;
 }
 
-ul.recording_decorator li a, ul.search_decorator li a, ul.rules_decorator li a  {
+ul.decorator li a  {
 	display: inline-block;
-	color: @TabMenuTextColor;
-	background-color: @TabMenuHighlightColor;
+	color: @DecoratorDefaultTextColor;
+	background-color: @DecoratorDefaultBackgroundColor;
 	text-align: center;
 	padding: 2px 5px;
 	text-decoration: none;
@@ -571,6 +571,17 @@ ul.recording_decorator li a, ul.search_decorator li a, ul.rules_decorator li a  
 	border: none;
 }
 
+ul.decorator li a:hover {
+	cursor:pointer;
+}
+
+ul.decorator li.delete a {
+	background-color: @DecoratorDeleteBackgroundColor;
+}
+
+ul.decorator li.delete a:hover {
+	cursor:pointer;
+}
 
 #serverParams {
 	width: 100%;
@@ -653,6 +664,11 @@ ul.serverctrls li a {
 	border: solid 1px #020;
 }
 
-ul.serverctrls li a:hover {background-color: @TabMenuHighlightColor;}
 
-ul.serverctrls li a:focus, a.active {background-color: @TabMenuHighlightColor;}
+ul.serverctrls li a:hover {
+	background-color: @TabMenuHighlightColor;
+}
+
+ul.serverctrls li a:focus, a.active {
+	background-color: @TabMenuHighlightColor;
+}
