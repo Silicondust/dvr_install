@@ -470,6 +470,7 @@ ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 	border-top: dotted 1px #C5CDD8;
 	background: @DarkElementBackgroundColor;
 	height: 128px;
+	position: relative;
 }
 
 #upcoming_img, #search_img, #rule_img, #recording_img {
@@ -538,6 +539,9 @@ ul.rules_decorator, ul.search_decorator, ul.recording_decorator, ul.upcoming_dec
 	padding: 0;
 	overflow: hidden;
 	border: none;
+	position: absolute;
+	bottom: 0;
+	padding: 0px 0px 0px 200px;
 }
 
 ul.rules_decorator li, ul.search_decorator li, ul.recording_decorator li, ul.upcoming_decorator li {
