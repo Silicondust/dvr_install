@@ -49,9 +49,9 @@ class DVRUI_Rules {
 	private $recording_DateTimeOnly = 'DateTimeOnly';
 
 	
-	private $recordingCmd_delete = 'delete';
-	private $recordingCmd_change = 'change';
-	private $recordingCmd_add = 'add';
+	private $recordingCmd_delete = '&Cmd=delete';
+	private $recordingCmd_change = '&Cmd=change';
+	private $recordingCmd_add = '&Cmd=add';
 	
 	private $rules_list = array();
 
@@ -176,30 +176,39 @@ class DVRUI_Rules {
 	public function getRulePriority($pos) {
 		return $this->rules[$pos][$this->recording_Priority];
 	}
+	
 	public function getRuleRecID($pos) {
 		return $this->rules[$pos][$this->recording_RecID];
 	}
+	
 	public function getRuleSeriesID($pos) {
 		return $this->rules[$pos][$this->recording_SeriesID];
 	}
+	
 	public function getRuleTitle($pos) {
 		return $this->rules[$pos][$this->recording_Title];
 	}
+	
 	public function getRuleImage($pos) {
 		return $this->rules[$pos][$this->recording_ImageURL];
 	}
+	
 	public function getRuleSynopsis($pos) {
 		return $this->rules[$pos][$this->recording_Synopsis];
 	}
+	
 	public function getRuleStartPad($pos) {
 		return $this->rules[$pos][$this->recording_StartPad];
 	}
+	
 	public function getRuleEndPad($pos) {
 		return $this->rules[$pos][$this->recording_EndPad];
 	}
+	
 	public function getRuleChannels($pos) {
 		return $this->rules[$pos][$this->recording_Channel];
 	}
+	
 	public function getRuleRecent($pos) {
 		$recent = $this->rules[$pos][$this->recording_Recent];
 		if ($recent == 'X'){
@@ -209,12 +218,15 @@ class DVRUI_Rules {
 		}
 		return $this->rules[$pos][$this->recording_Recent];
 	}
+	
 	public function getRuleDeleteURL($pos) {
-		return "https://my.hdhomerun.com/api/recording_rules?DeviceAuth=" . $this->auth . "&Cmd=delete&RecordingRuleID=" .  $this->rules[$pos][$this->recording_RecID];
+		return $this->recordingsURL 
+			. $this->auth 
+			. $this->recordingCmd_delete
+			. "&RecordingRuleID=" 
+			.  $this->rules[$pos][$this->recording_RecID];
 	}
 	
-	
-
 	public function getRuleString($pos) {
 		$rule = $this->rules[$pos];
 		return 'Priority: ' . $rule[$this->recording_Priority]

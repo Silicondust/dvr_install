@@ -56,8 +56,6 @@
 		$rulesList = str_replace('<!-- dvr_rules_auth -->','AuthKey Used: ' . $hdhrRules->getAuth() . '<br/>',$rulesList);
 		$rulesList = str_replace('<!-- dvr_rules_count -->','Found: ' . $numRules . ' Rules<br/>',$rulesList);
 		$rulesList = str_replace('<!-- dvr_rules_list -->',$rulesData,$rulesList);
-
-		
 		return $rulesList;
 	}
 ?>

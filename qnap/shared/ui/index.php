@@ -1,7 +1,7 @@
 <?php
 	error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 	define('TINYAJAX_PATH', '.');
-	opcache_reset();
+	//opcache_reset();
 	require_once("TinyAjax.php");
 	require_once("TinyAjaxBehavior.php");
 	require_once("vars.php");
@@ -35,7 +35,6 @@
 	$ajax->exportFunction("openHDHRPage","");
 	$ajax->exportFunction("openServerPage","");
 	$ajax->exportFunction("openSearchPage","searchString");
-	//$ajax->exportFunction("openSearchPage","");
 	$ajax->exportFunction("openUpcomingPage","");
 
 	/* GO */

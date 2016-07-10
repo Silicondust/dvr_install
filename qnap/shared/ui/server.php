@@ -91,19 +91,16 @@
 		
 		if ($serverConfig->configFileExists()) {
 			$serverParamEntry = file_get_contents('style/server_config_entry_nb.html');
-			$serverParamEntry = str_replace('<!-- server_param_image -->', 'images/serverconfig.png', $serverParamEntry);
 			$serverParamEntry = str_replace('<!-- dvrui_param_name -->', 'Config File Location', $serverParamEntry);
 			$serverParamEntry = str_replace('<!-- dvrui_param_value -->', $serverConfig->getConfigFileName(), $serverParamEntry);
 			$serverCfg = str_replace('<!-- dvrui_config_file_name -->', $serverParamEntry, $serverCfg);
 
 			$serverParamEntry = file_get_contents('style/server_config_entry.html');
-			$serverParamEntry = str_replace('<!-- server_param_image -->', 'images/recordpath.png', $serverParamEntry);
 			$serverParamEntry = str_replace('<!-- dvrui_param_name -->', 'RecordPath', $serverParamEntry);
 			$serverParamEntry = str_replace('<!-- dvrui_param_value -->', $serverConfig->getRecordPath(), $serverParamEntry);
 			$serverCfg = str_replace('<!-- dvrui_config_recordpath_value -->', $serverParamEntry, $serverCfg);
 
 			$serverParamEntry = file_get_contents('style/server_config_entry.html');
-			$serverParamEntry = str_replace('<!-- server_param_image -->', 'images/serverport.png', $serverParamEntry);
 			$serverParamEntry = str_replace('<!-- dvrui_param_name -->', 'Port', $serverParamEntry);
 			$serverParamEntry = str_replace('<!-- dvrui_param_value -->', $serverConfig->getServerPort(), $serverParamEntry);
 			$serverCfg = str_replace('<!-- dvrui_config_port_value -->', $serverParamEntry, $serverCfg);
