@@ -10,13 +10,10 @@
 	require_once("logfile.php");
 	require_once("statusmessage.php");
 	require_once("controls.php");
-	require_once("rules.php");
 	require_once("recordings.php");
 	require_once("server.php");
 	require_once("hdhr.php");
 	require_once("theme.php");
-	require_once("upcoming.php");
-	require_once("search.php");
 
 	/* Prepare Ajax */
 	$ajax = new TinyAjax();
@@ -30,12 +27,9 @@
 	$ajax->exportFunction("updateServerPort","serverPort");
 	$ajax->exportFunction("changeDvrState","option");
 	$ajax->exportFunction("openLogPage","");
-	$ajax->exportFunction("openRulesPage","");
 	$ajax->exportFunction("openRecordingsPage","");
 	$ajax->exportFunction("openHDHRPage","");
 	$ajax->exportFunction("openServerPage","");
-	$ajax->exportFunction("openSearchPage","searchString");
-	$ajax->exportFunction("openUpcomingPage","");
 
 	/* GO */
 	$ajax->process(); // Process our callback
@@ -52,8 +46,8 @@
 	$DVRBinVersion = $DVRBin->get_DVR_version();
 	
 	//Build navigation menu for pages
-	$pageTitles = array('Server', 'HDHRs', 'Logs', 'Rules', 'Recordings', 'Upcoming', 'Search');
-	$pageNames = array('server_page', 'hdhr_page', 'log_page', 'rules_page', 'recordings_page', 'upcoming_page', 'search_page');
+	$pageTitles = array('Server', 'HDHRs', 'Logs', 'Recordings');
+	$pageNames = array('server_page', 'hdhr_page', 'log_page', 'recordings_page');
 	$menu_data = file_get_contents('style/pagemenu.html');
 	$menuEntries = '';
 	for ($i=0; $i < count($pageNames); $i++) {
@@ -79,12 +73,9 @@
 	$topmenu = file_get_contents('style/topmenu.html');
 	$logfilelist = file_get_contents('style/index_loglist.html');
 	$logfiledata = file_get_contents('style/index_logdata.html');
-	$rulesdata = file_get_contents('style/rules.html');
 	$recordingsdata = file_get_contents('style/recordings.html');
 	$serverdata = file_get_contents('style/server.html');
 	$hdhrdata = file_get_contents('style/hdhr.html');
-	$updata = file_get_contents('style/upcoming.html');
-	$searchdata = file_get_contents('style/search.html');
 
 	$topmenu = str_replace('[[pagetitle]]',$pageName,$topmenu);
 	$topmenu = str_replace('[[UI-Version]]',$UIVersion,$topmenu);
@@ -94,12 +85,9 @@
 	$indexPage = str_replace('<!-- dvrui_pagemenu -->',$menu_data,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_loglist -->',$logfilelist,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_logfile -->',$logfiledata,$indexPage);
-	$indexPage = str_replace('<!-- dvrui_ruleslist -->',$rulesdata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_recordingslist -->',$recordingsdata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_serverlist -->',$serverdata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_hdhrlist -->',$hdhrdata,$indexPage);
-	$indexPage = str_replace('<!-- dvrui_upcominglist -->',$updata,$indexPage);
-	$indexPage = str_replace('<!-- dvrui_searchlist -->',$searchdata,$indexPage);
 
 	// -- Attach the Index to the Page
 	$pagecontent .= $indexPage;

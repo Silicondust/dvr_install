@@ -8,22 +8,6 @@
  * You are free to use this file in your own programs, but I do not accept
  * any liability for errors or problems arising from it's use. 
  *****************************************************************************/
-function sleep (time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
-
-function createRecording(url){
-	var result = confirm("Are you sure you want to create this rule?");
-	if (result){
-		var request = new XMLHttpRequest();
-		request.open("GET", url, true);
-		request.send(null);
-		sleep(500).then(() => {		
-			openSearchPage();
-		})
-	}
-}
-
 function confirmDeleteRecording(url){
 	var result = confirm("Are you sure you want to delete this recording?\nThis action cannot be undone!");
 	if (result){
@@ -31,24 +15,6 @@ function confirmDeleteRecording(url){
 		request.open("GET", url, true);
 		request.send(null);
 		openRecordingsPage();
-	}
-}
-function confirmDeleteRule(url){
-	var result = confirm("Are you sure you want to delete this rule? ");
-	if (result){
-		var request = new XMLHttpRequest();
-		request.open("GET", url, true);
-		request.send(null);
-		openSearchPage();
-	}
-}
-function confirmDeleteRule2(url){
-	var result = confirm("Are you sure you want to delete this rule? ");
-	if (result){
-		var request = new XMLHttpRequest();
-		request.open("GET", url, true);
-		request.send(null);
-		openRulesPage();
 	}
 }
 
@@ -70,12 +36,6 @@ function openTab(evt, tabname) {
 	if (tabname == 'recordings_page') {
 		openRecordingsPage();
 	}
-	if (tabname == 'rules_page') {
-		openRulesPage();
-	}
-	if (tabname == 'search_page') {
-		openSearchPage();
-	}
 	if (tabname == 'log_page') {
 		openLogPage();
 	}
@@ -85,21 +45,9 @@ function openTab(evt, tabname) {
 	if (tabname == 'hdhr_page') {
 		openHDHRPage();
 	}
-	if (tabname == 'upcoming_page') {
-		openUpcomingPage();
-	}
-	
 	//show the tablinks
 	document.getElementById(tabname).style.display = "block";
 	evt.currentTarget.className += " active";
-}
-
-function updateRecording(evt, cmd) {
-	
-}
-
-function updateRule(evt, cmd) {
-	
 }
 
 /* Set the status message */
@@ -140,11 +88,6 @@ function updateServerParam(param) {
 	
 }
 
-function goSearch()
-{
-	var str = document.getElementById('searchString').value;
-	openSearchPage(str);
-}
 function changeRecordPath()
 {
 	var id = document.getElementById('RecordPath').value;
