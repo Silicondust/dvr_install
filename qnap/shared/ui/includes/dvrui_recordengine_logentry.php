@@ -51,8 +51,8 @@ class DVRUI_Engine_LogEntry {
 		$remainder = $this->extractTimeStamp($entry);
 		$remainder = $this->extractType($remainder);
 		if (!strcmp($remainder,'Recorded') 
-		   or strcmp($remainder,'Recording')
-		   or strcmp($remainder,'System')){
+			or strcmp($remainder,'Recording')
+			or strcmp($remainder,'System')){
 			$remainder = $this->extractSubType($remainder);
 		}
 		$this->ExtractInfo($remainder);

@@ -4,9 +4,9 @@ require_once("vars.php");
 
 class DVRUI_Engine_Config {
 	
-    private $configFileName = NULL;
-    private $configFileExists = False;
-    private $configArray = NULL;
+	private $configFileName = NULL;
+	private $configFileExists = False;
+	private $configArray = NULL;
 	
 	// Default Constructor - nothing provided - do nothing yet...
 	public function DVRUI_Engine_Config() {
@@ -52,26 +52,26 @@ class DVRUI_Engine_Config {
 		$this->configArray['Port'] = $serverPort;
 	}
 
-    public function writeConfigFile() {
-    	echo 'Writing Config File';
-        $content = "";
-        foreach($this->configArray as $key => $val) {
-            if (is_array($val)) {
-                foreach($val as $skey => $sval) {
-                    $content .= $key . '=' . $val . "\n";
-                }
-            } else {
-                $content .= $key . '=' . $val . "\n";
-            }
-        }
-        $handle = fopen($this->configFileName, 'w');
-        if (!$handle) {
-            return False;
-        } else {
-            $retVal = fwrite($handle, $content);
-            fclose($handle);
-            return $retVal;
-        }
-    }
+	public function writeConfigFile() {
+		echo 'Writing Config File';
+		$content = "";
+		foreach($this->configArray as $key => $val) {
+			if (is_array($val)) {
+				foreach($val as $skey => $sval) {
+					$content .= $key . '=' . $val . "\n";
+				}
+			} else {
+				$content .= $key . '=' . $val . "\n";
+			}
+		}
+		$handle = fopen($this->configFileName, 'w');
+		if (!$handle) {
+			return False;
+		} else {
+			$retVal = fwrite($handle, $content);
+			fclose($handle);
+			return $retVal;
+		}
+	}
 }
 ?>
