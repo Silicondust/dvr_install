@@ -575,11 +575,14 @@ ul.decorator li a:hover {
 	cursor:pointer;
 }
 
+ul.decorator li.info p, ul.decorator li.play a, ul.decorator li.record a {
+	background-color: @DecoratorBackgroundColor;
+}
 ul.decorator li.delete a {
 	background-color: @DecoratorDeleteBackgroundColor;
 }
 
-ul.decorator li.delete a:hover {
+ul.decorator li.delete a:hover, ul.decorator li.play a:hover, ul.decorator li.record a {
 	cursor:pointer;
 }
 
