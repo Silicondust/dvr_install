@@ -114,7 +114,7 @@ img.aligntop {
 	width: 100%;
 }
 
-#rules_page, #search_page, #recordings_page, #upcoming_page, #log_page, #hdhr_page, #server_page {
+#recordings_page, #log_page, #hdhr_page, #server_page {
 	position: relative;
 	padding: 0;
 	width: 100%;
@@ -167,18 +167,6 @@ img.aligntop {
 	border: 0px;
 }
 
-.btn_20_120 {
-	width:120px;
-	height:20px;
-	border 0;
-}
-
-.btn_32_120 {
-	width:120px;
-	height:32px;
-	border 0;
-}
-
 .btn_20 {
 	width:20px;
 	height:20px;
@@ -222,30 +210,43 @@ img.aligntop {
 	padding-top: 0;
 }
 
+#loglist ul li a {
+        display: inline-block;
+        color: @TabMenuTextColor;
+        text-align: center;
+        padding: 5px 5px;
+        text-decoration: none;
+        transition: 0.1s;
+	border: 0px;
+}
+
+#loglist ul li a:hover {
+	background-color: @TabMenuHighlightColor;
+}
+#loglist ul li a:focus, a.focus {
+        background-color: @TabMenuHighlightColor;
+}
+
+
 #logfile_content {
 	position: right;
 	margin-left: 185px;
-	width: 80%%;
-	background: #EAEEF2;
+	width: 80%;
+	background: @DarkElementBackgroundColor;
 	height: 80%;
+	color: @TextColor;
 }
 
 #logfile_box {
 	height:100%;
 	width:100%;
-	overflow-x: scroll;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
-#search_content {
-	width: 100%;
-	height: 80%;
+#logfile_box::-webkit-scrollbar {
+        display: none;
 }
 
-#rules_content {
-	width: 100%;
-	height: 80%;
-}
 
 #start_content {
 	width: 100%;
@@ -267,42 +268,6 @@ img.aligntop {
 	height: 80%;
 }
 
-#upcoming_content {
-	width: 100%;
-	height: 80%;
-}
-
-#search_box {
-	height:100%;
-	width:100%;
-}
-#search_list_box {
-	height:100%;
-	width:100%;
-	overflow-x: scroll;
-	overflow-y: scroll;
-}
-
-#search_list_box::-webkit-scrollbar {
-	display: none;
-}
-
-#rules_box {
-	height:100%;
-	width:100%;
-}
-
-#rules_list_box {
-	height:100%;
-	width:100%;
-	overflow-x: scroll;
-	overflow-y: scroll;
-}
-
-#rules_list_box::-webkit-scrollbar {
-	display: none;
-}
-
 #recordings_box {
 	height:100%;
 	width:100%;
@@ -316,22 +281,6 @@ img.aligntop {
 }
 
 #recordings_list_box::-webkit-scrollbar {
-	display: none;
-}
-
-#upcoming_box {
-	height:100%;
-	width:100%;
-}
-
-#upcoming_list_box {
-	height:100%;
-	width:100%;
-	overflow-x: scroll;
-	overflow-y: scroll;
-}
-
-#upcoming_list_box::-webkit-scrollbar {
 	display: none;
 }
 
@@ -445,38 +394,38 @@ ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 	display: none;
 }
 
-#rules_tools, #recordings_tools, #upcoming_tools, #search_tools {
+#recordings_tools {
 	float:right;
 }
 
-#upcoming_entry, #search_entry, #rule_entry, #recording_entry {
+#recording_entry {
 	border-top: dotted 1px #C5CDD8;
 	background: @DarkElementBackgroundColor;
 	height: 128px;
 	position: relative;
 }
 
-#upcoming_img, #search_img, #rule_img, #recording_img {
+#recording_img {
 	float: left;
 	height: 128px;
 	width: 172px;
 }
 
-#upcoming_select, #search_select, #rule_select, #recordings_select {
+#recordings_select {
 	height: 20px;
 	width: 20px;
 	float: right;
 }
 
-.upcoming_entry h4, .search_entry h4, .rule_entry h4, .recording_entry h4 {
+.recording_entry h4 {
 	color: @TextColor;
 }
 
-.upcoming, .search , .recordings, .rules {
+.recordings {
 	color: @TextColor;
 }
 
-.upcoming_entry p , .search_entry p, .recording_entry p, .rule_entry p {
+.recording_entry p {
 	font-style: italic;
 	color: @TextColor;
 }
