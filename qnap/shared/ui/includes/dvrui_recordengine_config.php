@@ -48,6 +48,14 @@ class DVRUI_Engine_Config {
 		return $retVal;
 	}
 
+	public function getStorageId() {
+		$retVal = 'StorageID not Set';
+		if (array_key_exists('StorageID', $this->configArray)) {
+			$retVal = $this->configArray['StorageID'];
+		}
+		return $retVal;
+	}
+
 	public function setServerPort($serverPort) {
 		$this->configArray['Port'] = $serverPort;
 	}

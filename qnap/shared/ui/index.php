@@ -1,7 +1,7 @@
 <?php
 	error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 	define('TINYAJAX_PATH', '.');
-	//opcache_reset();
+	opcache_reset();
 	require_once("TinyAjax.php");
 	require_once("TinyAjaxBehavior.php");
 	require_once("vars.php");
@@ -58,7 +58,7 @@
 	
 	// --- Build Page Here ---
 	$pageName = DVRUI_Vars::DVRUI_name;
-	$UIVersion = "UI Version:" . DVRUI_Vars::DVRUI_version;
+	$UIVersion = "Version:" . DVRUI_Vars::DVRUI_version;
 	$DVRVersion = "Record Engine Version: <i>" . $DVRBinVersion . "</i>";
 	$pagecontent = "";
 

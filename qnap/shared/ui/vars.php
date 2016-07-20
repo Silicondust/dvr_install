@@ -1,8 +1,8 @@
 <?php
 final class DVRUI_Vars 
 {
-	const DVRUI_version	="u0.9.0";
-	const DVRUI_name	="HDHomeRun DVR UI";
+	const DVRUI_version	="0.9.1";
+	const DVRUI_name	="QNAP HDHomeRun DVR Manager";
 	const DVRUI_author	="Rik Dunphy";
 	const DVRUI_email	="d3monrik@gmail.com";
 	const DVRUI_git		="https://github.com/Silicondust/dvr_install";

@@ -105,6 +105,11 @@
 			$serverParamEntry = str_replace('<!-- dvrui_param_name -->', 'Port', $serverParamEntry);
 			$serverParamEntry = str_replace('<!-- dvrui_param_value -->', $serverConfig->getServerPort(), $serverParamEntry);
 			$serverCfg = str_replace('<!-- dvrui_config_port_value -->', $serverParamEntry, $serverCfg);
+
+			$serverParamEntry = file_get_contents('style/server_config_entry.html');
+			$serverParamEntry = str_replace('<!-- dvrui_param_name -->', 'StorageID', $serverParamEntry);
+			$serverParamEntry = str_replace('<!-- dvrui_param_value -->', $serverConfig->getStorageId(), $serverParamEntry);
+			$serverCfg = str_replace('<!-- dvrui_config_storage_value -->', $serverParamEntry, $serverCfg);
 		} else {
 			$serverCfg = "ERROR: Can't Parse Config File: " . $configFile->getConfigFileName();
 		}

@@ -118,10 +118,7 @@ img.aligntop {
 	position: relative;
 	padding: 0;
 	width: 100%;
-	border-radius: 0px 0px 10px 10px;
-	border: solid 2px #020;
 	display: hidden;
-	min-width: 800px;
 }
 
 #start_page {
@@ -177,8 +174,8 @@ img.aligntop {
 	background-color: @DarkElementBackgroundColor;
 	color: @TextColor;
 	float: left;
-	width: 180px;
-	height: 80%;
+	width: 140px;
+	height: 100%;
 	text-align: center;
 	overflow-y: scroll;
 	overflow-x: none;
@@ -211,64 +208,73 @@ img.aligntop {
 }
 
 #loglist ul li a {
-        display: inline-block;
-        color: @TabMenuTextColor;
-        text-align: center;
-        padding: 5px 5px;
-        text-decoration: none;
-        transition: 0.1s;
-	border: 0px;
+	display: inline-block;
+	color: @TabMenuTextColor;
+	text-align: center;
+	text-decoration: none;
+	transition: 0.1s;
+	width: 100%;
 }
 
 #loglist ul li a:hover {
 	background-color: @TabMenuHighlightColor;
 }
 #loglist ul li a:focus, a.focus {
-        background-color: @TabMenuHighlightColor;
+	background-color: @TabMenuHighlightColor;
 }
 
 
 #logfile_content {
-	position: right;
-	margin-left: 185px;
-	width: 80%;
+	margin-left: 140px;
+	width: auto;
 	background: @DarkElementBackgroundColor;
-	height: 80%;
+	height: 100%;
 	color: @TextColor;
 }
 
 #logfile_box {
-	height:100%;
-	width:100%;
+	height: ~"calc(100% - 23px)";
+	width: ~"calc(100% - 2px)";
 	overflow-y: auto;
+	background: @DarkElementBackgroundColor;
+	border-left: 2px @LogFileHeader solid;
 }
 
 #logfile_box::-webkit-scrollbar {
-        display: none;
+	display: none;
 }
 
+#logfile_header {
+	background: @LogFileHeader;
+	height: 20px;
+}
 
 #start_content {
 	width: 100%;
-	height: 80%;
+	height: 100%;
 }
 
 #server_content {
 	width: 100%;
-	height: 80%;
+	height: 100%;
 }
 
 #hdhr_content {
 	width: 100%;
-	height: 80%;
+	height: 100%;
 }
 
 #recordings_content {
 	width: 100%;
-	height: 80%;
+	height: 100%;
 }
 
 #recordings_box {
+	height:100%;
+	width:100%;
+}
+
+#recordings_info {
 	height:100%;
 	width:100%;
 }
@@ -320,6 +326,10 @@ input[type="text"]:focus {
 	width: 100%;
 	color: @StatusTextColor;
 	text-align: center;
+	overflow-y: auto;
+	overflow-x: none;
+	max-height: 200px;
+	min-height: 20px;
 }
 
 /* Span templates for logfile info */
@@ -334,7 +344,7 @@ input[type="text"]:focus {
 
 .logTypeStatus {
 	font-style: bold;
-	color: blue;
+	color: lightblue;
 }
 
 .logTypePlayback {
@@ -354,7 +364,7 @@ input[type="text"]:focus {
 
 .logTypeInfo {
 	font-style: bold;
-	color: black;
+	color: grey;
 }
 
 .logInfoError {
@@ -368,6 +378,7 @@ ul.tabmenu {
 	padding: 0;
 	overflow: hidden;
 	border: none;
+	background: @TabMenuBackgroundColor;
 }
 
 ul.tabmenu li {
@@ -381,8 +392,6 @@ ul.tabmenu li a {
 	padding: 10px 10px;
 	text-decoration: none;
 	transition: 0.1s;
-	font-size: 20px;
-	border-radius: 10px 10px 0px 0px;
 	border: solid 1px #020;
 }
 
@@ -529,7 +538,7 @@ ul.decorator li.delete a:hover, ul.decorator li.play a:hover, ul.decorator li.re
 }
 
 #server_cfg_entry {
-	height: 100px;
+	height: 85px;
 	width: 100%;
 	margin-bottom: 5px;
 }
@@ -553,6 +562,7 @@ textarea.server_param {
 #server_param_name {
 	color: @TextColor;
 	background-color: @LogoBackgroundColor;
+	width: 200px;
 }
 
 #server_param_detail {
@@ -607,4 +617,24 @@ ul.serverctrls li a:hover {
 
 ul.serverctrls li a:focus, a.active {
 	background-color: @TabMenuHighlightColor;
+}
+
+.logfile_path {
+	color: @TextColor;
+	font-size: 20px;
+	font-style: oblique;
+}
+
+.logfile_delete {
+	color: red;
+	float: right;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.logfile_delete:hover, .logfile_delete:focus {
+	color: white;
+	background: red;
+	text-decoration: none;
+	cursor: pointer;
 }

@@ -13,8 +13,10 @@
 		//create output
 		//$htmlStr = getLogFileList($configFile->getRecordPath());
 		$configFile = new DVRUI_Engine_Config();
-		$htmlStr = '<h4>Discovered Logfiles</h4>';
 		$htmlStr.= getLogFileList($configFile->getRecordPath());
+
+		$logHeader = file_get_contents('style/logfile_header.html');
+		$logHeader = str_replace('<!-- dvrui_logfile_name -->','Select Logfile to browse',$logHeader);
 		
 		//get data
 		$result = ob_get_contents();
@@ -25,6 +27,7 @@
 	
 		//display
 		$tab->add(TabInnerHtml::getBehavior("loglist", $htmlStr));
+		$tab->add(TabInnerHtml::getBehavior("logfile_header", $logHeader));
 		if ($result != '' && $result != NULL)
 			$tab->add(TabInnerHtml::getBehavior("statusMessage", $result));
 		else
@@ -37,6 +40,11 @@
 		ob_start();
 		$tab = new TinyAjaxBehavior();
 		$configFile = new DVRUI_Engine_Config();
+
+		// construct Header
+		$logHeader = file_get_contents('style/logfile_header.html');
+		$logHeader = str_replace('<!-- dvrui_logfile_name -->',$configFile->getRecordPath() . '/' . $filename,$logHeader);
+		
 		//create output
 		$logfile = new DVRUI_Engine_LogFile($configFile->getRecordPath() . '/' . $filename);
 		$logEntry = file_get_contents('style/logfile_entry.html');
@@ -79,6 +87,7 @@
 	
 		//display
 		$tab->add(TabInnerHtml::getBehavior("logfile_box", $htmlStr));
+		$tab->add(TabInnerHtml::getBehavior("logfile_header", $logHeader));
 		if ($result != '' && $result != NULL)
 			$tab->add(TabInnerHtml::getBehavior("statusMessage", $result));
 		else
@@ -93,10 +102,9 @@
 		$configFile = new DVRUI_Engine_Config();
 	
 		//create output
-		$logfile = $configFile->getRecordPath() . '/' . $filename;
-		$htmlStr = 'Deleting ' . $logfile;
-		if (file_exists($logfile)) {
-			$del = unlink($logfile);
+		$htmlStr = 'Deleting ' . $filename;
+		if (file_exists($filename)) {
+			$del = unlink($filename);
 		}
 
 		$logFileList = getLogFileList($configFile->getRecordPath());

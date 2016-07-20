@@ -61,9 +61,18 @@ function setStatus(msg)
 	}
 	document.getElementById('statusMessage').innerHTML = msg;
 }
-function openLogFile(value)
+
+function openLogFile(evt, value)
 {
+	// get elements with class="tablink" and remove the active
+	tablinks = document.getElementsByClassName("loglink");
+	for (i=0; i < tablinks.length; i++) {
+		tablinks[i].className = tablinks[i].className.replace(" active", "");
+	}
+
 	getLogFile(value);
+	
+	evt.currentTarget.className += " active";
 }
 
 function deleteLogFile(value)
