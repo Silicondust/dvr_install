@@ -29,6 +29,7 @@
 	$ajax->exportFunction("openRecordingsPage","");
 	$ajax->exportFunction("openHDHRPage","");
 	$ajax->exportFunction("openServerPage","");
+	$ajax->exportFunction("deleteRecordingByID","id, rerecord");
 
 	/* GO */
 	$ajax->process(); // Process our callback

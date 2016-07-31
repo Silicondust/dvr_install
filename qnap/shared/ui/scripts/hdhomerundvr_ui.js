@@ -8,15 +8,6 @@
  * You are free to use this file in your own programs, but I do not accept
  * any liability for errors or problems arising from it's use. 
  *****************************************************************************/
-function confirmDeleteRecording(url){
-	var result = confirm("Are you sure you want to delete this recording?\nThis action cannot be undone!");
-	if (result){
-		var request = new XMLHttpRequest();
-		request.open("GET", url, true);
-		request.send(null);
-		openRecordingsPage();
-	}
-}
 
 function openTab(evt, tabname) {
 	var i, tabcontent, tablinks;
@@ -109,3 +100,20 @@ function changeServerPort()
 	updateServerPort(id);
 }
 
+function reveal(evt, modal) {
+	document.getElementById(modal).style.display = "block";
+}
+
+function hideReveal(evt, modal) {
+	document.getElementById(modal).style.display = 'none';
+}
+
+function deleteRecording(evt, recording_id, reveal) {
+	deleteRecordingByID(recording_id,false);
+	hideReveal(evt, reveal);
+}
+
+function rerecordRecording(evt, recording_id, reveal) {
+	deleteRecordingByID(recording_id,true);
+	hideReveal(evt, reveal);
+}

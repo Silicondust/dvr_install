@@ -343,13 +343,14 @@ a.active {
 #recording_entry {
   border-top: dotted 1px #C5CDD8;
   background: #030;
-  height: 128px;
+  height: 162px;
   position: relative;
 }
 #recording_img {
   float: left;
-  height: 128px;
-  width: 172px;
+  height: 162px;
+  width: 216px;
+  margin: 0 10px 0 0;
 }
 #recordings_select {
   height: 20px;
@@ -364,12 +365,13 @@ a.active {
 }
 .recording_entry p {
   font-style: italic;
+  font-size: 0.95em;
   color: white;
 }
 #hdhr_entry {
   border-top: dotted 1px #C5CDD8;
   background: #030;
-  height: 128px;
+  height: 162px;
 }
 #hdhr_img {
   display: block;
@@ -383,8 +385,8 @@ a.active {
 #hdhr_img_flt {
   float: left;
   background-color: darkslategrey;
-  width: 172px;
-  height: 128px;
+  width: 216px;
+  height: 162px;
   margin: 0 10px 0 0;
   display: table;
 }
@@ -403,6 +405,7 @@ ul.decorator {
   border: none;
   position: absolute;
   bottom: 0;
+  right: 0;
   padding: 0px 0px 0px 200px;
 }
 ul.decorator li {
@@ -541,4 +544,94 @@ a.active {
   background: red;
   text-decoration: none;
   cursor: pointer;
+}
+.revealModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  background-color: #000000;
+  background-color: rgba(0,0,0,0.4);
+  color: black;
+  padding-top: 20%;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+.revealModal-content {
+  position: relative;
+  background-color: #EEE;
+  width: 80%;
+  min-height: 162px;
+  padding: 20px;
+  margin: auto;
+}
+.revealModal-header {
+  width: 80%;
+  padding: 20px;
+  margin: auto;
+  background-color: #030;
+  color: white;
+  border-radius: 20px 20px 0 0;
+}
+.revealModal-header h4 {
+  color: white;
+}
+.revealModal-footer {
+  width: 80%;
+  padding: 15px 20px;
+  margin: auto;
+  background-color: #EEE;
+  color: black;
+  height: 15px;
+  border-radius: 0 0 20px 20px;
+}
+.revealClose {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.revealClose:hover,
+.revealClose:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+ul.modal_decorator {
+  list-style-type: none;
+  float: right;
+}
+ul.modal_decorator li {
+  float: left;
+  margin: 0px 10px;
+}
+ul.modal_decorator li p {
+  display: inline-block;
+  color: white;
+  background-color: #008800;
+  text-align: center;
+  padding: 2px 5px;
+  text-decoration: none;
+  transition: 0.1s;
+  border: none;
+}
+ul.modal_decorator li a {
+  display: inline-block;
+  color: white;
+  background-color: #008800;
+  text-align: center;
+  padding: 2px 5px;
+  text-decoration: none;
+  transition: 0.1s;
+  border: none;
+}
+ul.modal_decorator li a:hover {
+  cursor: pointer;
+}
+ul.modal_decorator li.info p,
+ul.modal_decorator li.play a,
+ul.modal_decorator li.record a {
+  background-color: ;
 }

@@ -410,14 +410,15 @@ ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 #recording_entry {
 	border-top: dotted 1px #C5CDD8;
 	background: @DarkElementBackgroundColor;
-	height: 128px;
+	height: 162px;
 	position: relative;
 }
 
 #recording_img {
 	float: left;
-	height: 128px;
-	width: 172px;
+	height: 162px;
+	width: 216px;
+	margin: 0 10px 0 0;
 }
 
 #recordings_select {
@@ -436,13 +437,14 @@ ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 
 .recording_entry p {
 	font-style: italic;
+	font-size: 0.95em;
 	color: @TextColor;
 }
 
 #hdhr_entry {
 	border-top: dotted 1px #C5CDD8;
 	background: @DarkElementBackgroundColor;
-	height: 128px;
+	height: 162px;
 }
 
 #hdhr_img {
@@ -459,8 +461,8 @@ ul.tabmenu li a:focus, a.active {background-color: @TabMenuHighlightColor;}
 #hdhr_img_flt {
 	float: left;
 	background-color: darkslategrey;
-	width: 172px;
-	height: 128px;
+	width: 216px;
+	height: 162px;
 	margin: 0 10px 0 0;
 	display: table;
 }
@@ -482,6 +484,7 @@ ul.decorator {
 	border: none;
 	position: absolute;
 	bottom: 0;
+	right: 0;
 	padding: 0px 0px 0px 200px;
 }
 
@@ -637,4 +640,107 @@ ul.serverctrls li a:focus, a.active {
 	background: red;
 	text-decoration: none;
 	cursor: pointer;
+}
+
+/* Reveal Modal Dialog*/
+.revealModal {
+	display: none;
+	position: fixed;
+	z-index: 1; /* Bring to top */
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0,0.4);
+	color: black;
+	padding-top: 20%; /* Offset from the top */
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+}
+
+.revealModal-content {
+	position: relative;
+	background-color: @RevealFooterBackgroundColor;
+	width: 80%;
+	min-height: 162px;
+	padding: 20px;
+	margin: auto;
+}
+
+.revealModal-header {
+	width: 80%;
+	padding: 20px;
+	margin: auto;
+	background-color: @RevealHeaderBackgroundColor;
+	color: @RevealHeaderColor;
+	border 1px solid #888;
+	border-radius: 20px 20px 0 0;
+}
+
+.revealModal-header h4 {
+	color: @RevealHeaderColor;
+}
+
+.revealModal-footer {
+	width: 80%;
+	padding: 15px 20px;
+	margin: auto;
+	background-color: @RevealFooterBackgroundColor;
+	color: @RevealFooterColor;
+	height: 15px;
+	border 1px solid #888;
+	border-radius: 0 0 20px 20px;
+}
+
+.revealClose {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.revealClose:hover, .revealClose:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+ul.modal_decorator {
+	list-style-type: none;
+	float: right;
+}
+
+ul.modal_decorator li {
+	float: left;
+	margin: 0px 10px;
+}
+
+ul.modal_decorator li p {
+	display: inline-block;
+	color: @DecoratorDefaultTextColor;
+	background-color: @DecoratorDefaultBackgroundColor;
+	text-align: center;
+	padding: 2px 5px;
+	text-decoration: none;
+	transition: 0.1s;
+	border: none;
+}
+
+ul.modal_decorator li a  {
+	display: inline-block;
+	color: @DecoratorDefaultTextColor;
+	background-color: @DecoratorDefaultBackgroundColor;
+	text-align: center;
+	padding: 2px 5px;
+	text-decoration: none;
+	transition: 0.1s;
+	border: none;
+}
+
+ul.modal_decorator li a:hover {
+	cursor:pointer;
+}
+
+ul.modal_decorator li.info p, ul.modal_decorator li.play a, ul.modal_decorator li.record a {
+	background-color: @DecoratorBackgroundColor;
 }
