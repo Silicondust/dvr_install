@@ -11,9 +11,8 @@
 		$tab = new TinyAjaxBehavior();
 
 		//create output
-		//$htmlStr = getLogFileList($configFile->getRecordPath());
 		$configFile = new DVRUI_Engine_Config();
-		$htmlStr.= getLogFileList($configFile->getRecordPath());
+		$htmlStr = getLogFileList($configFile->getRecordPath());
 
 		$logHeader = file_get_contents('style/logfile_header.html');
 		$logHeader = str_replace('<!-- dvrui_logfile_name -->','Select Logfile to browse',$logHeader);

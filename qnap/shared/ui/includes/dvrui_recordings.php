@@ -250,11 +250,19 @@ class DVRUI_Recordings {
 	}
 	
 	public function getOriginalAirDate($pos) {
-		return gmdate('D M/d Y',$this->recordings[$pos][$this->recording_OriginalAirDate]);
+		if ($this->recordings[$pos][$this->recording_OriginalAirDate] == '') {
+			return gmdate('D M/d Y',0);
+		} else {
+			return gmdate('D M/d Y',$this->recordings[$pos][$this->recording_OriginalAirDate]);
+		}
 	}
 
 	public function getShortOriginalAirDate($pos) {
-		return gmdate('m/d/y',$this->recordings[$pos][$this->recording_OriginalAirDate]);
+		if ($this->recordings[$pos][$this->recording_OriginalAirDate] == '') {
+			return gmdate('m/d/y',0);
+		} else {
+			return gmdate('m/d/y',$this->recordings[$pos][$this->recording_OriginalAirDate]);
+		}
 	}
 
 	public function getStartTime($pos) {
