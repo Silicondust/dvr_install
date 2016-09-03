@@ -8,15 +8,9 @@ class DVRUI_Engine_LogList {
 	
 	// Default Constructor - nothing provided - do nothing yet...
 	public function DVRUI_Engine_LogList($path) {
-		if ((empty($path) == False) 
-				&& (file_exists($path))) {
+		if (file_exists($path)) {
 			$this->pathExists = True;
 			foreach(glob($path . "/*.log") as $filename) {
-				array_push($this->logfiles, $filename);
-			}
-		} elseif (file_exists(DVRUI_Vars::DVR_recPath)) {
-			$this->pathExists = True;
-			foreach(glob(DVRUI_Vars::DVR_recPath . "/*.log") as $filename) {
 				array_push($this->logfiles, $filename);
 			}
 		}

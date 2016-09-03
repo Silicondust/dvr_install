@@ -1,41 +1,87 @@
+HDHR_QPKG_NAME="HDHomeRunDVR"
+HDHR_VER=$($CMD_GETCFG $HDHR_QPKG_NAME $SYS_QPKG_CONF_FIELD_VERSION -f $SYS_QPKG_CONFIG_FILE -d "unkown")
 HDHR_CONF=HDHomeRunDVR.conf
 HDHR_QPKG_PATH=$SYS_QPKG_DIR
 HDHR_PATH=$SYS_QPKG_DIR/HDHomeRunDVR
-HDHR_REC_PATH=$SYS_RECORDINGS_PATH/HDHomeRunDVR
+HDHR_REC_PATH=$SYS_MULTIMEDIA_PATH/HDHomeRunDVR
 HDHR_UI_PATH=$HDHR_QPKG_PATH/ui
 HDHR_UI_VARS=$HDHR_UI_PATH/vars.php
 HDHR_DVR_BIN=hdhomerun_record_linux
+HDHR_LOG_PREFIX="$HDHR_QPKG_NAME:"
 
 PKG_MAIN_REMOVE="{
-    if [ -f $SYS_WEB_PATH/HDHomeRunDVR ]; then
-        $CMD_RM $SYS_WEB_PATH/HDHomeRunDVR
-    fi
+	if [ -e $SYS_WEB_PATH/HDHomeRunDVR ]; then
+		$CMD_RM $SYS_WEB_PATH/HDHomeRunDVR
+	fi
 }"
 
 
 pkg_init(){
-    add_qpkg_config $HDHR_CONF 8d3ec1e23d8b659eb2c0d1bf927abf43
+	add_qpkg_config $HDHR_CONF 8d3ec1e23d8b659eb2c0d1bf927abf43
 }
 
 
 pkg_install(){
-    # Discover Recordings directory
-    # For this version - just use the /share/Recordings and create a HDHomeRunDVR folder
-    if [ ! -f $HDHR_REC_PATH ]; then
-        $CMD_MKDIR -p $HDHR_REC_PATH
-    fi
-    
-    # PatchUp the UI Vars File to point to the installation
-    $CMD_SED -i "s!\(DVR_qpkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
-    
-    # Make Config File world writable (will see if I can reduce to just group later)
-    $CMD_CHMOD g+w $HDHR_QPKG_PATH/$HDHR_CONF
+	# Setup the default recordings path directory
+	#   Check if we have Recordings, Multimedia, Public in that order
+	#   if not need to just place in the Base dir
+	log "$HDHR_LOG_PREFIX Checking for the default Recording Path"
+	if [ ! $SYS_RECORDINGS_PATH == "" ] && [ -d $SYS_RECORDINGS_PATH ] ; then
+		$HDHR_REC_PATH=$SYS_RECORDINGS_PATH/HDHomeRunDVR
+	elif [ ! $SYS_MULTIMEDIA_PATH == "" ] && [ -d $SYS_MULTIMEDIA_PATH ] ; then
+		$HDHR_REC_PATH=$SYS_MULTIMEDIA_PATH/HDHomeRunDVR
+	elif [ ! $SYS_PUBLIC_PATH == "" ] && [ -d $SYS_PUBLIC_PATH ] ; then
+		$HDHR_REC_PATH=$SYS_PUBLIC_PATH/HDHomeRunDVR
+	else
+		$HDHR_REC_PATH=$SYS_QPKG_BASE/HDHomeRunDVR
+	fi
+	log "$HDHR_LOG_PREFIXDefault Recording Path detected as $HDHR_REC_PATH"
+	
+	# check for record path is controlled by the QPKG
+	log "$HDHR_LOG_PREFIX Parsing $HDHR_QPKG_PATH/$HDHR_CONF"
+	if [ ! -f $HDHR_QPKG_PATH/$HDHR_CONF ] ; then
+		err "$HDHR_LOG_PREFIX  No config file"
+	fi
+	
+	source $HDHR_QPKG_PATH/$HDHR_CONF
+	log "$HDHR_LOG_PREFIX Checking for userset Record Path - is: $RecordPath"
+	if [ "$RecordPath" == "$HDHR_REC_PATH" ] ; then
+		# Need to check if folder eists  if not create it 
+		log "$HDHR_LOG_PREFIX Checking $HDHR_REC_PATH exists"
+		if [ ! -e $HDHR_REC_PATH ] ; then
+			log "$HDHR_LOG_PREFIX Created Record Path directory $HDHR_REC_PATH"
+			$CMD_MKDIR -p $HDHR_REC_PATH
+		fi
+	else
+		# They are different, so assume we have customized somehow..
+		# lets make sure the path exists
+		log "$HDHR_LOG_PREFIX Checking $RecordPath exists"
+		if [ ! -e $RecordPath ] ; then
+			log "$HDHR_LOG_PREFIX Created Record Path directory $HDHR_REC_PATH"
+			$CMD_MKDIR -p $RecordPath
+		fi		
+	fi
+	
+	# PatchUp the UI Vars File to point to the installation
+	log "$HDHR_LOG_PREFIX Patching UI Vars file with QPKG path and Version"
+	$CMD_SED -i "s!\(DVR_qpkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
+	$CMD_SED -i "s!\(DVRUI_version\s*=\).*!\1\"$HDHR_VER\";!" $HDHR_UI_VARS
 
-    # Softlink the UI to the Web Path
-    if [ ! -f $SYS_WEB_PATH/HDHomeRunDVR ]; then
-        $CMD_LN -s $HDHR_UI_PATH $SYS_WEB_PATH/HDHomeRunDVR
-    else
-        $CMD_RM $SYS_WEB_PATH/HDHomeRunDVR
-        $CMD_LN -s $HDHR_UI_PATH $SYS_WEB_PATH/HDHomeRunDVR
-    fi
+	# Make Config File world writable (will see if I can reduce to just group later)
+	log "$HDHR_LOG_PREFIX Setting Conf file group writable"
+	$CMD_CHMOD g+w $HDHR_QPKG_PATH/$HDHR_CONF
+
+	# Make Sure the Style directory is writable
+
+	# Softlink the UI to the Web Path
+	log "$HDHR_LOG_PREFIX Linking the Web UI"
+	if [ ! -e $SYS_WEB_PATH/HDHomeRunDVR ] ; then
+		log "$HDHR_LOG_PREFIX Creating New Web Link"
+		$CMD_LN -s $HDHR_UI_PATH $SYS_WEB_PATH/HDHomeRunDVR
+	else
+		log "$HDHR_LOG_PREFIX Removing Old Web Link"
+		$CMD_RM $SYS_WEB_PATH/HDHomeRunDVR
+		log "$HDHR_LOG_PREFIX Creating New Web Link"
+		$CMD_LN -s $HDHR_UI_PATH $SYS_WEB_PATH/HDHomeRunDVR
+	fi
 }

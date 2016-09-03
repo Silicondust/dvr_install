@@ -21,7 +21,6 @@ class DVRUI_Recordings {
 	private $recording_RecordSuccess = 'RecordSuccess';
 	private $recording_Synopsis = 'Synopsis';
 	private $recording_Title = 'Title';
-	private $recording_DisplayGroupTitle = 'DisplayGroupTitle';
 	private $recording_PlayURL = 'PlayURL';
 	private $recording_CmdURL = 'CmdURL';
 	private $recording_ID = 'RecID';
@@ -36,14 +35,20 @@ class DVRUI_Recordings {
 		DVRUI_setTZ();
 		$recordings_info = getJsonFromUrl($hdhr->get_storage_url());
 		for ($i = 0; $i < count($recordings_info); $i++) {
-			$this->processRecordingData($recordings_info[$i]);
+			if(array_key_exists($this->recording_EpisodesURL,$recordings_info[$j])){
+				$seriesEpisodes = getJsonFromUrl($recordings_info[$j][$this->recording_EpisodesURL]);
+				for ($k = 0; $k < count($seriesEpisodes); $k++){
+					$this->processRecordingData($seriesEpisodes[$k]);
+				}
+			}else{
+				$this->processRecordingData($recordings_info[$i]);
+			}
 		}
 	}
 	
 	private function processRecordingData($recording) {
 		$playURL = $recording[$this->recording_PlayURL];
 		$cmdURL = $recording[$this->recording_CmdURL];
-		$displayGroupTitle = $recording[$this->recording_DisplayGroupTitle];
 		$category = '';
 		$channelImageURL = '';
 		$channelName = '';
@@ -119,7 +124,6 @@ class DVRUI_Recordings {
 		$this->recordings[] = array(
 			$this->recording_PlayURL => $playURL,
 			$this->recording_CmdURL => $cmdURL,
-			$this->recording_DisplayGroupTitle => $displayGroupTitle,
 			$this->recording_Category => $category,
 			$this->recording_ChannelImageURL => $channelImageURL,
 			$this->recording_ChannelName => $channelName,
@@ -189,9 +193,6 @@ class DVRUI_Recordings {
 		return $this->recordings[$pos][$this->recording_ID];
 	}
 
-	public function getDisplayGroupTitle($pos) {
-		return $this->recordings[$pos][$this->recording_DisplayGroupTitle];
-	}
 
 	public function get_PlayURL($pos) {
 		return $this->recordings[$pos][$this->recording_PlayURL];
