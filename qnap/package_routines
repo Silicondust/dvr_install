@@ -1,5 +1,4 @@
 HDHR_QPKG_NAME="HDHomeRunDVR"
-HDHR_VER=$($CMD_GETCFG $HDHR_QPKG_NAME $SYS_QPKG_CONF_FIELD_VERSION -f $SYS_QPKG_CONFIG_FILE -d "unkown")
 HDHR_CONF=HDHomeRunDVR.conf
 HDHR_QPKG_PATH=$SYS_QPKG_DIR
 HDHR_PATH=$SYS_QPKG_DIR/HDHomeRunDVR
@@ -65,7 +64,6 @@ pkg_install(){
 	# PatchUp the UI Vars File to point to the installation
 	log "$HDHR_LOG_PREFIX Patching UI Vars file with QPKG path and Version"
 	$CMD_SED -i "s!\(DVR_qpkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
-	$CMD_SED -i "s!\(DVRUI_version\s*=\).*!\1\"$HDHR_VER\";!" $HDHR_UI_VARS
 
 	# Make Config File world writable (will see if I can reduce to just group later)
 	log "$HDHR_LOG_PREFIX Setting Conf file group writable"
@@ -84,4 +82,11 @@ pkg_install(){
 		log "$HDHR_LOG_PREFIX Creating New Web Link"
 		$CMD_LN -s $HDHR_UI_PATH $SYS_WEB_PATH/HDHomeRunDVR
 	fi
+}
+
+pkg_post_install() {
+	log "Updating the UI Version to that just installed"
+	HDHR_VER=$($CMD_GETCFG $HDHR_QPKG_NAME $SYS_QPKG_CONF_FIELD_VERSION -f $SYS_QPKG_CONFIG_FILE -d "unkown")
+        $CMD_SED -i "s!\(DVRUI_version\s*=\).*!\1\"$HDHR_VER\";!" $HDHR_UI_VARS
+
 }

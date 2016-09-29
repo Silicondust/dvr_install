@@ -155,12 +155,12 @@ class DVRUI_HDHRjson {
 				return 'https://www.silicondust.com/wordpress/wp-content/uploads/2016/04/expand-logo-2.png';
 			case 'HDHR3-US':
 			case 'HDHR3-DT':
-				return './images/notsupported.png';
+				return './images/HDHOMERUN_LEGACY.png';
 			case 'HDHR4-2US':
 			case 'HDHR4-2DT':
 				return 'https://www.silicondust.com/wordpress/wp-content/uploads/2016/04/connect-logo.png';
 			default:
-				return $device[$this->hdhrkey_modelNum];
+				return './images/HDHOMERUN_LEGACY.png';
 		}
 	}
 }
