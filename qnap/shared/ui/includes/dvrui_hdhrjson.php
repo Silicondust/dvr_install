@@ -1,5 +1,6 @@
 <?php
-
+	require_once("includes/dvrui_common.php");
+	
 class DVRUI_HDHRjson {
 	private $myhdhrurl = 'http://ipv4.my.hdhomerun.com/discover';
 	private $hdhrkey_devID = 'DeviceID';
@@ -13,6 +14,7 @@ class DVRUI_HDHRjson {
 	private $hdhrkey_fwVer = 'FirmwareVersion';
 	private $hdhrkey_fwName = 'FirmwareName';
 	private $hdhrkey_tuners = 'TunerCount';
+	private $hdhrkey_legacy = 'Legacy';
 
 	private $hdhrkey_storageID = 'StorageID';
 	private $hdhrkey_storageURL = 'StorageURL';
@@ -22,8 +24,8 @@ class DVRUI_HDHRjson {
 	public function DVRUI_HDHRjson() {
 		$storageURL = "??";
 		$myip = getHostByName(getHostName());
-		$json = file_get_contents($this->myhdhrurl);
-		$hdhr_data = json_decode($json, true);
+
+		$hdhr_data = getJsonFromUrl($this->myhdhrurl);
 		for ($i=0;$i<count($hdhr_data);$i++) {
 			$hdhr = $hdhr_data[$i];
 			$hdhr_base = $hdhr[$this->hdhrkey_baseURL];
@@ -35,51 +37,62 @@ class DVRUI_HDHRjson {
 				continue;
 			}
 
+			$hdhr_info = getJsonFromUrl($hdhr[$this->hdhrkey_discoverURL]);
+
 			if (array_key_exists($this->hdhrkey_storageURL,$hdhr)) {
 				// this is a record engine!
-				
+
+				// Need to confirm it's a valid one - After restart of
+				// engine it updates my.hdhomerun.com but sometimes the
+				// old engine config is left behind.
+				$rEngine = getJsonFromUrl($hdhr[$this->hdhrkey_discoverURL]);
+				if (strcmp($rEngine[$this->hdhrkey_storageID],$hdhr[$this->hdhrkey_storageID]) != 0) {
+					//skip, this is not a valid engine
+					continue;
+				}
+
 				//get the IP address of record engine.
 				$hdhr_ip = $hdhr[$this->hdhrkey_localIP];
 				// Split IP and port
 				if (preg_match('/^(\d[\d.]+):(\d+)\b/', $hdhr_ip, $matches)) {
-				    $ip = $matches[1];
-				    $port = $matches[2];
-				    // if IP of record engine matches the IP of this server
-				    // return storageURL
-				    if($ip == $myip){	
-					$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
-					continue;
-				    }
+					$ip = $matches[1];
+					$port = $matches[2];
+					// if IP of record engine matches the IP of this server
+					// return storageURL
+					if($ip == $myip){	
+						$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
+						continue;
+					}
 				}
+
+				
 			}
-			$hdhr_info_json = file_get_contents($hdhr[$this->hdhrkey_discoverURL]);
-			$hdhr_info = json_decode($hdhr_info_json, true);
-			$hdhr_lineup_json = file_get_contents($hdhr[$this->hdhrkey_lineupURL]);
-			$hdhr_lineup = json_decode($hdhr_lineup_json, true);
-		
+			// ELSE we have a tuner
+
+			$tuners='unknown';
 			if (array_key_exists($this->hdhrkey_tuners,$hdhr_info)) {
-				$this->hdhrlist[] = array( $this->hdhrkey_devID => $hdhr[$this->hdhrkey_devID],
-											$this->hdhrkey_modelNum => $hdhr_info[$this->hdhrkey_modelNum],
-											$this->hdhrlist_key_channelcount => count($hdhr_lineup),
-											$this->hdhrkey_baseURL => $hdhr_base,
-											$this->hdhrkey_lineupURL => $hdhr[$this->hdhrkey_lineupURL],
-											$this->hdhrkey_modelName =>$hdhr_info[$this->hdhrkey_modelName],
-											$this->hdhrkey_auth =>$hdhr_info[$this->hdhrkey_auth],
-											$this->hdhrkey_fwVer => $hdhr_info[$this->hdhrkey_fwVer],
-											$this->hdhrkey_tuners => $hdhr_info[$this->hdhrkey_tuners],
-											$this->hdhrkey_fwName => $hdhr_info[$this->hdhrkey_fwName]);
-			} else {
-				$this->hdhrlist[] = array( $this->hdhrkey_devID => $hdhr[$this->hdhrkey_devID],
-											$this->hdhrkey_modelNum => $hdhr_info[$this->hdhrkey_modelNum],
-											$this->hdhrlist_key_channelcount => count($hdhr_lineup),
-											$this->hdhrkey_baseURL => $hdhr_base,
-											$this->hdhrkey_lineupURL => $hdhr[$this->hdhrkey_lineupURL],
-											$this->hdhrkey_modelName =>$hdhr_info[$this->hdhrkey_modelName],
-											$this->hdhrkey_auth =>$hdhr_info[$this->hdhrkey_auth],
-											$this->hdhrkey_fwVer => $hdhr_info[$this->hdhrkey_fwVer],
-											$this->hdhrkey_fwName => $hdhr_info[$this->hdhrkey_fwName]);
+				$tuners = $hdhr_info[$this->hdhrkey_tuners];
 			}
-		}
+
+			$legacy='No';
+			if (array_key_exists($this->hdhrkey_legacy,$hdhr_info)) {
+				$legacy = $hdhr_info[$this->hdhrkey_legacy];
+			}
+
+			$hdhr_lineup = getJsonFromUrl($hdhr_info[$this->hdhrkey_lineupURL]);	
+
+			$this->hdhrlist[] = array( $this->hdhrkey_devID => $hdhr[$this->hdhrkey_devID],
+										$this->hdhrkey_modelNum => $hdhr_info[$this->hdhrkey_modelNum],
+										$this->hdhrlist_key_channelcount => count($hdhr_lineup),
+										$this->hdhrkey_baseURL => $hdhr_base,
+										$this->hdhrkey_lineupURL => $hdhr_info[$this->hdhrkey_lineupURL],
+										$this->hdhrkey_modelName => $hdhr_info[$this->hdhrkey_modelName],
+										$this->hdhrkey_auth =>$hdhr_info[$this->hdhrkey_auth],
+										$this->hdhrkey_fwVer => $hdhr_info[$this->hdhrkey_fwVer],
+										$this->hdhrkey_tuners => $tuners,
+										$this->hdhrkey_legacy => $legacy,
+										$this->hdhrkey_fwName => $hdhr_info[$this->hdhrkey_fwName]);
+		}		
 	}
 	
 	public function device_count() {
@@ -127,10 +140,17 @@ class DVRUI_HDHRjson {
 
 	public function get_device_tuners($pos) {
 		$device = $this->hdhrlist[$pos];
-		if (array_key_exists($this->hdhrkey_tuners,$device)) {
-			return $device[$this->hdhrkey_tuners];
-		} else {
-			return '??';
+		return $device[$this->hdhrkey_tuners];
+	}
+
+
+	public function get_device_legacy($pos) {
+		$device = $this->hdhrlist[$pos];
+		if( $device[$this->hdhrkey_legacy] == 1) {
+			return 'Legacy';
+		}
+		else {
+			return 'HTTP';
 		}
 	}
 
