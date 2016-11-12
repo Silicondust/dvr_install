@@ -2,7 +2,7 @@
 	require_once("includes/dvrui_common.php");
 	
 class DVRUI_HDHRjson {
-	private $myhdhrurl = 'http://ipv4.my.hdhomerun.com/discover';
+	private $myhdhrurl = 'http://my.hdhomerun.com/discover';
 	private $hdhrkey_devID = 'DeviceID';
 	private $hdhrkey_localIP = 'LocalIP';
 	private $hdhrkey_baseURL = 'BaseURL';
