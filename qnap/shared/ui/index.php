@@ -57,8 +57,11 @@
 	
 	//Build navigation menu for pages
 //	error_log( "Build Navigation Pages" );
-	$pageTitles = array('Server', 'HDHRs', 'Logs', 'Recordings', 'Recordings2');
-	$pageNames = array('server_page', 'hdhr_page', 'log_page', 'recordings_page', 'newrec_page');
+// TODO: finish new Recordings page
+//	$pageTitles = array('Server', 'HDHRs', 'Logs', 'Recordings', 'Recordings2');
+//	$pageNames = array('server_page', 'hdhr_page', 'log_page', 'recordings_page', 'newrec_page');
+	$pageTitles = array('Server', 'HDHRs', 'Logs', 'Recordings');
+	$pageNames = array('server_page', 'hdhr_page', 'log_page', 'recordings_page');
 	$menu_data = file_get_contents('style/pagemenu.html');
 	$menuEntries = '';
 	for ($i=0; $i < count($pageNames); $i++) {
