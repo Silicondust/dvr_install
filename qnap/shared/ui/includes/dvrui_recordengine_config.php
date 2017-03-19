@@ -13,11 +13,21 @@ class DVRUI_Engine_Config {
 		if (file_exists(DVRUI_Vars::DVR_qpkgPath . "/" . DVRUI_Vars::DVR_config)) {
 			$this->configFileName = DVRUI_Vars::DVR_qpkgPath . "/" .  DVRUI_Vars::DVR_config;
 			$this->configFileExists = True;
-			$this->configArray = parse_ini_file(DVRUI_Vars::DVR_qpkgPath . "/" . DVRUI_Vars::DVR_config);
+			$this->configArray = $this->parseHDHRConfigFile($this->configFileName);
 		} else {
 			$this->configFileName = DVRUI_Vars::DVR_qpkgPath . "/" . DVRUI_Vars::DVR_config . " Does Not Exist";
 			$this->configFileExists = False;
 		}
+	}
+
+	private function parseHDHRConfigFile($file) {
+		$config = array();
+		foreach(file($file) as $line) {
+    	if(preg_match('/^([^;]*?)=(.*)/', $line, $m)) {
+        $config[$m[1]] = $m[2];
+      }
+		}
+		return $config;
 	}
 	
 	public function getConfigFileName() {
