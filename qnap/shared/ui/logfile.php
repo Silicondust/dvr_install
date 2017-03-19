@@ -42,10 +42,10 @@
 
 		// construct Header
 		$logHeader = file_get_contents('style/logfile_header.html');
-		$logHeader = str_replace('<!-- dvrui_logfile_name -->',$configFile->getRecordPath() . '/' . $filename,$logHeader);
+		$logHeader = str_replace('<!-- dvrui_logfile_name -->',$filename,$logHeader);
 		
 		//create output
-		$logfile = new DVRUI_Engine_LogFile($configFile->getRecordPath() . '/' . $filename);
+		$logfile = new DVRUI_Engine_LogFile($filename);
 		$logEntry = file_get_contents('style/logfile_entry.html');
 		$htmlStr = '';
 
@@ -125,21 +125,34 @@
 	
 	function getLogFileList($logPath) {
 		$listStr = '';
-		$logList = new DVRUI_Engine_LogList($logPath);
-		$logListEntry = file_get_contents('style/loglist_entry.html');
-		if ($logList->pathExists()) {
-			$listStr = '<ul>';
-			for ($i = $logList->getListLength() - 1 ; $i >= 0 ; $i--) {
-				$logfile = basename($logList->getNextLogFile($i),'.log');
-				$logfullname = basename($logList->getNextLogFile($i));
-				$logEntry = str_replace('<!--logfile-name -->',$logfile,$logListEntry);
-				$logEntry = str_replace('<!--logfile-fname -->',$logfullname,$logEntry);
-				$listStr .= $logEntry;
-			}
-			$listStr .= '</ul>';
+		$logPathlist = array();
+		if (strpos($logPath, ';') !== false) {
+			// have multiple entries
+			$logPathlist = explode(';',$logPath);
 		} else {
-			$listStr = "ERROR: recording path is invalid";
+			$logPathlist[0] = $logPath;
 		}
+		
+		$logListEntry = file_get_contents('style/loglist_entry.html');
+		$listStr = '<ul>';
+		foreach ($logPathlist as $path) {
+			if ($path != 'null') {
+				echo 'Processing ' . $path;
+				$logList = new DVRUI_Engine_LogList($path);
+				if ($logList->pathExists()) {
+					for ($i = $logList->getListLength() - 1 ; $i >= 0 ; $i--) {
+						$logfile = basename($logList->getNextLogFile($i),'.log');
+						$logfullname = $logList->getNextLogFile($i);
+						$logEntry = str_replace('<!--logfile-name -->',$logfile,$logListEntry);
+						$logEntry = str_replace('<!--logfile-fname -->',$logfullname,$logEntry);
+						$listStr .= $logEntry;
+					}
+				} else {
+					$listStr = "ERROR: recording path is invalid";
+				}
+			} 
+		}
+		$listStr .= '</ul>';
 		return $listStr;
 	}
 ?>
