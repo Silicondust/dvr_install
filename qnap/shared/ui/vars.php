@@ -10,6 +10,7 @@ final class DVRUI_Vars
 	const DVR_bin		="hdhomerun_record_linux";
 	const DVR_sh		="HDHomeRunDVR.sh";
 	const DVR_config	="HDHomeRunDVR.conf";
+	const DVRUI_apiurl	="http://api.hdhomerun.com/";
 	const DVRUI_TZ		='';
 }
 ?>

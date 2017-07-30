@@ -2,7 +2,7 @@
 	require_once("includes/dvrui_common.php");
 	
 class DVRUI_HDHRjson {
-	private $myhdhrurl = 'http://ipv4-my.hdhomerun.com/discover';
+	private $myhdhrurl = DVRUI_Vars::DVRUI_apiurl . 'discover';
 	private $hdhrkey_devID = 'DeviceID';
 	private $hdhrkey_localIP = 'LocalIP';
 	private $hdhrkey_baseURL = 'BaseURL';
@@ -43,7 +43,7 @@ class DVRUI_HDHRjson {
 				// this is a record engine!
 
 				// Need to confirm it's a valid one - After restart of
-				// engine it updates my.hdhomerun.com but sometimes the
+				// engine it updates api.hdhomerun.com but sometimes the
 				// old engine config is left behind.
 				$rEngine = getJsonFromUrl($hdhr[$this->hdhrkey_discoverURL]);
 				if (strcmp($rEngine[$this->hdhrkey_storageID],$hdhr[$this->hdhrkey_storageID]) != 0) {

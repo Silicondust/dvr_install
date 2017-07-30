@@ -2,7 +2,7 @@ HDHR_QPKG_NAME="HDHomeRunDVR"
 HDHR_CONF=HDHomeRunDVR.conf
 HDHR_QPKG_PATH=$SYS_QPKG_DIR
 HDHR_PATH=$SYS_QPKG_DIR/HDHomeRunDVR
-HDHR_REC_PATH=$SYS_MULTIMEDIA_PATH/HDHomeRunDVR
+HDHR_REC_PATH=$SYS_QPKG_BASE/HDHomeRunDVR
 HDHR_UI_PATH=$HDHR_QPKG_PATH/ui
 HDHR_UI_VARS=$HDHR_UI_PATH/vars.php
 HDHR_DVR_BIN=hdhomerun_record_linux
@@ -26,13 +26,13 @@ pkg_install(){
 	#   if not need to just place in the Base dir
 	log "$HDHR_LOG_PREFIX Checking for the default Recording Path"
 	if [ ! $SYS_RECORDINGS_PATH == "" ] && [ -d $SYS_RECORDINGS_PATH ] ; then
-		$HDHR_REC_PATH=$SYS_RECORDINGS_PATH/HDHomeRunDVR
+		HDHR_REC_PATH=$SYS_RECORDINGS_PATH/HDHomeRunDVR
 	elif [ ! $SYS_MULTIMEDIA_PATH == "" ] && [ -d $SYS_MULTIMEDIA_PATH ] ; then
-		$HDHR_REC_PATH=$SYS_MULTIMEDIA_PATH/HDHomeRunDVR
+		HDHR_REC_PATH=$SYS_MULTIMEDIA_PATH/HDHomeRunDVR
 	elif [ ! $SYS_PUBLIC_PATH == "" ] && [ -d $SYS_PUBLIC_PATH ] ; then
-		$HDHR_REC_PATH=$SYS_PUBLIC_PATH/HDHomeRunDVR
+		HDHR_REC_PATH=$SYS_PUBLIC_PATH/HDHomeRunDVR
 	else
-		$HDHR_REC_PATH=$SYS_QPKG_BASE/HDHomeRunDVR
+		HDHR_REC_PATH=$SYS_QPKG_BASE/HDHomeRunDVR
 	fi
 	log "$HDHR_LOG_PREFIXDefault Recording Path detected as $HDHR_REC_PATH"
 	
@@ -41,8 +41,9 @@ pkg_install(){
 	if [ ! -f $HDHR_QPKG_PATH/$HDHR_CONF ] ; then
 		err "$HDHR_LOG_PREFIX  No config file"
 	fi
-	
-	source $HDHR_QPKG_PATH/$HDHR_CONF
+
+	log "$HDHR_LOG_PREFIX checkpoint"	
+	. $HDHR_QPKG_PATH/$HDHR_CONF
 	log "$HDHR_LOG_PREFIX Checking for userset Record Path - is: $RecordPath"
 	if [ "$RecordPath" == "$HDHR_REC_PATH" ] ; then
 		# Need to check if folder eists  if not create it 
