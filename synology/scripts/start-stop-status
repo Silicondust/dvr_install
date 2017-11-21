@@ -1,0 +1,29 @@
+#!/bin/sh
+# Copyright (C) 2000-2016 Synology Inc. All rights reserved.
+
+case $1 in
+	start)
+		### Start this package.
+		minimalPkg "Start"
+		exit 0
+	;;
+	stop)
+		### Stop this package.
+		minimalPkg "Stop"
+		exit 0
+	;;
+	status)
+		### Check package alive.
+		if [ -h "/usr/bin/minimalPkg" ]; then
+			exit 0
+		else
+			exit 1
+		fi
+	;;
+	killall)
+        ;;
+	log)
+		exit 0
+	;;
+esac
+
