@@ -1,0 +1,5 @@
+#Ignoring the toolkit directories
+build_env/
+pkgscripts/
+toolkit_tarballs/
+*.log

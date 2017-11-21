@@ -1,5 +1,2 @@
 #ignore the synology dev SDK
-toolkit/
-!toolkit/source/
-!toolkit/toolkit_goes_here
 
