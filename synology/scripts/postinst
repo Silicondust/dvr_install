@@ -5,6 +5,4 @@
 ### Actions after package installed.
 ### ex. create database, create symbolic link...
 
-ln -sf $SYNOPKG_PKGDEST/usr/bin/minimalPkg /usr/bin/
-
 exit 0

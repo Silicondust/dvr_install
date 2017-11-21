@@ -5,6 +5,4 @@
 ### Actions after package uninstalled.
 ### ex. remove garbage files.
 
-rm -f /usr/bin/minimalPkg
-
 exit 0

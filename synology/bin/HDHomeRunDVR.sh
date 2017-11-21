@@ -1,24 +1,17 @@
 #!/bin/sh
-CONF=/etc/config/qpkg.conf
-QPKG_NAME="HDHomeRunDVR"
-QPKG_ROOT=`/sbin/getcfg $QPKG_NAME Install_Path -f ${CONF}`
-HDHOMERUN_BIN=hdhomerun_record_linux
-HDHOMERUN_CONF=HDHomeRunDVR.conf
+SPK_PATH=/var/package/HDHomeRunDVR
+HDHOMERUN_BIN=$SPK_PATH/target/bin/hdhomerun_record_linux
+HDHOMERUN_CONF=$SPK_PATH/etc/HDHomeRunDVR.conf
 
 case "$1" in
   start)
-    ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $CONF)
-    if [ "$ENABLED" != "TRUE" ]; then
-        echo "$QPKG_NAME is disabled."
-        exit 1
-    fi
     : ADD START ACTIONS HERE
-    $QPKG_ROOT/$HDHOMERUN_BIN start --conf $QPKG_ROOT/$HDHOMERUN_CONF
+    $HDHOMERUN_BIN start --conf $HDHOMERUN_CONF
     ;;
 
   stop)
     : ADD STOP ACTIONS HERE
-    $QPKG_ROOT/$HDHOMERUN_BIN stop
+    $HDHOMERUN_BIN stop
     ;;
 
   restart)
@@ -27,8 +20,8 @@ case "$1" in
     ;;
 
   status)
-    $QPKG_ROOT/$HDHOMERUN_BIN version
-    $QPKG_ROOT/$HDHOMERUN_BIN status
+    $HDHOMERUN_BIN version
+    $HDHOMERUN_BIN status
     ;;
 
   *)
