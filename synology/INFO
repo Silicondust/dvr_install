@@ -1,0 +1,8 @@
+package="HDHomeRunDVR"
+version="0.0.0001"
+maintainer="rik.dunphy@gmail.com"
+arch="noarch"
+startable="yes"
+thirdparty="yes"
+description="HDHomeRun DVR Manager for the Silicondust HDHomeRun DVR"
+displayname="HDHomeRun DVR Manager"
