@@ -1,7 +1,7 @@
 <?php
-//	ini_set("log_errors", 1);
-//	ini_set("error_log", "/tmp/php-hdhr-error.log");
-//	error_log( "======= Debug Log START =========" );
+	ini_set("log_errors", 1);
+	ini_set("error_log", "/tmp/php-hdhr-error.log");
+	error_log( "======= Debug Log START =========" );
 
 	error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 	define('TINYAJAX_PATH', '.');
@@ -42,7 +42,7 @@
 	$ajax->process(); // Process our callback
 
 	// Apply default Theme */
-//	error_log( "Generate CSS if needed" );
+	error_log( "Generate CSS if needed" );
 	applyDefaultTheme();
 	
 	// Prep data for the page
@@ -50,8 +50,8 @@
 	$statusmsg = getLatestHDHRStatus();
 
 	// Get HDHR Version
-//	error_log( "Get HDHR DVR version" );
-	$hdhr = DVRUI_Vars::DVR_qpkgPath . '/' . DVRUI_Vars::DVR_bin;
+	error_log( "Get HDHR DVR version" );
+	$hdhr = DVRUI_Vars::DVR_pkgPath . '/' . DVRUI_Vars::DVR_bin;
 	$DVRBin = new DVRUI_HDHRbintools($hdhr);
 	$DVRBinVersion = $DVRBin->get_DVR_version();
 	

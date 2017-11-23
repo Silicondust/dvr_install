@@ -6,10 +6,10 @@ final class DVRUI_Vars
 	const DVRUI_author	="Rik Dunphy";
 	const DVRUI_email	="d3monrik@gmail.com";
 	const DVRUI_git		="https://github.com/Silicondust/dvr_install";
-	const DVR_pkgPath	="/volume1/HDHomeRunDVR";
-	const DVR_bin		="hdhomerun_record_linux";
+	const DVR_pkgPath	="/var/packages/HDHomeRunDVR/target";
+	const DVR_bin		="/bin/hdhomerun_record_linux";
 	const DVR_sh		="HDHomeRunDVR.sh";
-	const DVR_config	="HDHomeRunDVR.conf";
+	const DVR_config	="/etc/HDHomeRunDVR.conf";
 	const DVRUI_apiurl	="http://api.hdhomerun.com/";
 	const DVRUI_TZ		='';
 }

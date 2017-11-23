@@ -16,7 +16,7 @@ sh $PWD/fetch_record_engine.sh
 mkdir $TMP_PKG_PATH
 mkdir $TMP_SPK_PATH
 cp -R bin $TMP_PKG_PATH
-cp -R conf $TMP_PKG_PATH
+cp -R etc $TMP_PKG_PATH
 cp -R web $TMP_PKG_PATH
 
 #Build the package
@@ -26,6 +26,7 @@ cd $SPK_ROOT
 
 #Move files ready for the SPK
 cp -R scripts $TMP_SPK_PATH
+cp -R conf $TMP_SPK_PATH
 cp icons/* $TMP_SPK_PATH
 cp INFO $TMP_SPK_PATH
 
