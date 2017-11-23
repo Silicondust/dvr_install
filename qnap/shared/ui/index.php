@@ -51,7 +51,7 @@
 
 	// Get HDHR Version
 //	error_log( "Get HDHR DVR version" );
-	$hdhr = DVRUI_Vars::DVR_qpkgPath . '/' . DVRUI_Vars::DVR_bin;
+	$hdhr = DVRUI_Vars::DVR_pkgPath . '/' . DVRUI_Vars::DVR_bin;
 	$DVRBin = new DVRUI_HDHRbintools($hdhr);
 	$DVRBinVersion = $DVRBin->get_DVR_version();
 	
