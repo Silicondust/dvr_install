@@ -1,7 +1,8 @@
 #!/bin/sh
 
-### This script will execute ONLY when package upgraded.
-### Actions before package upgraded.
-### ex. backup user settings for package upgrade.
+package_path=$(dirname "$0")
+. $package_path/common
+
+backup_conf_file
 
 exit 0

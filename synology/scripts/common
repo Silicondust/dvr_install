@@ -3,39 +3,64 @@
 ### This script will be executed when package installed and upgraded.
 ### Actions after package installed.
 ### ex. create database, create symbolic link...
-pkg_path="/var/packages"
-hdhr_pkg_path="/var/packages/HDHomeRunDVR"
-hdhr_web_path="$hdhr_pkg_path/target/web"
-hdhr_bin_path="$hdhr_pkg_path/target/bin"
-hdhr_etc_path="$hdhr_pkg_path/target/etc"
-syn_web_path="/var/services/web/HDHomeRunDVR"
+
+
+#Useful Environment Variables
+# SYNOPKG_PKGNAME     - Package Name from INFO
+# SYNOPKG_PKGVER      - Package Version from INFO
+# SYNOPKG_PKGDEST     - Target directory for storage of the package
+# SYNOPKG_PKGDEST_VOL - Target Volume where package is stored
+# SYNOPKG_PKGPORT     - Admin Port as defined in INFO
+
+# SYNOPKG_TEMP_UPGRADE_FOLDER - Temp folder for moving data to/from between preupgrade and postupgrade
+# SYNOPKG_TEMP_LOGFILE        - Temporary logfile for scripts to log to
+
+hdhr_web_path="$SYNOPKG_PKGDEST/web"
+hdhr_bin_path="$SYNOPKG_PKGDEST/bin"
+hdhr_etc_path="$SYNOPKG_PKGDEST/etc"
+syno_web_path="/var/services/web/HDHomeRunDVR"
 hdhr_bin="hdhomerun_record_linux"
 hdhr_conf="HDHomeRunDVR.conf"
-
+http_user="http:http"
 
 create_web_ui() {
-	cp -R $hdhr_web_path $syn_web_path
-	chown -R http:http $syn_web_path
+	cp -R $hdhr_web_path $syno_web_path
+	chown -R http:http $syno_web_path
 }
 
 delete_web_ui() {
-	rm -rf $syn_web_path
+	rm -rf $syno_web_path
+}
+
+update_vars_file() {
+	sed -i "s!\(DVRUI_version\s*=\).*!\1\"$SYNOPKG_PKGVER\";!" $syno_web_path/vars.php
+	sed -i "s!\(DVR_pkgPath\s*=\).*!\1\"$SYNOPKG_PKGDEST\";!" $syno_web_path/vars.php
+}
+
+backup_conf_file() {
+	cp $hdhr_etc_path/$hdhr_conf $SYNOPKG_TEMP_UPGRADE_FOLDER
+}
+
+restore_conf_file() {
+	cp $SYNOPKG_TEMP_UPGRADE_FOLDER/$hdhr_conf $hdhr_etc_path
 }
 
 create_recordings_path() {
-	echo "Does Nothing"
+	
+	RECORDING_PATH="$SYNOPKG_PKGDEST_VOL/$SYNOPKG_PKGNAME"
+	if [ ! -d $RECORDING_PATH ] ; then
+		mkdir $RECORDING_PATH
+	fi
+	sed -i "s!\(RecordPath\s*=\).*!\1$RECORDING_PATH!" $hdhr_etc_path/$hdhr_conf
+}
+
+adjust_permissions() {
+	chown $http_user $hdhr_etc_path/$hdhr_conf
+	chown $http_user $hdhr_bin_path/$hdhr_bin
 }
 
 remove_recordings_path() {
-	echo "Does Nothing"
-}
-
-save_tmp_conf() {
-	echo "Does Nothing"
-}
-
-restore_tmp_conf() {
-	echo "Does Nothing"
+	echo "Does Nothing - leave removing the dir to the user"
 }
 
 start_engine() {

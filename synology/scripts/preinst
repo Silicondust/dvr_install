@@ -1,7 +1,7 @@
 #!/bin/sh
 
-### This script will be execute when package installed and upgraded.
-### Actions before package installed.
-### ex. check environment.
+package_path=$(dirname "$0")
+. $package_path/common
+
 
 exit 0

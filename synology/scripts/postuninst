@@ -2,7 +2,7 @@
 
 package_path=$(dirname "$0")
 . $package_path/common
-
+ 
 delete_web_ui
 
 exit 0

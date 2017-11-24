@@ -1,7 +1,8 @@
 #!/bin/sh
 
-### This script will be executed ONLY at package upgraded.
-### Actions after package upgraded.
-### ex. restore user settings.
+package_path=$(dirname "$0")
+. $package_path/common
+
+restore_conf_file
 
 exit 0

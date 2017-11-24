@@ -4,5 +4,8 @@ package_path=$(dirname "$0")
 . $package_path/common
 
 create_web_ui
+update_vars_file
+create_recordings_path
+adjust_permissions
 
 exit 0
