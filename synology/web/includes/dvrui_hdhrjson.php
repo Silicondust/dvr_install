@@ -23,7 +23,7 @@ class DVRUI_HDHRjson {
 
 	public function DVRUI_HDHRjson() {
 		$storageURL = "??";
-		$myip = getHostByName(getHostName());
+		$myip = $_SERVER['SERVER_ADDR'];
 
 		$hdhr_data = getJsonFromUrl($this->myhdhrurl);
 		for ($i=0;$i<count($hdhr_data);$i++) {

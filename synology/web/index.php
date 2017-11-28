@@ -1,11 +1,11 @@
 <?php
-	ini_set("log_errors", 1);
-	ini_set("error_log", "/tmp/php-hdhr-error.log");
-	error_log( "======= Debug Log START =========" );
+//	ini_set("log_errors", 1);
+//	ini_set("error_log", "/tmp/php-hdhr-error.log");
+//	error_log( "======= Debug Log START =========" );
 
 	error_reporting(E_ALL & ~(E_DEPRECATED | E_STRICT));
 	define('TINYAJAX_PATH', '.');
-	opcache_reset();
+//	opcache_reset();
 	require_once("TinyAjax.php");
 	require_once("TinyAjaxBehavior.php");
 	require_once("vars.php");
