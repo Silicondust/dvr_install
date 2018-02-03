@@ -126,7 +126,7 @@
 		$tab = new TinyAjaxBehavior();
 	
 		//create output
-		$hdhr = new DVRUI_HDHRcontrols(DVRUI_Vars::DVR_qpkgPath . '/' . DVRUI_Vars::DVR_sh);
+		$hdhr = new DVRUI_HDHRcontrols(DVRUI_Vars::DVR_pkgPath . '/' . DVRUI_Vars::DVR_sh);
 		switch ($option) {
 			case 'start':
 				$htmlStr = 'Starting up the DVR record engine';

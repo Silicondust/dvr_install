@@ -3,6 +3,8 @@ CONF=/etc/config/qpkg.conf
 QPKG_NAME="HDHomeRunDVR"
 QPKG_ROOT=`/sbin/getcfg $QPKG_NAME Install_Path -f ${CONF}`
 HDHOMERUN_BIN=hdhomerun_record_linux
+HDHOMERUN_WRAP=hdhr_wrapper
+HDHOMERUN_USER=httpdusr
 HDHOMERUN_CONF=HDHomeRunDVR.conf
 
 case "$1" in
@@ -13,7 +15,11 @@ case "$1" in
         exit 1
     fi
     : ADD START ACTIONS HERE
-    $QPKG_ROOT/$HDHOMERUN_BIN start --conf $QPKG_ROOT/$HDHOMERUN_CONF
+    if [[ $EUID -ne 0 ]]; then
+			$QPKG_ROOT/$HDHOMERUN_BIN start --conf $QPKG_ROOT/$HDHOMERUN_CONF
+		else
+			$QPKG_ROOT/$HDHOMERUN_WRAP -u $HDHOMERUN_USER -b $QPKG_ROOT/$HDHOMERUN_BIN -- start --conf $QPKG_ROOT/$HDHOMERUN_CONF
+		fi
     ;;
 
   stop)
