@@ -22,6 +22,10 @@ syno_web_path="/var/services/web/HDHomeRunDVR"
 hdhr_bin="hdhomerun_record_linux"
 hdhr_conf="HDHomeRunDVR.conf"
 http_user="http:http"
+hdhr_user="http"
+hdhr_wrap_arm="hdhr_wrapper_arm"
+hdhr_wrap_x86="hdhr_wrapper_x86_64"
+arch=`uname -m`
 
 create_web_ui() {
 	cp -R $hdhr_web_path $syno_web_path
@@ -64,7 +68,20 @@ remove_recordings_path() {
 }
 
 start_engine() {
-	$hdhr_bin_path/$hdhr_bin start --conf $hdhr_etc_path/$hdhr_conf
+	if [[ $EUID -ne 0 ]]; then
+		$hdhr_bin_path/$hdhr_bin start --conf $hdhr_etc_path/$hdhr_conf
+	else
+		if [[ "$arch" =~ "arm"* ]]; then
+			echo "Determined Platform is ARM from $arch"
+			$hdhr_bin_path/$hdhr_wrap_arm -u $hdhr_user -b $hdhr_bin_path/$hdhr_bin -- start --conf $hdhr_etc_path/$hdhr_conf
+		elif [[ "$arch" =~ "x86_64"* ]]; then
+			echo "Determined Platform is x86_64 from $arch"
+			$hdhr_bin_path/$hdhr_wrap_x86 -u $hdhr_user -b $hdhr_bin_path/$hdhr_bin -- start --conf $hdhr_etc_path/$hdhr_conf
+		else
+			echo "Unable to determine the platform - will default to no wrapper"
+			$hdhr_bin_path/$hdhr_bin start --conf $hdhr_etc_path/$hdhr_conf
+		fi
+	fi
 }
 
 stop_engine() {
