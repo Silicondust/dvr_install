@@ -126,11 +126,17 @@
 		$tab = new TinyAjaxBehavior();
 	
 		//create output
-		$hdhr = new DVRUI_HDHRcontrols(DVRUI_Vars::DVR_pkgPath . '/' . DVRUI_Vars::DVR_sh);
+		$conf = null;
+		if (DVRUI_Vars::DVR_sh == "" ) {
+			$hdhr = new DVRUI_HDHRcontrols(DVRUI_Vars::DVR_pkgPath . '/' . DVRUI_Vars::DVR_bin);
+			$conf = DVRUI_Vars::DVR_pkgPath . '/' . DVRUI_Vars::DVR_config;
+		} else {
+			$hdhr = new DVRUI_HDHRcontrols(DVRUI_Vars::DVR_pkgPath . '/' . DVRUI_Vars::DVR_sh);
+		}
 		switch ($option) {
 			case 'start':
 				$htmlStr = 'Starting up the DVR record engine';
-				if ($hdhr->start_DVR())
+				if ($hdhr->start_DVR($conf))
 					$htmlStr .= ' - DONE';
 				break;
 			case 'stop':

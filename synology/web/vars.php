@@ -8,7 +8,7 @@ final class DVRUI_Vars
 	const DVRUI_git		="https://github.com/Silicondust/dvr_install";
 	const DVR_pkgPath	="/var/packages/HDHomeRunDVR/target";
 	const DVR_bin		="bin/hdhomerun_record_linux";
-	const DVR_sh		="HDHomeRunDVR.sh";
+	const DVR_sh		="";
 	const DVR_config	="etc/HDHomeRunDVR.conf";
 	const DVRUI_apiurl	="http://api.hdhomerun.com/";
 	const DVRUI_TZ		='';

@@ -30,6 +30,7 @@ arch=`uname -m`
 create_web_ui() {
 	cp -R $hdhr_web_path $syno_web_path
 	chown -R http:http $syno_web_path
+	chmod -R 755 $syno_web_path
 }
 
 delete_web_ui() {
