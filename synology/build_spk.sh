@@ -5,10 +5,16 @@ SPK_ROOT=$PWD
 TMP_PKG_PATH=$PWD/tmp_pkg
 TMP_SPK_PATH=$PWD/tmp_spk
 BUILD_PATH=$PWD/build
-SPK_PKG_NAME=HDHomeRunDVR.spk
+UI_PATH=$SPK_ROOT/../common/php/simpleui
+VERSION=$(awk -F'=' '/^version/{print $2}' ./INFO | tr -d '"')
+SPK_PKG_NAME=HDHomeRunDVR-$VERSION.spk
+
+echo "Building the SPK"
+echo "version: $VERSION"
 
 #Get the binary
 sh $PWD/fetch_record_engine.sh
+sh $PWD/fetch_wrapper.sh
 
 #Check Package Exists
 
@@ -18,6 +24,7 @@ mkdir $TMP_SPK_PATH
 cp -R bin $TMP_PKG_PATH
 cp -R etc $TMP_PKG_PATH
 cp -R web $TMP_PKG_PATH
+cp -R $UI_PATH/* $TMP_PKG_PATH/web
 
 #Build the package
 cd $TMP_PKG_PATH
