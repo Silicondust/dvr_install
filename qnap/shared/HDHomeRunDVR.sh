@@ -3,9 +3,12 @@ CONF=/etc/config/qpkg.conf
 QPKG_NAME="HDHomeRunDVR"
 QPKG_ROOT=`/sbin/getcfg $QPKG_NAME Install_Path -f ${CONF}`
 HDHOMERUN_BIN=hdhomerun_record_linux
-HDHOMERUN_WRAP=hdhr_wrapper
+HDHOMERUN_WRAP_ARM=hdhr_wrapper_arm
+HDHOMERUN_WRAP_X86_64=hdhr_wrapper_x86_64
 HDHOMERUN_USER=httpdusr
 HDHOMERUN_CONF=HDHomeRunDVR.conf
+ARCH=`uname -m`
+
 
 case "$1" in
   start)
@@ -18,7 +21,16 @@ case "$1" in
     if [[ $EUID -ne 0 ]]; then
 			$QPKG_ROOT/$HDHOMERUN_BIN start --conf $QPKG_ROOT/$HDHOMERUN_CONF
 		else
-			$QPKG_ROOT/$HDHOMERUN_WRAP -u $HDHOMERUN_USER -b $QPKG_ROOT/$HDHOMERUN_BIN -- start --conf $QPKG_ROOT/$HDHOMERUN_CONF
+			if [[ "$ARCH" =~ "arm"* ]]; then
+			        echo "Determined Platform is ARM from $ARCH"
+				$QPKG_ROOT/$HDHOMERUN_WRAP_ARM -u $HDHOMERUN_USER -b $QPKG_ROOT/$HDHOMERUN_BIN -- start --conf $QPKG_ROOT/$HDHOMERUN_CONF
+			elif [[ "$ARCH" =~ "x86_64"* ]]; then
+                                echo "Determined Platform is x86_64 from $ARCH"
+				$QPKG_ROOT/$HDHOMERUN_WRAP_X86_64 -u $HDHOMERUN_USER -b $QPKG_ROOT/$HDHOMERUN_BIN -- start --conf $QPKG_ROOT/$HDHOMERUN_CONF
+                        else
+				echo "Unable to determine the platform - will default to no wrapper"
+				$QPKG_ROOT/$HDHOMERUN_BIN start --conf $QPKG_ROOT/$HDHOMERUN_CONF
+			fi
 		fi
     ;;
 

@@ -1,2 +1,4 @@
 #Ignore the DVR binary
 hdhomerun_record_linux
+hdhr_wrapper_arm
+hdhr_wrapper_x86_64
