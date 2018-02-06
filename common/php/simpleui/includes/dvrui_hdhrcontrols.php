@@ -29,7 +29,7 @@ class DVRUI_HDHRcontrols {
 		return True;
 	}
 	
-	public function start_DVR() {
+	public function start_DVR($conf) {
 		if ($conf != null) {
 			$cmd = $this->hdhr_sh . ' start --conf ' . $conf;
 			$output = shell_exec($cmd);
