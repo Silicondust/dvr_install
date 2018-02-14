@@ -62,12 +62,17 @@ pkg_install(){
 		fi		
 	fi
 	
-	# PatchUp the UI Vars File to point to the installation
-	log "$HDHR_LOG_PREFIX Patching UI Vars file with QPKG path and Version"
-	$CMD_SED -i "s!\(DVR_qpkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
+	#No matter the RecordPath - we need to make sure it's writable by the httpdusr
+	log "$HDHR_LOG_PREFIX Ensuring $ReoordPath is owned/accessible by the httpdusr user"
+        $CMD_CHOWN -R httpdusr $RecordPath
+        $CMD_CHMOD -R u+w $RecordPath
 
-	# Make Config File world writable (will see if I can reduce to just group later)
-	log "$HDHR_LOG_PREFIX Setting Conf file group writable"
+        # PatchUp the UI Vars File to point to the installation
+        log "$HDHR_LOG_PREFIX Patching UI Vars file with QPKG path and Version"
+        $CMD_SED -i "s!\(DVR_qpkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
+
+        # Make Config File world writable (will see if I can reduce to just group later)
+        log "$HDHR_LOG_PREFIX Setting Conf file group writable"
 	$CMD_CHMOD g+w $HDHR_QPKG_PATH/$HDHR_CONF
 
 	# Make Sure the Style directory is writable
