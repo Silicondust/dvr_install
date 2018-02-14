@@ -26,6 +26,7 @@ hdhr_user="http"
 hdhr_wrap_arm="hdhr_wrapper_arm"
 hdhr_wrap_x86="hdhr_wrapper_x86_64"
 arch=`uname -m`
+hdhr_arch_log=/tmp/hdhr_arch_choice
 
 create_web_ui() {
 	cp -R $hdhr_web_path $syno_web_path
@@ -51,12 +52,13 @@ restore_conf_file() {
 }
 
 create_recordings_path() {
-	
 	RECORDING_PATH="$SYNOPKG_PKGDEST_VOL/$SYNOPKG_PKGNAME"
 	if [ ! -d $RECORDING_PATH ] ; then
 		mkdir $RECORDING_PATH
 	fi
 	sed -i "s!\(RecordPath\s*=\).*!\1$RECORDING_PATH!" $hdhr_etc_path/$hdhr_conf
+	chown -R http:http $RECORDING_PATH
+	chmod -R u+w $RECORDING_PATH
 }
 
 adjust_permissions() {
@@ -73,13 +75,13 @@ start_engine() {
 		$hdhr_bin_path/$hdhr_bin start --conf $hdhr_etc_path/$hdhr_conf
 	else
 		if [[ "$arch" =~ "arm"* ]]; then
-			echo "Determined Platform is ARM from $arch"
+			echo "Determined Platform is ARM from $arch" >> $hdhr_arch_log
 			$hdhr_bin_path/$hdhr_wrap_arm -u $hdhr_user -b $hdhr_bin_path/$hdhr_bin -- start --conf $hdhr_etc_path/$hdhr_conf
 		elif [[ "$arch" =~ "x86_64"* ]]; then
-			echo "Determined Platform is x86_64 from $arch"
+			echo "Determined Platform is x86_64 from $arch" >> $hdhr_arch_log
 			$hdhr_bin_path/$hdhr_wrap_x86 -u $hdhr_user -b $hdhr_bin_path/$hdhr_bin -- start --conf $hdhr_etc_path/$hdhr_conf
 		else
-			echo "Unable to determine the platform - will default to no wrapper"
+			echo "Unable to determine the platform - will default to no wrapper" >> $hdhr_arch_log
 			$hdhr_bin_path/$hdhr_bin start --conf $hdhr_etc_path/$hdhr_conf
 		fi
 	fi
