@@ -69,7 +69,7 @@ pkg_install(){
 
         # PatchUp the UI Vars File to point to the installation
         log "$HDHR_LOG_PREFIX Patching UI Vars file with QPKG path and Version"
-        $CMD_SED -i "s!\(DVR_qpkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
+        $CMD_SED -i "s!\(DVR_pkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
 
         # Make Config File world writable (will see if I can reduce to just group later)
         log "$HDHR_LOG_PREFIX Setting Conf file group writable"
@@ -94,5 +94,7 @@ pkg_post_install() {
 	log "Updating the UI Version to that just installed"
 	HDHR_VER=$($CMD_GETCFG $HDHR_QPKG_NAME $SYS_QPKG_CONF_FIELD_VERSION -f $SYS_QPKG_CONFIG_FILE -d "unkown")
         $CMD_SED -i "s!\(DVRUI_version\s*=\).*!\1\"$HDHR_VER\";!" $HDHR_UI_VARS
-
+	log "HDHR_LOG_PREFIX Ensuring permissions are correct on UI"
+	$CMD_CHOWN -R httpdusr $HDHR_UI_PATH
+	$CMD_CHMOD -R u+w $HDHR_UI_PATH
 }
