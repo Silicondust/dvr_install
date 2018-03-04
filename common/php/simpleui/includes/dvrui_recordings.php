@@ -35,8 +35,8 @@ class DVRUI_Recordings {
 		DVRUI_setTZ();
 		$recordings_info = getJsonFromUrl($hdhr->get_storage_url());
 		for ($i = 0; $i < count($recordings_info); $i++) {
-			if(array_key_exists($this->recording_EpisodesURL,$recordings_info[$j])){
-				$seriesEpisodes = getJsonFromUrl($recordings_info[$j][$this->recording_EpisodesURL]);
+			if(array_key_exists($this->recording_EpisodesURL,$recordings_info[$i])){
+				$seriesEpisodes = getJsonFromUrl($recordings_info[$i][$this->recording_EpisodesURL]);
 				for ($k = 0; $k < count($seriesEpisodes); $k++){
 					$this->processRecordingData($seriesEpisodes[$k]);
 				}
