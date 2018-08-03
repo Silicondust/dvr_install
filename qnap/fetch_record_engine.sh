@@ -12,7 +12,7 @@ QDK_SHARED_PATH=$QDK_ROOT/shared
 
 # DVR Parameters - update if SiliconDust changes the values
 DVR_BIN=hdhomerun_record_linux
-DVR_LINK=http://download.silicondust.com/hdhomerun/hdhomerun_record_linux
+DVR_LINK=http://download.silicondust.com/hdhomerun/hdhomerun_record_linux_beta
 
 # Update this with any additional WGET parameters you need to use.. or place in local .wgetrc
 WGET_OPTS=-q
