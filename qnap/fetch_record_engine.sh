@@ -33,7 +33,7 @@ if [ -f $DVR_BIN ] ; then
 fi
 
 echo "--- Fetching $DVR_BIN from SiliconDust $DVR_LINK ..."
-wget $WGET_OPTS $DVR_LINK
+wget $WGET_OPTS $DVR_LINK -O $DVR_BIN
 
 echo "--- Making $DVR_BIN executable..."
 chmod a+x $DVR_BIN
