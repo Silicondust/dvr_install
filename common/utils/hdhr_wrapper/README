@@ -1,0 +1,15 @@
+To Create the wrappers you will need to get the appropriate toolchains for your NAS
+
+At this time - the wrapper can be built for ARMv7, X86 and X86_64 for Qnap, Synology and Asustor using just the Qnap cross compiler tools.
+If this changes in the future we will add.
+
+QNAP
+ARMv7: https://sourceforge.net/projects/qosgpl/files/QNAP%20NAS%20Tool%20Chains/cross-project-arm-20110901.tar.gz/download
+ARMv8:
+x86:
+x86_64:
+http://download.qnap.com/dev/Toolchain/QNAP_cross_toolchains_64.20160606.tar
+
+NOTES
+1. For QTS 4.3+ Do not download the x86 toolchain from sourceforge for QNAP - it does not create a valid binary for your NAS.
+2. For ARMv8 Qnap provides toolset but unfortunately no instructions on how to get it working.
