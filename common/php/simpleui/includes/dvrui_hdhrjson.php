@@ -2,7 +2,7 @@
 	require_once("includes/dvrui_common.php");
 	
 class DVRUI_HDHRjson {
-	private $myhdhrurl = DVRUI_Vars::DVRUI_apiurl . 'discover';
+	private $myhdhrurl = '';
 	private $hdhrkey_devID = 'DeviceID';
 	private $hdhrkey_localIP = 'LocalIP';
 	private $hdhrkey_baseURL = 'BaseURL';
@@ -22,6 +22,7 @@ class DVRUI_HDHRjson {
 	private $hdhrlist_key_channelcount = 'ChannelCount';
 
 	public function DVRUI_HDHRjson() {
+		$this->myhdhrurl = DVRUI_Vars::DVRUI_apiurl . 'discover';
 		$storageURL = "??";
 		$myip = $_SERVER['SERVER_ADDR'];
 
