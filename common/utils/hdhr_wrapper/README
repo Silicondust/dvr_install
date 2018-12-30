@@ -4,7 +4,8 @@ At this time - the wrapper can be built for ARMv7, X86 and X86_64 for Qnap, Syno
 If this changes in the future we will add.
 
 QNAP
-ARMv7: https://sourceforge.net/projects/qosgpl/files/QNAP%20NAS%20Tool%20Chains/cross-project-arm-20110901.tar.gz/download
+ARMv7:
+https://sourceforge.net/projects/qosgpl/files/QNAP%20NAS%20Tool%20Chains/cross-project-arm-20110901.tar.gz/download
 ARMv8:
 x86:
 x86_64:
