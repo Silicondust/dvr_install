@@ -1,0 +1,35 @@
+{
+   "general":{
+      "package":"HDHomeRunDVR",
+      "name":"HDHomerun DVR",
+      "version":"0.0.1",
+      "depends":[],
+      "conflicts":[],
+      "maintainer":"Rik Dunphy",
+      "email":"rik.dunphy@gmail.com",
+      "architecture":"any"
+   },
+   "adm-desktop":{
+      "app":{
+         "type":"webserver"
+      },
+      "privilege":{
+         "accessible":"users",
+         "customizable":true
+      }
+   }
+   "register":{
+   		"share-folder":{
+   			"name":"HDHomeRunDVR",
+   			"description":"Storage folder for HDHomerun DVR recordings"
+   		}
+   		"boot-priority":{
+   			"start-order":20,
+   			"stop-order":80
+   		}
+   		"prerequisites":{
+   			"enable-service":["httpd"],
+   			"restore-service":[]
+   		}
+   }
+}
