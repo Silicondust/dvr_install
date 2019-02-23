@@ -1,11 +1,11 @@
 BUILD_ROOT=$(PWD)
 APKG_NAME=HDHomeRunDVR
-APKG_VER=$(shell cat $(BUILD_ROOT)/VERSION)
+APKG_VER=$(shell awk -F':' '/version/{print $$2}' CONTROL/config.json | tr -d '",')
 APKG_EXT=apk
 APKG_FULLNAME=$(APKG_NAME)-$(APKG_VER).$(APKG_EXT)
 
 # Temporary Folders
-TMP_PKG_PATH=$(BUILD_ROOT)/$(APKG_NAME)-$(APKG_VER)
+TMP_PKG_PATH=$(BUILD_ROOT)/$(APKG_NAME)
 
 # APKG Tools
 APKG_ZIP=APKG_Utilities_2.0.zip
@@ -77,7 +77,6 @@ prep_temp: all_wrappers tools $(BUILD_BIN_PATH)/$(DVR_BIN)
 	@cp -R bin $(TMP_PKG_PATH)
 	@cp -R etc $(TMP_PKG_PATH)
 	@cp -R CONTROL $(TMP_PKG_PATH)
-	@cp -R VERSION $(TMP_PKG_PATH)
 	@cp -R www $(TMP_PKG_PATH)
 
 all_wrappers: $(BUILD_BIN_PATH)/$(WRAPPER_BIN_ARM7) \

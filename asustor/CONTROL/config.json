@@ -2,12 +2,15 @@
    "general":{
       "package":"HDHomeRunDVR",
       "name":"HDHomerun DVR",
-      "version":"0.0.1",
+      "version":"1.0.0",
       "depends":[],
       "conflicts":[],
-      "maintainer":"Rik Dunphy",
-      "email":"rik.dunphy@gmail.com",
-      "architecture":"any"
+      "developer":"ASUSTOR",
+      "maintainer":"ASUSTOR",
+      "email":"support@asustor.com",
+      "website":"http://www.asustor.com/",
+      "architecture":"any",
+      "firmware":"3.0"
    },
    "adm-desktop":{
       "app":{
@@ -17,16 +20,16 @@
          "accessible":"users",
          "customizable":true
       }
-   }
+   },
    "register":{
    		"share-folder":{
    			"name":"HDHomeRunDVR",
    			"description":"Storage folder for HDHomerun DVR recordings"
-   		}
+   		},
    		"boot-priority":{
    			"start-order":20,
    			"stop-order":80
-   		}
+   		},
    		"prerequisites":{
    			"enable-service":["httpd"],
    			"restore-service":[]
