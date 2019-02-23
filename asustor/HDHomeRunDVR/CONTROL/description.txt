@@ -1,2 +1,0 @@
-Scripts to setup and run the Silicondust HDHomeRun DVR Engine.
-Includes the Record Engine and a simple Web UI for management of the Engine.
