@@ -12,5 +12,6 @@ final class DVRUI_Vars
 	const DVR_config	="HDHomeRunDVR.conf";
 	const DVRUI_apiurl	="http://api.hdhomerun.com/";
 	const DVRUI_TZ		='';
+	const DVRUI_DEBUG = false;
 }
 ?>

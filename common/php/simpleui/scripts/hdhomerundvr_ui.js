@@ -36,6 +36,10 @@ function openTab(evt, tabname) {
 	if (tabname == 'hdhr_page') {
 		openHDHRPage();
 	}
+	if (tabname == 'diagnostics_page') {
+		openDiagnosticsPage();
+	}
+
 	//show the tablinks
 	document.getElementById(tabname).style.display = "block";
 	evt.currentTarget.className += " active";
