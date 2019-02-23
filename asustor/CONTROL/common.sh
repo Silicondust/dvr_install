@@ -1,10 +1,7 @@
 #!/bin/sh
 
 hdhr_bin_path=$APKG_PKG_DIR
-hdhr_bin
-
-
-hdhr_web_path="$APKG_PKG_DIR/web"
+hdhr_web_path="$APKG_PKG_DIR/www"
 hdhr_bin_path="$APKG_PKG_DIR/bin"
 hdhr_etc_path="$APKG_PKG_DIR/etc"
 hdhr_bin="hdhomerun_record_linux"
@@ -18,6 +15,29 @@ hdhr_wrap_x86_64="hdhr_wrapper_x86_64"
 arch=`uname -m`
 hdhr_arch_log=/tmp/hdhr_arch_choice
 
+fix_location_vars() {
+	
+}
+
+create_recordings_dir() {
+	echo "---starting---" >> $hdhr_arch_log
+	echo "repo $APKG_REPO_DIR" >> $hdhr_arch_log
+	echo "repo $APKG_REPO_DIR" >> $hdhr_arch_log
+	echo "repo $APKG_REPO_DIR" >> $hdhr_arch_log
+	echo "repo $APKG_REPO_DIR" >> $hdhr_arch_log
+}
+
+backup_conf() {
+	
+}
+
+restore_conf(){
+	
+}
+
+remove_webdir() {
+	
+}
 
 start_engine() {
 	$hdhr_bin_path/$hdhr_bin start --conf $hdhr_etc_path/$hdhr_conf
@@ -31,3 +51,4 @@ status_engine() {
 	$hdhr_bin_path/$hdhr_bin version
 	$hdhr_bin_path/$hdhr_bin status
 }
+

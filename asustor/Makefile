@@ -7,6 +7,10 @@ APKG_FULLNAME=$(APKG_NAME)-$(APKG_VER).$(APKG_EXT)
 # Temporary Folders
 TMP_PKG_PATH=$(BUILD_ROOT)/$(APKG_NAME)
 
+# UI Folders
+UI_OUT_PATH=$(TMP_PKG_PATH)/www
+UI_IN_PATH=$(BUILD_ROOT)/../common/php/simpleui
+
 # APKG Tools
 APKG_ZIP=APKG_Utilities_2.0.zip
 APKG_URL=https://developer.asustor.com/document
@@ -34,7 +38,7 @@ WGET_APKG_OPTS=-q -P $(BUILD_ROOT)
 CHMOD_BIN=chmod
 CHMOD_OPTS=a+x
 BUILD_BIN_PATH=$(BUILD_ROOT)/bin
-BUILD_OUT_PATH=$(BUILD_ROOT)/build
+BUILD_OUT_PATH=$(BUILD_ROOT)
 
 $(BUILD_OUT_PATH)/$(APKG_FULLNAME): prep_temp
 	@echo "Build APKG"
@@ -78,6 +82,7 @@ prep_temp: all_wrappers tools $(BUILD_BIN_PATH)/$(DVR_BIN)
 	@cp -R etc $(TMP_PKG_PATH)
 	@cp -R CONTROL $(TMP_PKG_PATH)
 	@cp -R www $(TMP_PKG_PATH)
+	@cp -R $(UI_IN_PATH)/* $(UI_OUT_PATH)
 
 all_wrappers: $(BUILD_BIN_PATH)/$(WRAPPER_BIN_ARM7) \
      					$(BUILD_BIN_PATH)/$(WRAPPER_BIN_i686) \
