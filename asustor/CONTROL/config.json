@@ -2,7 +2,7 @@
    "general":{
       "package":"HDHomeRunDVR",
       "name":"HDHomerun DVR",
-      "version":"0.1.0",
+      "version":"0.2.0",
       "depends":[],
       "conflicts":[],
       "developer":"Rik Dunphy",
@@ -22,10 +22,6 @@
       }
    },
    "register":{
-   		"share-folder":{
-   			"name":"HDHomeRunDVR",
-   			"description":"Storage folder for HDHomerun DVR recordings"
-   		},
    		"boot-priority":{
    			"start-order":20,
    			"stop-order":80
