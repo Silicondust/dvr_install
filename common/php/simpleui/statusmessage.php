@@ -1,6 +1,7 @@
 <?php
 	require_once("vars.php");
 	require_once("includes/dvrui_hdhrjson.php");
+	require_once("includes/dvrui_recordengine_loglist.php");
 
 	function getLatestHDHRStatus() {
 		

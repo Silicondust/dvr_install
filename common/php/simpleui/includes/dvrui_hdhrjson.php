@@ -65,8 +65,6 @@ class DVRUI_HDHRjson {
 						continue;
 					}
 				}
-
-				
 			}
 			// ELSE we have a tuner
 
@@ -119,6 +117,11 @@ class DVRUI_HDHRjson {
 		return $device[$this->hdhrkey_modelNum];
 	}
 
+	public function get_device_modelname($pos) {
+		$device = $this->hdhrlist[$pos];
+		return $device[$this->hdhrkey_modelName];
+	}
+
 	public function get_device_channels($pos) {
 		$device = $this->hdhrlist[$pos];
 		return $device[$this->hdhrlist_key_channelcount];
@@ -168,20 +171,38 @@ class DVRUI_HDHRjson {
 		$device = $this->hdhrlist[$pos];
 		switch ($device[$this->hdhrkey_modelNum]) {
 			case 'HDTC-2US':
-				return 'https://www.silicondust.com/wordpress/wp-content/uploads/2016/04/extend-logo-2.png';
+				return './images/HDTC-2US.png';
 			case 'HDHR3-CC':
-				return 'https://www.silicondust.com/wordpress/wp-content/uploads/2016/04/prime-logo-2.png';
-			case 'HDHR3-EU':
+				return './images/HDHR3-CC.png';
 			case 'HDHR3-4DC':
-				return 'https://www.silicondust.com/wordpress/wp-content/uploads/2016/04/expand-logo-2.png';
+				return './images/HDHR3-4DC.png';
+			case 'HDHR3-EU':
 			case 'HDHR3-US':
 			case 'HDHR3-DT':
-				return './images/HDHOMERUN_LEGACY.png';
+				return './images/HDHR3-US.png';
 			case 'HDHR4-2US':
 			case 'HDHR4-2DT':
-				return 'https://www.silicondust.com/wordpress/wp-content/uploads/2016/04/connect-logo.png';
+				return './images/HDHR4-2US.png';
+			case 'HDHR5-DT':
+			case 'HDHR5-2US':
+			case 'HDHR5-4DC':
+			case 'HDHR5-4DT':
+			case 'HDHR5-4US':
+				return './images/HDHR5-US.png';
+			case 'HDHR5-6CC':
+				return './images/HDHR5-6CC.png';
+			case 'TECH4-2DT':
+			case 'TECH4-2US':
+				return './images/TECH4-2US.png';
+			case 'TECH4-8US':
+				return './images/TECH4-8US.png';
+			case 'TECH5-36CC':
+				return './images/TECH5-36CC.png';
+			case 'TECH5-16DC':
+			case 'TECH5-16DT':
+				return './images/TECH5-16DT.png';
 			default:
-				return './images/HDHOMERUN_LEGACY.png';
+				return './images/HDHR5-US.png';
 		}
 	}
 }

@@ -8,13 +8,10 @@
 	require_once("TinyAjaxBehavior.php");
 
 	require_once("includes/dvrui_hdhrbintools.php");
-	require_once("includes/dvrui_recordengine_loglist.php");
-	require_once("logfile.php");
 	require_once("statusmessage.php");
 	require_once("recordings.php");
-	require_once("server.php");
-	require_once("hdhr.php");
 	require_once("theme.php");
+	require_once("dashboard.php");
 	require_once("diagnostics.php");
 
 	/* Prepare Ajax */
@@ -27,16 +24,14 @@
 	error_log( "Setting up Ajax functions" );
 	$ajax->exportFunction("getLogFile", "filename");
 	$ajax->exportFunction("rmLogFile", "filename");
-	$ajax->exportFunction("updateRecordPath","recordPath");
-	$ajax->exportFunction("updateServerPort","serverPort");
 	$ajax->exportFunction("changeDvrState","option");
-	$ajax->exportFunction("openLogPage","");
+	$ajax->exportFunction("updateServerConfig","port, path");
+	$ajax->exportFunction("upgradeServerEngine","");
 	$ajax->exportFunction("openRecordingsPage","");
-	$ajax->exportFunction("openHDHRPage","");
-	$ajax->exportFunction("openServerPage","");
+	$ajax->exportFunction("openDashboard","");
 	$ajax->exportFunction("openDiagnosticsPage","");
-	
 	$ajax->exportFunction("deleteRecordingByID","id, rerecord");
+	
 
 	/* GO */
 	error_log( "Enable Ajax" );
@@ -58,8 +53,8 @@
 	
 	//Build navigation menu for pages
 	error_log( "Build Navigation Pages" );
-	$pageTitles = array('Server', 'HDHRs', 'Logs', 'Recordings','.');
-	$pageNames = array('server_page', 'hdhr_page', 'log_page', 'recordings_page', 'diagnostics_page');
+	$pageTitles = array('Dashboard', 'Recordings', '.');
+	$pageNames = array('dashboard_page', 'recordings_page' , 'diagnostics_page');
 	$menu_data = file_get_contents('style/pagemenu.html');
 	$menuEntries = '';
 	for ($i=0; $i < count($pageNames); $i++) {
@@ -86,12 +81,9 @@
 	error_log( "Build Index Page - body" );
 	$indexPage = file_get_contents('style/index_page.html');
 	$topmenu = file_get_contents('style/topmenu.html');
-	$logfilelist = file_get_contents('style/index_loglist.html');
-	$logfiledata = file_get_contents('style/index_logdata.html');
+	$dashboarddata = file_get_contents('style/dashboard.html');
 	$recordingsdata = file_get_contents('style/recordings.html');
 	$diagnosticsdata = file_get_contents('style/diagnostics.html');
-	$serverdata = file_get_contents('style/server.html');
-	$hdhrdata = file_get_contents('style/hdhr.html');
 
 	$topmenu = str_replace('[[pagetitle]]',$pageName,$topmenu);
 	$topmenu = str_replace('[[UI-Version]]',$UIVersion,$topmenu);
@@ -99,12 +91,9 @@
 
 	$indexPage = str_replace('<!-- dvrui_topmenu -->',$topmenu,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_pagemenu -->',$menu_data,$indexPage);
-	$indexPage = str_replace('<!-- dvrui_loglist -->',$logfilelist,$indexPage);
-	$indexPage = str_replace('<!-- dvrui_logfile -->',$logfiledata,$indexPage);
+	$indexPage = str_replace('<!-- dvrui_dashboard -->',$dashboarddata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_recordingslist -->',$recordingsdata,$indexPage);
 	$indexPage = str_replace('<!-- dvrui_diagnostics -->',$diagnosticsdata,$indexPage);
-	$indexPage = str_replace('<!-- dvrui_serverlist -->',$serverdata,$indexPage);
-	$indexPage = str_replace('<!-- dvrui_hdhrlist -->',$hdhrdata,$indexPage);
 
 	// -- Attach the Index to the Page
 	error_log( "Build Index Page - attach to page" );

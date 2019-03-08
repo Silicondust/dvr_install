@@ -1,5 +1,4 @@
 <?php
-error_reporting(E_ALL);
 require_once("vars.php");
 
 class DVRUI_Engine_LogList {
