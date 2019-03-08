@@ -9,6 +9,7 @@
  * any liability for errors or problems arising from it's use. 
  *****************************************************************************/
 
+
 function openTab(evt, tabname) {
 	var i, tabcontent, tablinks;
 	// get elements with class="tabcontent" and hide
@@ -24,17 +25,11 @@ function openTab(evt, tabname) {
 	}
 	
 	// load the page
+	if (tabname == 'dashboard_page') {
+		openDashboard();
+	}
 	if (tabname == 'recordings_page') {
 		openRecordingsPage();
-	}
-	if (tabname == 'log_page') {
-		openLogPage();
-	}
-	if (tabname == 'server_page') {
-		openServerPage();
-	}
-	if (tabname == 'hdhr_page') {
-		openHDHRPage();
 	}
 	if (tabname == 'diagnostics_page') {
 		openDiagnosticsPage();
@@ -80,28 +75,15 @@ function restartService(value)
 	changeDvrState(value);
 }
 
-function updateServerParam(param) {
-	if (param == 'RecordPath') {
-		changeRecordPath();
-		return;
-	}
-	if (param == 'Port') {
-		changeServerPort();
-		return;
-	}
-	
+function updateServer() {
+	var port = document.getElementById('Port').value;
+	var path = document.getElementById('RecordPath').value;
+	updateServerConfig(port, path);
 }
 
-function changeRecordPath()
-{
-	var id = document.getElementById('RecordPath').value;
-	updateRecordPath(id);
-}
-
-function changeServerPort()
-{
-	var id = document.getElementById('Port').value;
-	updateServerPort(id);
+function upgradeServer() {
+	//upgradeServerEngine();
+	window.alert("*** Coming Soon! ***");
 }
 
 function reveal(evt, modal) {
