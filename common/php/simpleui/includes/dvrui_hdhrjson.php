@@ -12,14 +12,17 @@ class DVRUI_HDHRjson {
 	private $hdhrkey_modelName = 'FriendlyName';
 	private $hdhrkey_auth = 'DeviceAuth';
 	private $hdhrkey_fwVer = 'FirmwareVersion';
+	private $hdhrkey_ver = 'Version';
 	private $hdhrkey_fwName = 'FirmwareName';
 	private $hdhrkey_tuners = 'TunerCount';
 	private $hdhrkey_legacy = 'Legacy';
+	private $hdhrkey_freespace = 'FreeSpace';
 
 	private $hdhrkey_storageID = 'StorageID';
 	private $hdhrkey_storageURL = 'StorageURL';
-	private $hdhrlist = array();
 	private $hdhrlist_key_channelcount = 'ChannelCount';
+	private $hdhrlist = array();
+	private $enginelist = array();
 
 	public function DVRUI_HDHRjson() {
 		$this->myhdhrurl = DVRUI_Vars::DVRUI_apiurl . 'discover';
@@ -27,7 +30,10 @@ class DVRUI_HDHRjson {
 		$myip = $_SERVER['SERVER_ADDR'];
 
 		$hdhr_data = getJsonFromUrl($this->myhdhrurl);
-		for ($i=0;$i<count($hdhr_data);$i++) {
+		$hdhr_count = count($hdhr_data);
+		error_log('Processing ' . $hdhr_count . ' discovered devices');
+		
+		for ($i=0;$i<$hdhr_count;$i++) {
 			$hdhr = $hdhr_data[$i];
 			$hdhr_base = $hdhr[$this->hdhrkey_baseURL];
 			$hdhr_ip = $hdhr[$this->hdhrkey_localIP];
@@ -35,20 +41,24 @@ class DVRUI_HDHRjson {
 			if (!array_key_exists($this->hdhrkey_discoverURL,$hdhr)) {
 				// Skip this HDHR - it doesn't support the newer HTTP interface
 				// for DVR
+				error_log('Skipping Device - not HTTP capable');
 				continue;
 			}
 
+			error_log('Processing ' . $hdhr[$this->hdhrkey_discoverURL]);
 			$hdhr_info = getJsonFromUrl($hdhr[$this->hdhrkey_discoverURL]);
 
 			if (array_key_exists($this->hdhrkey_storageURL,$hdhr)) {
+				error_log('Record Engine Discovered');
 				// this is a record engine!
-
 				// Need to confirm it's a valid one - After restart of
 				// engine it updates api.hdhomerun.com but sometimes the
 				// old engine config is left behind.
 				$rEngine = getJsonFromUrl($hdhr[$this->hdhrkey_discoverURL]);
+				error_log('Engine found ' . $rEngine[$this->hdhrkey_storageID]);
 				if (strcmp($rEngine[$this->hdhrkey_storageID],$hdhr[$this->hdhrkey_storageID]) != 0) {
-					//skip, this is not a valid engine
+					//skip, this is not our engine
+					error_log('Engine found - not this record engine');
 					continue;
 				}
 
@@ -60,12 +70,22 @@ class DVRUI_HDHRjson {
 					$port = $matches[2];
 					// if IP of record engine matches the IP of this server
 					// return storageURL
+					error_log('Checking '. $ip . ' against ' . $myip);
 					if($ip == $myip){	
 						$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
-						continue;
 					}
 				}
+				error_log('Adding engine ' . $hdhr_base);
+				$this->enginelist[] = array( $this->hdhrkey_storageID => $hdhr[$this->hdhrkey_storageID],
+					$this->hdhrkey_baseURL => $hdhr_base,
+					$this->hdhrkey_modelName => $hdhr_info[$this->hdhrkey_modelName],
+					$this->hdhrkey_ver => $hdhr_info[$this->hdhrkey_ver],
+					$this->hdhrkey_storageID => $hdhr_info[$this->hdhrkey_storageID],
+					$this->hdhrkey_storageURL => $hdhr_info[$this->hdhrkey_storageURL],
+					$this->hdhrkey_freespace => $hdhr_info[$this->hdhrkey_freespace]);
+				continue;
 			}
+			error_log('must be a tuner');
 			// ELSE we have a tuner
 
 			$tuners='unknown';
@@ -107,6 +127,7 @@ class DVRUI_HDHRjson {
 	public function get_storage_url(){
 		return $this->storageURL;
 	}	
+	
 	public function get_device_id($pos) {
 		$device = $this->hdhrlist[$pos];
 		return $device[$this->hdhrkey_devID];
@@ -142,21 +163,16 @@ class DVRUI_HDHRjson {
 		return $device[$this->hdhrkey_fwVer];
 	}
 
+	public function get_device_fwname($pos) {
+		$device = $this->hdhrlist[$pos];
+		return $device[$this->hdhrkey_fwName];
+	}
+
 	public function get_device_tuners($pos) {
 		$device = $this->hdhrlist[$pos];
 		return $device[$this->hdhrkey_tuners];
 	}
 
-
-	public function get_device_legacy($pos) {
-		$device = $this->hdhrlist[$pos];
-		if( $device[$this->hdhrkey_legacy] == 1) {
-			return 'Legacy';
-		}
-		else {
-			return 'HTTP';
-		}
-	}
 
 	public function get_device_auth($pos) {
 		$device = $this->hdhrlist[$pos];
@@ -166,10 +182,52 @@ class DVRUI_HDHRjson {
 			return '??';
 		}
 	}
+
+	public function engine_count() {
+		return count($this->enginelist);
+	}
+
+	public function get_engine_baseurl($pos) {
+		$device = $this->enginelist[$pos];
+		return $device[$this->hdhrkey_baseURL];
+	}
+
+	public function get_engine_modelname($pos) {
+		$device = $this->enginelist[$pos];
+		return $device[$this->hdhrkey_modelName];
+	}
 	
+	public function get_engine_firmware($pos) {
+		$device = $this->enginelist[$pos];
+		return $device[$this->hdhrkey_ver];
+	}
+
+	public function get_engine_freespace($pos) {
+		$device = $this->enginelist[$pos];
+		return $this->convert_size($device[$this->hdhrkey_freespace]);
+	}
+
+	public function get_engine_storageId($pos) {
+		$device = $this->enginelist[$pos];
+		return $device[$this->hdhrkey_storageID];
+	}
+
+	public function get_engine_storageUrl($pos) {
+		$device = $this->enginelist[$pos];
+		return $device[$this->hdhrkey_storageURL];
+	}
+
 	public function get_device_image($pos) {
 		$device = $this->hdhrlist[$pos];
-		switch ($device[$this->hdhrkey_modelNum]) {
+		return $this->get_image_url($device[$this->hdhrkey_modelNum]);
+	}
+
+	public function get_engine_image($pos) {
+		return './images/HDHR-DVR.png';
+	}
+
+	private function get_image_url($model) {
+		switch ($model) {
 			case 'HDTC-2US':
 				return './images/HDTC-2US.png';
 			case 'HDHR3-CC':
@@ -205,5 +263,43 @@ class DVRUI_HDHRjson {
 				return './images/HDHR5-US.png';
 		}
 	}
+
+  private function convert_size($bytes)
+  {
+  	$bytes = floatval($bytes);
+  	$arBytes = array(
+  		0 => array(
+  			"UNIT" => "TB",
+  			"VALUE" => pow(1024, 4)
+  		),
+  		1 => array(
+  			"UNIT" => "GB",
+  			"VALUE" => pow(1024, 3)
+  		),
+  		2 => array(
+  			"UNIT" => "MB",
+  			"VALUE" => pow(1024, 2)
+  			),
+  		3 => array(
+  			"UNIT" => "KB",
+  			"VALUE" => 1024
+  		),
+  		4 => array(
+  			"UNIT" => "B",
+  			"VALUE" => 1
+  		),
+  	);
+
+  	foreach($arBytes as $arItem)
+  	{
+  		if($bytes >= $arItem["VALUE"])
+  		{
+  			$result = $bytes / $arItem["VALUE"];
+  			$result = strval(round($result, 2))." ".$arItem["UNIT"];
+  			break;
+  		}
+  	}
+  	return $result;
+  }
 }
 ?>

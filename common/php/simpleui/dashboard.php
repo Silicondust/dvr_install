@@ -79,21 +79,42 @@
 	function loadHDHRPane() {
 		// Discover HDHR Devices
 		$hdhr = new DVRUI_HDHRjson();
+		
+		// Process Devices
 		$devices =  $hdhr->device_count();
 		$hdhr_data = '';
 		for ($i=0; $i < $devices; $i++) {
 			$hdhrEntry = file_get_contents('style/hdhrlist_entry.html');
 			$hdhr_device_data = "<a href=" . $hdhr->get_device_baseurl($i) . ">" . $hdhr->get_device_id($i) . "</a>";
 			$hdhr_lineup_data = "<a href=" . $hdhr->get_device_lineup($i) . ">" . $hdhr->get_device_channels($i) . " Channels</a>";
+			$hdhr_name_data = str_replace("HDHomeRun", "HDHomeRun <br>", $hdhr->get_device_modelname($i));
 			$hdhrEntry = str_replace('<!--hdhr_device-->',$hdhr_device_data,$hdhrEntry);
 			$hdhrEntry = str_replace('<!--hdhr_channels-->',$hdhr_lineup_data,$hdhrEntry);
-			$hdhrEntry = str_replace('<!--hdhr_model-->',$hdhr->get_device_modelname($i),$hdhrEntry);
+			$hdhrEntry = str_replace('<!--hdhr_model-->',$hdhr_name_data,$hdhrEntry);
 			$hdhrEntry = str_replace('<!--hdhr_tuners-->',$hdhr->get_device_tuners($i) . ' tuners',$hdhrEntry);
-			$hdhrEntry = str_replace('<!--hdhr_firmware-->',$hdhr->get_device_firmware($i),$hdhrEntry);
-			$hdhrEntry = str_replace('<!--hdhr_legacy-->',$hdhr->get_device_legacy($i),$hdhrEntry);
+			$hdhrEntry = str_replace('<!--hdhr_firmware_name-->',$hdhr->get_device_fwname($i),$hdhrEntry);
+			$hdhrEntry = str_replace('<!--hdhr_firmware_ver-->',$hdhr->get_device_firmware($i),$hdhrEntry);
 			$hdhrEntry = str_replace('<!--hdhr_image-->',$hdhr->get_device_image($i),$hdhrEntry);
 			$hdhr_data .= $hdhrEntry ;	
 		}
+
+		// Process Engines
+		$engines =  $hdhr->engine_count();
+		for ($i=0; $i < $engines; $i++) {
+			$hdhrEntry = file_get_contents('style/enginelist_entry.html');
+			$hdhr_device_data = "<a href=" . $hdhr->get_engine_baseurl($i) . ">" . $hdhr->get_engine_baseurl($i) . "</a>";
+			$hdhr_storage_url = "<a href=" . $hdhr->get_engine_storageUrl($i) . ">" . $hdhr->get_engine_baseurl($i) . "</a>";
+			$hdhr_name_data = str_replace("HDHomeRun", "HDHomeRun <br>", $hdhr->get_device_modelname($i));
+			$hdhrEntry = str_replace('<!--hdhr_device-->',$hdhr_device_data,$hdhrEntry);
+			$hdhrEntry = str_replace('<!--hdhr_model-->',$hdhr_name_data,$hdhrEntry);
+			$hdhrEntry = str_replace('<!--hdhr_firmware-->',$hdhr->get_engine_firmware($i),$hdhrEntry);
+			$hdhrEntry = str_replace('<!--hdhr_freespace-->',$hdhr->get_engine_freespace($i),$hdhrEntry);
+			$hdhrEntry = str_replace('<!--hdhr_storageid-->',$hdhr->get_engine_storageId($i),$hdhrEntry);
+			$hdhrEntry = str_replace('<!--hdhr_storageurl-->',$hdhr_storage_url,$hdhrEntry);
+			$hdhrEntry = str_replace('<!--hdhr_image-->',$hdhr->get_engine_image($i),$hdhrEntry);
+			$hdhr_data .= $hdhrEntry ;	
+		}
+
 		return $hdhr_data;
 	}
 	
