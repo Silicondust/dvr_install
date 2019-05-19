@@ -165,17 +165,20 @@ class DVRUI_Recordings {
 	}
 
 	public function deleteRecording($id,$rerecord) {
+		error_log('Deleting Recording: ' . $id);
 		$url = $this->getCmdFromID($id);
+		$fields ='';
 		if ($rerecord == 'true') {
 			$url .= $this->recording_cmd_rerecord;
 		} else {
 			$url .= $this->recording_cmd_delete;
 		}
-		$response = getJsonFromUrl($url);
+		error_log('Sending CMD ' . $url . ' with params '. $fields);
+		$response = postToUrl($url,$fields);
+		error_log('DVR responded ' . print_r($response,true));
 		$this->removeID($id);
-		/* ignore the response at this tie */
+		/* ignore the response at this time */
 		echo('Removed ' . $id . ' : ' . $response);
-		
 	}
 	
 	public function getRecordingCount() {
