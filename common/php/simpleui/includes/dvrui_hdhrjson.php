@@ -29,6 +29,7 @@ class DVRUI_HDHRjson {
 		$storageURL = "??";
 		$myip = $_SERVER['SERVER_ADDR'];
 
+    error_log("Checkip IPs: " . getHostByName(getHostName()));
 		$hdhr_data = getJsonFromUrl($this->myhdhrurl);
 		$hdhr_count = count($hdhr_data);
 		error_log('Processing ' . $hdhr_count . ' discovered devices');
@@ -56,7 +57,7 @@ class DVRUI_HDHRjson {
 				// old engine config is left behind.
 				$rEngine = getJsonFromUrl($hdhr[$this->hdhrkey_discoverURL]);
 				error_log('Engine found ' . $rEngine[$this->hdhrkey_storageID]);
-				if (strcmp($rEngine[$this->hdhrkey_storageID],$hdhr[$this->hdhrkey_storageID]) != 0) {
+				if (strcasecmp($rEngine[$this->hdhrkey_storageID],$hdhr[$this->hdhrkey_storageID]) != 0) {
 					//skip, this is not our engine
 					error_log('Engine found - not this record engine');
 					continue;
