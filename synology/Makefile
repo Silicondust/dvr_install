@@ -1,7 +1,6 @@
 BUILD_ROOT=$(PWD)
 SPK_VER=$(shell awk -F'=' '/^version/{print $$2}' ./INFO | tr -d '"')
 SPK_NAME=HDHomeRunDVR-$(SPK_VER).spk
-SPK_MD5=$(SPK_NAME).md5
 
 # DVR Parameters - update if SiliconDust changes the values
 DVR_BIN=hdhomerun_record_linux
@@ -20,6 +19,11 @@ TMP_BIN_PATH=$(BUILD_ROOT)/tmp_pkg/bin
 TMP_PKG_NAME=package.tgz
 TMP_SPK_PATH=$(BUILD_ROOT)/tmp_spk
 
+# MD5 Signing
+MD5_BIN=md5sum
+MD5_EXT=md5
+MD5_NAME=$(SPK_NAME).$(MD5_EXT)
+
 #UI Params
 UI_IN_PATH=$(BUILD_ROOT)/../common/php/simpleui
 
@@ -31,6 +35,10 @@ CHMOD_BIN=chmod
 CHMOD_OPTS=a+x
 BUILD_BIN_PATH=$(BUILD_ROOT)/shared
 BUILD_OUT_PATH=$(BUILD_ROOT)/build
+
+$(BUILD_OUT_PATH)/$(MD5_NAME): $(BUILD_OUT_PATH)/$(SPK_NAME)
+	@$(MD5_BIN) $(BUILD_OUT_PATH)/$(SPK_NAME) > $(BUILD_OUT_PATH)/$(MD5_NAME)
+
 
 $(BUILD_OUT_PATH)/$(SPK_NAME): $(TMP_SPK_PATH)/$(TMP_PKG_NAME)
 	@cp -R scripts $(TMP_SPK_PATH)
@@ -82,12 +90,13 @@ all_wrappers: $(TMP_BIN_PATH)/$(WRAPPER_BIN_ARM7) \
      					$(TMP_BIN_PATH)/$(WRAPPER_BIN_i686) \
      					$(TMP_BIN_PATH)/$(WRAPPER_BIN_X86_64)
 	
-all: $(BUILD_OUT_PATH)/$(SPK_NAME)
+all: $(BUILD_OUT_PATH)/$(MD5_NAME)
 
 clean:
 	@rm -rf $(TMP_PKG_PATH) \
 			$(TMP_SPK_PATH) \
-			$(BUILD_OUT_PATH)/$(SPK_NAME)
+			$(BUILD_OUT_PATH)/$(SPK_NAME) \
+			$(BUILD_OUT_PATH)/$(MD5_NAME)
 
 .PHONY: all clean all_wrappers prep_dirs
 
