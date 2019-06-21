@@ -2,7 +2,8 @@ BUILD_ROOT=$(PWD)
 APKG_NAME=HDHomeRunDVR
 APKG_VER=$(shell awk -F':' '/version/{print $$2}' CONTROL/config.json | tr -d '",')
 APKG_EXT=apk
-APKG_FULLNAME=$(APKG_NAME)-$(APKG_VER).$(APKG_EXT)
+APKG_TRG=any
+APKG_FULLNAME=$(APKG_NAME)_$(APKG_VER)_$(APKG_TRG).$(APKG_EXT)
 
 # Temporary Folders
 TMP_PKG_PATH=$(BUILD_ROOT)/$(APKG_NAME)
@@ -17,6 +18,11 @@ APKG_URL=https://developer.asustor.com/document
 APKG_TOOLS_PATH=$(BUILD_ROOT)/APKG_Utilities_2.0
 APKG_BIN=apkg-tools.py
 APKG_OPTION=create
+
+# MD5 Signing
+MD5_BIN=md5sum
+MD5_EXT=md5
+MD5_NAME=$(APKG_FULLNAME).$(MD5_EXT)
 
 # DVR Parameters - update if SiliconDust changes the values
 DVR_BIN=hdhomerun_record_linux
@@ -39,6 +45,9 @@ CHMOD_BIN=chmod
 CHMOD_OPTS=a+x
 BUILD_BIN_PATH=$(BUILD_ROOT)/bin
 BUILD_OUT_PATH=$(BUILD_ROOT)
+
+$(BUILD_OUT_PATH)/$(MD5_NAME): $(BUILD_OUT_PATH)/$(APKG_FULLNAME)
+	$(MD5_BIN) $(BUILD_OUT_PATH)/$(APKG_FULLNAME) > $(BUILD_OUT_PATH)/$(MD5_NAME)
 
 $(BUILD_OUT_PATH)/$(APKG_FULLNAME): prep_temp
 	@echo "Build APKG"
@@ -89,7 +98,7 @@ all_wrappers: $(BUILD_BIN_PATH)/$(WRAPPER_BIN_ARM7) \
      					$(BUILD_BIN_PATH)/$(WRAPPER_BIN_X86_64)
 	
 
-all: $(BUILD_OUT_PATH)/$(APKG_FULLNAME)
+all: $(BUILD_OUT_PATH)/$(MD5_NAME)
 
 clean:
 	@rm -rf $(BUILD_BIN_PATH)/$(DVR_BIN) \
@@ -98,6 +107,8 @@ clean:
      $(BUILD_BIN_PATH)/$(WRAPPER_BIN_X86_64) \
      $(APKG_TOOLS_PATH) \
      $(BUILD_ROOT)/$(APKG_ZIP) \
-     $(TMP_PKG_PATH)
+     $(TMP_PKG_PATH) \
+     $(BUILD_OUT_PATH)/$(MD5_NAME) \
+     $(BUILD_OUT_PATH)/$(APKG_FULLNAME)
 
 .PHONY: all clean all_wrappers tools prep_tmp
