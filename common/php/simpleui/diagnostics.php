@@ -160,7 +160,7 @@
 
   function getSeriesDiag() {
   	$hdhr = new DVRUI_HDHRjson();
-  	$htmlStr .=  "------------ DVR  Series ------------------------------------------------------<br/>";
+  	$htmlStr =  "------------ DVR  Series ------------------------------------------------------<br/>";
  	  $seriesURL = $hdhr->get_storage_url($i) . '?DisplayGroupID=root';
  		$htmlStr .=  $seriesURL;
  		$seriesjson = getJsonFromURL($seriesURL);
@@ -170,7 +170,7 @@
 
   function getRecordingsDiag() {
   	$hdhr = new DVRUI_HDHRjson();
-  	$htmlStr .=  "------------ DVR  Recordings ------------------------------------------------------<br/>";
+  	$htmlStr =  "------------ DVR  Recordings ------------------------------------------------------<br/>";
  	  $seriesURL = $hdhr->get_storage_url($i);
  		$htmlStr .=  $seriesURL;
  		$seriesjson = getJsonFromURL($seriesURL);
