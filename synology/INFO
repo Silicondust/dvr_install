@@ -1,5 +1,5 @@
 package="HDHomeRunDVR"
-version="0.7.0"
+version="0.7.1"
 maintainer="rik.dunphy@gmail.com"
 arch="noarch"
 startable="yes"
