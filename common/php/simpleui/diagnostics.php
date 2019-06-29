@@ -164,7 +164,7 @@
  	  $seriesURL = $hdhr->get_storage_url($i) . '?DisplayGroupID=root';
  		$htmlStr .=  $seriesURL;
  		$seriesjson = getJsonFromURL($seriesURL);
- 		$htmlStr .=  print_r($seriesjson); 
+ 		$htmlStr .=  $seriesjson; 
 		return $htmlStr;
   }
 
@@ -174,7 +174,7 @@
  	  $seriesURL = $hdhr->get_storage_url($i);
  		$htmlStr .=  $seriesURL;
  		$seriesjson = getJsonFromURL($seriesURL);
- 		$htmlStr .=  print_r($seriesjson); 
+ 		$htmlStr .=  $seriesjson; 
 		return $htmlStr;
   }
 
