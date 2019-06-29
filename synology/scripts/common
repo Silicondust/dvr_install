@@ -70,21 +70,95 @@ remove_recordings_path() {
 	echo "Does Nothing - leave removing the dir to the user"
 }
 
+precheck_record_normal() {
+  . $hdhr_etc_path/$hdhr_conf
+  echo "Checking RecordPath ${RecordPath} exists.... " >> $hdhr_arch_log
+  if [[ -d ${RecordPath} ]] ; then
+    echo "${RecordPath} exists and is a dir or symlink" >> $hdhr_arch_log
+  fi  
+
+  echo "Checking RecordPath ${RecordPath} writable for user ${EUID}.... " >> $hdhr_arch_log
+  if [[ -w ${RecordPath}/precheck ]] ; then
+    echo "${RecordPath}/precheck already exists and is writable" >> $hdhr_arch_log
+    rm ${RecordPath}/precheck
+    if [[ -e ${RecordPath}/precheck ]] ; then
+    echo "Something went wrong cleaning up ${RecordPath}/precheck " >> $hdhr_arch_log
+    fi
+  elif [[ -e ${RecordPath}/precheck ]] ; then
+    echo "${RecordPath}/precheck already exists and is not writable" >> $hdhr_arch_log
+  else
+    touch ${RecordPath}/precheck
+    if [[ -w ${RecordPath}/precheck ]] ; then
+      echo "${RecordPath}/precheck created and is writable" >> $hdhr_arch_log
+      rm ${RecordPath}/precheck
+      if [[ -e ${RecordPath}/precheck ]] ; then
+      echo "Something went wrong cleaning up ${RecordPath}/precheck " >> $hdhr_arch_log
+      fi
+    else
+      echo "Something went wrong creating ${RecordPath}/precheck " >> $hdhr_arch_log
+    fi
+  fi
+}
+
+precheck_record_wrap() {
+  . $hdhr_etc_path/$hdhr_conf
+  echo "Checking RecordPath ${RecordPath} exists.... " >> $hdhr_arch_log
+  if [[ -d ${RecordPath} ]] ; then
+    echo "${RecordPath} exists and is a dir or symlink" >> $hdhr_arch_log
+  fi  
+
+  echo "Checking RecordPath ${RecordPath} writable for user ${hdhr_user}.... " >> $hdhr_arch_log
+  if [[ -w ${RecordPath}/precheck ]] ; then
+    echo "${RecordPath}/precheck already exists and is writable" >> $hdhr_arch_log
+    $hdhr_bin_path/$hdhr_wrap -u $hdhr_user -b /bin/rm -- ${RecordPath}/precheck
+    if [[ -e ${RecordPath}/precheck ]] ; then
+    echo "Something went wrong cleaning up ${RecordPath}/precheck " >> $hdhr_arch_log
+    fi
+  elif [[ -e ${RecordPath}/precheck ]] ; then
+    echo "${RecordPath}/precheck already exists and is not writable" >> $hdhr_arch_log
+  else
+    $hdhr_bin_path/$hdhr_wrap -u $hdhr_user -b /bin/touch -- ${RecordPath}/precheck
+    if [[ -w ${RecordPath}/precheck ]] ; then
+      echo "${RecordPath}/precheck created and is writable" >> $hdhr_arch_log
+      $hdhr_bin_path/$hdhr_wrap -u $hdhr_user -b /bin/rm -- ${RecordPath}/precheck
+      if [[ -e ${RecordPath}/precheck ]] ; then
+      echo "Something went wrong cleaning up ${RecordPath}/precheck " >> $hdhr_arch_log
+      fi
+    else
+      echo "Something went wrong creating ${RecordPath}/precheck " >> $hdhr_arch_log
+    fi
+  fi
+}
+
+
 start_engine() {
-	if [[ $EUID -ne 0 ]]; then
-		$hdhr_bin_path/$hdhr_bin start --conf $hdhr_etc_path/$hdhr_conf
-	else
-		if [[ "$arch" =~ "arm"* ]]; then
-			echo "Determined Platform is ARM from $arch" >> $hdhr_arch_log
-			$hdhr_bin_path/$hdhr_wrap_arm -u $hdhr_user -b $hdhr_bin_path/$hdhr_bin -- start --conf $hdhr_etc_path/$hdhr_conf
-		elif [[ "$arch" =~ "x86_64"* ]]; then
-			echo "Determined Platform is x86_64 from $arch" >> $hdhr_arch_log
-			$hdhr_bin_path/$hdhr_wrap_x86 -u $hdhr_user -b $hdhr_bin_path/$hdhr_bin -- start --conf $hdhr_etc_path/$hdhr_conf
-		else
-			echo "Unable to determine the platform - will default to no wrapper" >> $hdhr_arch_log
-			$hdhr_bin_path/$hdhr_bin start --conf $hdhr_etc_path/$hdhr_conf
-		fi
-	fi
+  echo "==========================="  >> $hdhr_arch_log
+  echo "Starting Engine: $currentTS"  >> $hdhr_arch_log
+  if [[ $EUID -eq 0 ]]; then
+    if [[ "$arch" =~ "arm"* ]]; then
+      echo "Determined Platform is ARM from $arch" >> $hdhr_arch_log
+      hdhr_wrap=$hdhr_wrap_arm
+    elif [[ "$arch" =~ "x86_64"* ]]; then
+      echo "Determined Platform is x86_64 from $arch" >> $hdhr_arch_log
+      hdhr_wrap=$hdhr_wrap_x86
+    else
+      echo "Platform not handled from  $arch" >> $hdhr_arch_log
+    fi
+    if [[ ! -z $hdhr_wrap ]]; then
+      echo "Starting Engine with wrapper ${hdhr_wrap} for user ${hdhr_user}" >> $hdhr_arch_log
+      precheck_record_wrap
+      $hdhr_bin_path/$hdhr_wrap -u $hdhr_user -b $hdhr_bin_path/$hdhr_bin -- start --conf $hdhr_etc_path/$hdhr_conf
+    else
+      echo "Arch unknown - Starting Engine normally" >> $hdhr_arch_log
+      precheck_record_normal
+      $hdhr_bin_path/$hdhr_bin start --conf $hdhr_etc_path/$hdhr_conf
+    fi
+  else
+    echo "Not root user, starting Engine normally" >> $hdhr_arch_log
+    precheck_record_normal
+    $hdhr_bin_path/$hdhr_bin start --conf $hdhr_etc_path/$hdhr_conf
+  fi
+
 }
 
 stop_engine() {
