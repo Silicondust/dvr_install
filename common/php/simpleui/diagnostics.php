@@ -17,6 +17,7 @@
 		$htmlStr .= getServerDiag();
 		$htmlStr .= getConnectivityDiag();
 		$htmlStr .= getHDHRDiag();
+		$htmlStr .= getAccountDiag();
 		$htmlStr .= getSeriesDiag();
 		$htmlStr .= getRecordingsDiag();
 		
@@ -125,23 +126,55 @@
 		return $htmlStr;
   }
 
-  function getSeriesDiag() {
-  	$htmlStr = '';
+  function getAccountDiag() {
+  	$htmlStr =  "---------- HDHR Account -----------------------------------------------------------<br/>";
   	$hdhr = new DVRUI_HDHRjson();
-  	// $engines = $hdhr->engine_count();
-  	$engines = 0;
-  	for ($i=0; $i < $engines; $i++) {
-	  	$htmlStr .=  "------------DVR $i Series ----- -------------------------------------------------<br/>";
-  	  $seriesURL = $hdhr->get_engine_storage_url($i) . '?DisplayGroupID=root';
-  		$htmlStr .=  $seriesURL;
-  		$seriesjson = getJsonFromURL($seriesURL);
-  		$htmlStr .=  print_r($seriesjson); 
-  	}
+  	$devices =  $hdhr->device_count();
+  	$url = DVRUI_Vars::DVRUI_apiurl . 'api/account?DeviceAuth=';
+  	$auth = '';
+  	for ($i=0; $i < $devices; $i++) {
+  	  $auth .= $hdhr->get_device_auth($i);
+    }
+
+		if (in_array('curl', get_loaded_extensions())){
+			$htmlStr .= 'curl extension = installed <br/>';
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url . $auth);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 2);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			$json = curl_exec($ch);
+			curl_close($ch);
+			$htmlStr .= 'curl returned = ' . $json . '<br/>';
+		} else { 
+			$htmlStr .= 'curl extension = not available <br/>';
+		  $context = stream_context_create(
+				array('http' => array(
+					'header'=>'Connection: close\r\n',
+					'timeout' => 2.0)));
+	  	$json = file_get_contents($myhdhrurl,false,$context);	
+  		$htmlStr .= 'stream returned = ' . $json . '<br/>';
+		}
+		return $htmlStr;
+  }
+
+  function getSeriesDiag() {
+  	$hdhr = new DVRUI_HDHRjson();
+  	$htmlStr .=  "------------ DVR  Series ------------------------------------------------------<br/>";
+ 	  $seriesURL = $hdhr->get_storage_url($i) . '?DisplayGroupID=root';
+ 		$htmlStr .=  $seriesURL;
+ 		$seriesjson = getJsonFromURL($seriesURL);
+ 		$htmlStr .=  print_r($seriesjson); 
 		return $htmlStr;
   }
 
   function getRecordingsDiag() {
-  	$htmlStr = '';
+  	$hdhr = new DVRUI_HDHRjson();
+  	$htmlStr .=  "------------ DVR  Recordings ------------------------------------------------------<br/>";
+ 	  $seriesURL = $hdhr->get_storage_url($i);
+ 		$htmlStr .=  $seriesURL;
+ 		$seriesjson = getJsonFromURL($seriesURL);
+ 		$htmlStr .=  print_r($seriesjson); 
 		return $htmlStr;
   }
 
