@@ -152,7 +152,7 @@
 				array('http' => array(
 					'header'=>'Connection: close\r\n',
 					'timeout' => 2.0)));
-	  	$json = file_get_contents($myhdhrurl,false,$context);	
+	  	$json = file_get_contents($url . $auth,false,$context);	
   		$htmlStr .= 'stream returned = ' . $json . '<br/>';
 		}
 		return $htmlStr;
@@ -164,7 +164,7 @@
  	  $seriesURL = $hdhr->get_storage_url($i) . '?DisplayGroupID=root';
  		$htmlStr .=  $seriesURL;
  		$seriesjson = getJsonFromURL($seriesURL);
- 		$htmlStr .=  print_r($seriesjson,true); 
+ 		$htmlStr .=  print_r($seriesjson,true). '<br/>'; 
 		return $htmlStr;
   }
 
@@ -174,7 +174,7 @@
  	  $seriesURL = $hdhr->get_storage_url($i);
  		$htmlStr .=  $seriesURL;
  		$seriesjson = getJsonFromURL($seriesURL);
- 		$htmlStr .=  print_r($seriesjson,true); 
+ 		$htmlStr .=  print_r($seriesjson,true). '<br/>'; 
 		return $htmlStr;
   }
 
