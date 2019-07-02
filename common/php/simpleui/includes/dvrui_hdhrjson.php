@@ -61,8 +61,13 @@ class DVRUI_HDHRjson {
 					//skip, this is not our engine
 					error_log('Engine found - not this record engine');
 					continue;
-				}
+				} else {
+				  // this is us :)
+					error_log('Engine found - matches our expect StorageID - must be us');
+    			$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
+    		}
 
+        /*
 				//get the IP address of record engine.
 				$hdhr_ip = $hdhr[$this->hdhrkey_localIP];
 				// Split IP and port
@@ -76,6 +81,8 @@ class DVRUI_HDHRjson {
 						$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
 					}
 				}
+				*/
+				
 				error_log('Adding engine ' . $hdhr_base);
 				$this->enginelist[] = array( $this->hdhrkey_storageID => $hdhr[$this->hdhrkey_storageID],
 					$this->hdhrkey_baseURL => $hdhr_base,
