@@ -56,12 +56,13 @@ class DVRUI_HDHRjson {
 				// engine it updates api.hdhomerun.com but sometimes the
 				// old engine config is left behind.
 				$rEngine = getJsonFromUrl($hdhr[$this->hdhrkey_discoverURL]);
-				error_log('Engine found ' . $rEngine[$this->hdhrkey_storageID]);
-				if (strcasecmp($rEngine[$this->hdhrkey_storageID],$hdhr[$this->hdhrkey_storageID]) != 0) {
+				error_log('Engine found ' . $rEngine[$this->hdhrkey_storageID]. 'Checking against' . $hdhr[$this->hdhrkey_storageID]);
+				$engCheck = strcasecmp($rEngine[$this->hdhrkey_storageID],$hdhr[$this->hdhrkey_storageID])
+				if ( $engCheck != 0) {
 					//skip, this is not our engine
 					error_log('Engine found - not this record engine');
 					continue;
-				} else {
+				} else  {
 				  // this is us :)
 					error_log('Engine found - matches our expect StorageID - must be us');
     			$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
