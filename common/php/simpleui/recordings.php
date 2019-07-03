@@ -12,6 +12,8 @@
 
 		//create output
 		$hdhr = new DVRUI_HDHRjson();
+		$serverConfig = new DVRUI_Engine_Config();
+		$hdhr->set_my_engine($serverConfig->getStorageId());
 		$hdhrRecordings = new DVRUI_Recordings($hdhr);
 		$numRecordings = $hdhrRecordings->getRecordingCount();
 		$htmlStr = processRecordingData($hdhrRecordings, $numRecordings);
@@ -39,6 +41,8 @@
 
 		//create output
 		$hdhr = new DVRUI_HDHRjson();
+		$serverConfig = new DVRUI_Engine_Config();
+		$hdhr->set_my_engine($serverConfig->getStorageId());
 		$hdhrRecordings = new DVRUI_Recordings($hdhr);
 		$hdhrRecordings->deleteRecording($id,$rerecord);
 

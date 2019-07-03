@@ -38,6 +38,7 @@
   }	
   	
   function getServerDiag() {
+		$serverConfig = new DVRUI_Engine_Config();
   	$htmlStr = "---------- OS and ENV VARIABLES --------------------------------------------------<br/>";
   	$htmlStr .= 'Operating System = ' . php_uname() . "<br/>";
   	$htmlStr .= 'HTTP_HOST = ' . getenv('HTTP_HOST') . "<br/>";
@@ -58,6 +59,12 @@
   	$htmlStr .= "---------- PERMISSIONS ----------------------------------------------------------<br/>";
   	$htmlStr .= 'style = ' . substr(sprintf('%o', fileperms('style')), -4) . "<br/>";
   	$htmlStr .= 'style/style.css = ' . substr(sprintf('%o', fileperms('style/style.css')), -4) . "<br/>";
+  	$htmlStr .= "---------- Config File ----------------------------------------------------------<br/>";
+  	$htmlStr .= 'Location = ' . $serverConfig->getConfigFileName() . "<br/>";
+  	$htmlStr .= 'RecordPath = ' . $serverConfig->getRecordPath() . "<br/>";
+  	$htmlStr .= 'RecordStreamsMax = ' . $serverConfig->getRecordStreamsMax() . "<br/>";
+  	$htmlStr .= 'ServerPort = ' . $serverConfig->getServerPort() . "<br/>";
+  	$htmlStr .= 'StorageID = ' . $serverConfig->getStorageId() . "<br/>";
 		return $htmlStr;
   }
   
@@ -113,7 +120,7 @@
   	}
   	
   	$htmlStr .=  "---------- HDHR DVR ENGINES------------------------------------------------------<br/>";
-  	// $engines = $hdhr->engine_count();
+  	$engines = $hdhr->engine_count();
   	$engines = 0;
   	for ($i=0; $i < $engines; $i++) {
   		$htmlStr .=  'dvr(' . $i . ') name: ' . $hdhr->get_engine_name($i) . "<br/>";

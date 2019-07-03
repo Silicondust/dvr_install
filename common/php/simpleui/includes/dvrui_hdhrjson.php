@@ -56,16 +56,10 @@ class DVRUI_HDHRjson {
 				// engine it updates api.hdhomerun.com but sometimes the
 				// old engine config is left behind.
 				$rEngine = getJsonFromUrl($hdhr[$this->hdhrkey_discoverURL]);
-				error_log('Engine found ' . $rEngine[$this->hdhrkey_storageID] . 'Checking against' . $hdhr[$this->hdhrkey_storageID]);
-				$engCheck = strcasecmp($rEngine[$this->hdhrkey_storageID],$hdhr[$this->hdhrkey_storageID]);
-				if ( $engCheck != 0) {
+				if (strcasecmp($rEngine[$this->hdhrkey_storageID],$hdhr[$this->hdhrkey_storageID]) != 0) {
 					//skip, this is not our engine
-					error_log('Engine found - not this record engine');
+					error_log('Engine found - but storageID not matching discover - skipping');
 					continue;
-				} else  {
-				  // this is us :)
-					error_log('Engine found - matches our expect StorageID - must be us');
-    			$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
     		}
 
         /*
@@ -133,6 +127,19 @@ class DVRUI_HDHRjson {
 		          . ' Model Number: ' . $device[$this->hdhrkey_modelNum] 
 		          . ' Channels: ' . $device[$this->hdhrlist_key_channelcount] . ' ';
 	}
+	
+	public function set_my_engine($storageID){
+	  error_log('Setting storageURL to match StorageID: ' . $storageID);
+	  for ($i=0;$i<count($this->enginelist);$i++) {
+	    error_log('Checking: ' . $this->enginelist[$i][$this->hdhrkey_storageID]);
+	    if (strcasecmp($storageID,$this->enginelist[$i][$this->hdhrkey_storageID])) {
+	      $this->storageURL = $this->enginelist[$i][$this->hdhrkey_storageURL];
+	    }
+	  }
+	  //strcasecmp($rEngine[$this->hdhrkey_storageID],$hdhr[$this->hdhrkey_storageID]);
+		return $this->storageURL;
+	}	
+
 	public function get_storage_url(){
 		return $this->storageURL;
 	}	
