@@ -297,7 +297,11 @@ class DVRUI_HDHRjson {
   			"VALUE" => 1
   		),
   	);
-
+  	
+  	if ($bytes == 0) {
+  	  return 'FULL';
+  	}
+  	
   	foreach($arBytes as $arItem)
   	{
   		if($bytes >= $arItem["VALUE"])
