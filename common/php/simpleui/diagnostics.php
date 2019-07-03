@@ -16,10 +16,15 @@
 		//get data
 		$htmlStr .= getServerDiag();
 		$htmlStr .= getConnectivityDiag();
-		$htmlStr .= getHDHRDiag();
+
+  	$hdhr = new DVRUI_HDHRjson();
+		$serverConfig = new DVRUI_Engine_Config();
+		$hdhr->set_my_engine($serverConfig->getStorageId());
+
+		$htmlStr .= getHDHRDiag($hdhr);
 		$htmlStr .= getAccountDiag();
-		$htmlStr .= getSeriesDiag();
-		$htmlStr .= getRecordingsDiag();
+		$htmlStr .= getSeriesDiag($hdhr);
+		$htmlStr .= getRecordingsDiag($hdhr);
 		
 		$result = ob_get_contents();
 		ob_end_clean();
@@ -106,8 +111,7 @@
   	return $htmlStr;
   }
 
-  function getHDHRDiag() {
-  	$hdhr = new DVRUI_HDHRjson();
+  function getHDHRDiag($hdhr) {
   	$devices =  $hdhr->device_count();
   	$hdhr_data = '';
   	$htmlStr =  "---------- HDHR TUNERS-----------------------------------------------------------<br/>";
@@ -133,9 +137,8 @@
 		return $htmlStr;
   }
 
-  function getAccountDiag() {
+  function getAccountDiag($hdhr) {
   	$htmlStr =  "---------- HDHR Account -----------------------------------------------------------<br/>";
-  	$hdhr = new DVRUI_HDHRjson();
   	$devices =  $hdhr->device_count();
   	$url = DVRUI_Vars::DVRUI_apiurl . 'api/account?DeviceAuth=';
   	$auth = '';
@@ -165,8 +168,7 @@
 		return $htmlStr;
   }
 
-  function getSeriesDiag() {
-  	$hdhr = new DVRUI_HDHRjson();
+  function getSeriesDiag($hdhr) {
   	$htmlStr =  "------------ DVR  Series ------------------------------------------------------<br/>";
  	  $seriesURL = $hdhr->get_storage_url($i) . '?DisplayGroupID=root';
  		$htmlStr .=  $seriesURL;
@@ -175,8 +177,7 @@
 		return $htmlStr;
   }
 
-  function getRecordingsDiag() {
-  	$hdhr = new DVRUI_HDHRjson();
+  function getRecordingsDiag($hdhr) {
   	$htmlStr =  "------------ DVR  Recordings ------------------------------------------------------<br/>";
  	  $seriesURL = $hdhr->get_storage_url($i);
  		$htmlStr .=  $seriesURL;
