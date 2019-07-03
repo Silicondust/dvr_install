@@ -61,31 +61,22 @@ class DVRUI_HDHRjson {
 					error_log('Engine found - but storageID not matching discover - skipping');
 					continue;
     		}
-
-        /*
-				//get the IP address of record engine.
-				$hdhr_ip = $hdhr[$this->hdhrkey_localIP];
-				// Split IP and port
-				if (preg_match('/^(\d[\d.]+):(\d+)\b/', $hdhr_ip, $matches)) {
-					$ip = $matches[1];
-					$port = $matches[2];
-					// if IP of record engine matches the IP of this server
-					// return storageURL
-					error_log('Checking '. $ip . ' against ' . $myip);
-					if($ip == $myip){	
-						$this->storageURL = $hdhr[$this->hdhrkey_storageURL];
-					}
-				}
-				*/
 				
-				error_log('Adding engine ' . $hdhr_base);
+				error_log('Adding engine ' . $hdhr_base); 
+				// freespace is not avaailable if maxstreams = 0
+				$freespace = '0';
+		  	if (array_key_exists($this->hdhrkey_freespace,$hdhr_info)) {
+	  			$freespace = $hdhr_info[$this->hdhrkey_freespace];
+  			}
+
+
 				$this->enginelist[] = array( $this->hdhrkey_storageID => $hdhr[$this->hdhrkey_storageID],
 					$this->hdhrkey_baseURL => $hdhr_base,
 					$this->hdhrkey_modelName => $hdhr_info[$this->hdhrkey_modelName],
 					$this->hdhrkey_ver => $hdhr_info[$this->hdhrkey_ver],
 					$this->hdhrkey_storageID => $hdhr_info[$this->hdhrkey_storageID],
 					$this->hdhrkey_storageURL => $hdhr_info[$this->hdhrkey_storageURL],
-					$this->hdhrkey_freespace => $hdhr_info[$this->hdhrkey_freespace]);
+					$this->hdhrkey_freespace => $freespace);
 				continue;
 			}
 			error_log('must be a tuner');
@@ -139,7 +130,7 @@ class DVRUI_HDHRjson {
 	    }
 	  }
 		return $this->storageURL;
-	}	
+	}
 
 	public function get_storage_url(){
 		return $this->storageURL;
