@@ -130,13 +130,14 @@ class DVRUI_HDHRjson {
 	
 	public function set_my_engine($storageID){
 	  error_log('Setting storageURL to match StorageID: ' . $storageID);
+		$this->storageURL = '';
 	  for ($i=0;$i<count($this->enginelist);$i++) {
 	    error_log('Checking: ' . $this->enginelist[$i][$this->hdhrkey_storageID]);
 	    if (strcasecmp($storageID,$this->enginelist[$i][$this->hdhrkey_storageID])== 0) {
+	      error_log('Setting StorageURL to ' . $this->enginelist[$i][$this->hdhrkey_storageURL]);
 	      $this->storageURL = $this->enginelist[$i][$this->hdhrkey_storageURL];
 	    }
 	  }
-	  //strcasecmp($rEngine[$this->hdhrkey_storageID],$hdhr[$this->hdhrkey_storageID]);
 		return $this->storageURL;
 	}	
 
