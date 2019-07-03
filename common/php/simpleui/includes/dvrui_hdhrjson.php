@@ -23,13 +23,12 @@ class DVRUI_HDHRjson {
 	private $hdhrlist_key_channelcount = 'ChannelCount';
 	private $hdhrlist = array();
 	private $enginelist = array();
+	private $storageURL = '';
 
 	public function DVRUI_HDHRjson() {
 		$this->myhdhrurl = DVRUI_Vars::DVRUI_apiurl . 'discover';
 		$storageURL = "??";
-		$myip = $_SERVER['SERVER_ADDR'];
 
-    error_log("Checkip IPs: " . getHostByName(getHostName()));
 		$hdhr_data = getJsonFromUrl($this->myhdhrurl);
 		$hdhr_count = count($hdhr_data);
 		error_log('Processing ' . $hdhr_count . ' discovered devices');
@@ -68,7 +67,6 @@ class DVRUI_HDHRjson {
 		  	if (array_key_exists($this->hdhrkey_freespace,$hdhr_info)) {
 	  			$freespace = $hdhr_info[$this->hdhrkey_freespace];
   			}
-
 
 				$this->enginelist[] = array( $this->hdhrkey_storageID => $hdhr[$this->hdhrkey_storageID],
 					$this->hdhrkey_baseURL => $hdhr_base,
