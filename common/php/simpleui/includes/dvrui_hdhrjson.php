@@ -132,7 +132,7 @@ class DVRUI_HDHRjson {
 	  error_log('Setting storageURL to match StorageID: ' . $storageID);
 	  for ($i=0;$i<count($this->enginelist);$i++) {
 	    error_log('Checking: ' . $this->enginelist[$i][$this->hdhrkey_storageID]);
-	    if (strcasecmp($storageID,$this->enginelist[$i][$this->hdhrkey_storageID])) {
+	    if (strcasecmp($storageID,$this->enginelist[$i][$this->hdhrkey_storageID])== 0) {
 	      $this->storageURL = $this->enginelist[$i][$this->hdhrkey_storageURL];
 	    }
 	  }
