@@ -22,7 +22,7 @@
 		$hdhr->set_my_engine($serverConfig->getStorageId());
 
 		$htmlStr .= getHDHRDiag($hdhr);
-		$htmlStr .= getAccountDiag();
+		$htmlStr .= getAccountDiag($hdhr);
 		$htmlStr .= getSeriesDiag($hdhr);
 		$htmlStr .= getRecordingsDiag($hdhr);
 		
