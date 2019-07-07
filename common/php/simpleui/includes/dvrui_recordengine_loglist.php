@@ -6,7 +6,7 @@ class DVRUI_Engine_LogList {
 	private $logfiles = array();
 	
 	// Default Constructor - nothing provided - do nothing yet...
-	public function DVRUI_Engine_LogList($path) {
+	public function __construct($path) {
 		if (file_exists($path)) {
 			$this->pathExists = True;
 			foreach(glob($path . "/*.log") as $filename) {

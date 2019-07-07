@@ -7,7 +7,7 @@ class DVRUI_Engine_LogFile {
 	private $logEntries = array();
 	private $position = 0;
 	
-	public function DVRUI_Engine_LogFile($filename) {
+	public function __construct($filename) {
 		if (file_exists($filename)) {
 
 			$lines = file($filename);

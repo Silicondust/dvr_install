@@ -25,7 +25,7 @@ class DVRUI_HDHRjson {
 	private $enginelist = array();
 	private $storageURL = '';
 
-	public function DVRUI_HDHRjson() {
+	public function __construct() {
 		$this->myhdhrurl = DVRUI_Vars::DVRUI_apiurl . 'discover';
 		$storageURL = "??";
 

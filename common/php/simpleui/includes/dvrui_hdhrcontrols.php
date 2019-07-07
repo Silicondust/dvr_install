@@ -3,7 +3,7 @@
 class DVRUI_HDHRcontrols {
 	private $hdhr_sh = '';
 
-	public function DVRUI_HDHRcontrols($hdhr) {
+	public function __construct($hdhr) {
 		if (file_exists($hdhr)) {
 			$this->hdhr_sh = $hdhr;
 		}

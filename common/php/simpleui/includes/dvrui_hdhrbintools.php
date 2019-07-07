@@ -5,7 +5,7 @@ class DVRUI_HDHRbintools {
 	private $dvr_version = 'Unable to discover DVR version';
 	private $dvr_status = 'Unable to discover DVR status';
 	
-	public function DVRUI_HDHRbintools($hdhr) {
+	public function __construct($hdhr) {
 		if (file_exists($hdhr)) {
 			$this->hdhr_bin = $hdhr;
 		}

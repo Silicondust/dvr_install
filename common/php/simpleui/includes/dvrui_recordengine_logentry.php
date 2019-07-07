@@ -47,7 +47,7 @@ class DVRUI_Engine_LogEntry {
 		$this->info = $entry;
 	}
 
-	public function DVRUI_Engine_LogEntry($entry) {
+	public function __construct($entry) {
 		$remainder = $this->extractTimeStamp($entry);
 		$remainder = $this->extractType($remainder);
 		if (!strcmp($remainder,'Recorded') 

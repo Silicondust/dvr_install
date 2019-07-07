@@ -9,7 +9,7 @@ class DVRUI_Engine_Config {
 	private $configArray = NULL;
 	
 	// Default Constructor - nothing provided - do nothing yet...
-	public function DVRUI_Engine_Config() {
+	public function __construct() {
 		if (file_exists(DVRUI_Vars::DVR_pkgPath . "/" . DVRUI_Vars::DVR_config)) {
 			$this->configFileName = DVRUI_Vars::DVR_pkgPath . "/" .  DVRUI_Vars::DVR_config;
 			$this->configFileExists = True;

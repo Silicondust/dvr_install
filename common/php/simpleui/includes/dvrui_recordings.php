@@ -31,7 +31,7 @@ class DVRUI_Recordings {
 	private $recording_cmd_rerecord = '&cmd=delete&rerecord=1';
 	
 
-	public function DVRUI_Recordings($hdhr) {
+	public function __construct($hdhr) {
 		DVRUI_setTZ();
 		$recordings_info = getJsonFromUrl($hdhr->get_storage_url());
 		for ($i = 0; $i < count($recordings_info); $i++) {
