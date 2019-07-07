@@ -293,7 +293,7 @@
 			$del = unlink($filename);
 		}
 
-		$logFileList = getLogFileList($configFile->getRecordPath());
+		$logFileList = buildLogFileList($configFile->getRecordPath());
 		$statusmsg = getLatestHDHRStatus();
 		
 		//get data
