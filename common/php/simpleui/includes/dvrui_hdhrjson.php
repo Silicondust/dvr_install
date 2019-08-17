@@ -62,14 +62,22 @@ class DVRUI_HDHRjson {
     		}
 				
 				error_log('Adding engine ' . $hdhr_base); 
-				// freespace is not avaailable if maxstreams = 0
+				// freespace is not available if maxstreams = 0
 				$freespace = '0';
 		  	if (array_key_exists($this->hdhrkey_freespace,$hdhr_info)) {
 	  			$freespace = $hdhr_info[$this->hdhrkey_freespace];
   			}
 
+				// for new Servio and Scribe we have a model number to store.
+		  	if (array_key_exists($this->hdhrkey_modelNum,$hdhr_info)) {
+	  			$enginemodel = $hdhr_info[$this->hdhrkey_modelNum];
+	  		} else {
+	  			$enginemodel = 'RecordEngine';
+  			}
+
 				$this->enginelist[] = array( $this->hdhrkey_storageID => $hdhr[$this->hdhrkey_storageID],
 					$this->hdhrkey_baseURL => $hdhr_base,
+					$this->hdhrkey_modelNum => $enginemodel,
 					$this->hdhrkey_modelName => $hdhr_info[$this->hdhrkey_modelName],
 					$this->hdhrkey_ver => $hdhr_info[$this->hdhrkey_ver],
 					$this->hdhrkey_storageID => $hdhr_info[$this->hdhrkey_storageID],
@@ -229,11 +237,14 @@ class DVRUI_HDHRjson {
 	}
 
 	public function get_engine_image($pos) {
-		return './images/HDHR-DVR.png';
+		$device = $this->enginelist[$pos];
+		return $this->get_image_url($device[$this->hdhrkey_modelNum]);
 	}
 
 	private function get_image_url($model) {
 		switch ($model) {
+			case 'RecordEngine':
+				return './images/HDHR-DVR.png';
 			case 'HDTC-2US':
 				return './images/HDTC-2US.png';
 			case 'HDHR3-CC':
@@ -247,6 +258,10 @@ class DVRUI_HDHRjson {
 			case 'HDHR4-2US':
 			case 'HDHR4-2DT':
 				return './images/HDHR4-2US.png';
+			case 'HHDD-2TB':
+			case 'HDVR-2US-1TB':
+			case 'HDVR-4US-1TB':
+				return './images/HDVR-US.png';
 			case 'HDHR5-DT':
 			case 'HDHR5-2US':
 			case 'HDHR5-4DC':
