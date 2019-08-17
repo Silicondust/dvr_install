@@ -7,6 +7,8 @@ HDHR_UI_PATH=$HDHR_QPKG_PATH/ui
 HDHR_UI_VARS=$HDHR_UI_PATH/vars.php
 HDHR_DVR_BIN=hdhomerun_record_linux
 HDHR_LOG_PREFIX="$HDHR_QPKG_NAME:"
+HDHR_USER=httpdusr
+HDHR_GROUP=administrators
 
 PKG_MAIN_REMOVE="{
 	if [ -e $SYS_WEB_PATH/HDHomeRunDVR ]; then
@@ -95,6 +97,6 @@ pkg_post_install() {
 	HDHR_VER=$($CMD_GETCFG $HDHR_QPKG_NAME $SYS_QPKG_CONF_FIELD_VERSION -f $SYS_QPKG_CONFIG_FILE -d "unkown")
         $CMD_SED -i "s!\(DVRUI_version\s*=\).*!\1\"$HDHR_VER\";!" $HDHR_UI_VARS
 	log "HDHR_LOG_PREFIX Ensuring permissions are correct on UI"
-	$CMD_CHOWN -R httpdusr $HDHR_UI_PATH
+	$CMD_CHOWN -R $HDHR_USER $HDHR_UI_PATH
 	$CMD_CHMOD -R u+w $HDHR_UI_PATH
 }
