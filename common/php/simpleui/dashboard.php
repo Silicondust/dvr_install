@@ -102,9 +102,9 @@
 		$engines =  $hdhr->engine_count();
 		for ($i=0; $i < $engines; $i++) {
 			$hdhrEntry = file_get_contents('style/enginelist_entry.html');
-			$hdhr_device_data = "<a href=" . $hdhr->get_engine_baseurl($i) . ">" . $hdhr->get_engine_baseurl($i) . "</a>";
-			$hdhr_storage_url = "<a href=" . $hdhr->get_engine_storageUrl($i) . ">" . $hdhr->get_engine_baseurl($i) . "</a>";
-			$hdhr_name_data = str_replace("HDHomeRun", "HDHomeRun <br>", $hdhr->get_device_modelname($i));
+			$hdhr_device_data = "<a href=" . $hdhr->get_engine_baseurl($i) . ">" . $hdhr->get_engine_id($i) . "</a>";
+			$hdhr_storage_url = "<a href=" . $hdhr->get_engine_storageUrl($i) . ">" . $hdhr->get_engine_storageUrl($i) . "</a>";
+			$hdhr_name_data = str_replace("HDHomeRun", "HDHomeRun <br>", $hdhr->get_engine_modelname($i));
 			$hdhrEntry = str_replace('<!--hdhr_device-->',$hdhr_device_data,$hdhrEntry);
 			$hdhrEntry = str_replace('<!--hdhr_model-->',$hdhr_name_data,$hdhrEntry);
 			$hdhrEntry = str_replace('<!--hdhr_firmware-->',$hdhr->get_engine_firmware($i),$hdhrEntry);

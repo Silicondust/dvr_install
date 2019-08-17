@@ -68,15 +68,33 @@ class DVRUI_HDHRjson {
 	  			$freespace = $hdhr_info[$this->hdhrkey_freespace];
   			}
 
-				// for new Servio and Scribe we have a model number to store.
+				// for new Servio and Scribe there are additional params needed to store
 		  	if (array_key_exists($this->hdhrkey_modelNum,$hdhr_info)) {
 	  			$enginemodel = $hdhr_info[$this->hdhrkey_modelNum];
 	  		} else {
 	  			$enginemodel = 'RecordEngine';
   			}
-
+		  	if (array_key_exists($this->hdhrkey_devID,$hdhr_info)) {
+	  			$engineID = $hdhr_info[$this->hdhrkey_devID];
+	  		} else {
+	  			$engineID = 'Record Engine';
+  			}
+		  	if (array_key_exists($this->hdhrkey_tuners,$hdhr_info)) {
+	  			$engineTuners = $hdhr_info[$this->hdhrkey_tuners];
+	  		} else {
+	  			$engineTuners = 'IGNORE';
+  			}
+		  	if (array_key_exists($this->hdhrkey_auth,$hdhr_info)) {
+	  			$engineAuth = $hdhr_info[$this->hdhrkey_auth];
+	  		} else {
+	  			$engineAuth = 'IGNORE';
+  			}
+  			
 				$this->enginelist[] = array( $this->hdhrkey_storageID => $hdhr[$this->hdhrkey_storageID],
 					$this->hdhrkey_baseURL => $hdhr_base,
+					$this->hdhrkey_devID => $engineID,
+					$this->hdhrkey_tuners => $engineTuners,
+					$this->hdhrkey_auth => $engineAuth,
 					$this->hdhrkey_modelNum => $enginemodel,
 					$this->hdhrkey_modelName => $hdhr_info[$this->hdhrkey_modelName],
 					$this->hdhrkey_ver => $hdhr_info[$this->hdhrkey_ver],
@@ -204,6 +222,11 @@ class DVRUI_HDHRjson {
 	public function get_engine_baseurl($pos) {
 		$device = $this->enginelist[$pos];
 		return $device[$this->hdhrkey_baseURL];
+	}
+
+	public function get_engine_id($pos) {
+		$device = $this->enginelist[$pos];
+		return $device[$this->hdhrkey_devID];
 	}
 
 	public function get_engine_modelname($pos) {
