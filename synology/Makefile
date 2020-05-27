@@ -43,6 +43,7 @@ $(BUILD_OUT_PATH)/$(MD5_NAME): $(BUILD_OUT_PATH)/$(SPK_NAME)
 $(BUILD_OUT_PATH)/$(SPK_NAME): $(TMP_SPK_PATH)/$(TMP_PKG_NAME)
 	@cp -R scripts $(TMP_SPK_PATH)
 	@cp icons/* $(TMP_SPK_PATH)
+	@cp -R conf $(TMP_SPK_PATH)
 	@cp INFO $(TMP_SPK_PATH)
 	@echo "Building $(SPK_NAME)"
 	@tar cf $(BUILD_OUT_PATH)/$(SPK_NAME) -C $(TMP_SPK_PATH) INFO PACKAGE_ICON_256.PNG PACKAGE_ICON.PNG package.tgz scripts

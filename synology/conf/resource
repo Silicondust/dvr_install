@@ -1,0 +1,11 @@
+{
+	"data-share": {
+		"shares": [{
+		  "name": "{{pkgwizard_share_name}}",
+		  "permission": {
+	    	"rw": ["admin"]
+	    	"rw": ["http"]
+	  	}
+		}]
+	}
+}

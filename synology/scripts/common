@@ -72,32 +72,49 @@ remove_recordings_path() {
 
 precheck_record_normal() {
   . $hdhr_etc_path/$hdhr_conf
-  echo "Checking RecordPath ${RecordPath} exists.... " >> $hdhr_arch_log
-  if [[ -d ${RecordPath} ]] ; then
-    echo "${RecordPath} exists and is a dir or symlink" >> $hdhr_arch_log
-  fi  
-
-  echo "Checking RecordPath ${RecordPath} writable for user ${EUID}.... " >> $hdhr_arch_log
+  echo "Checking RecordPath ${RecordPath} writable for ${EUID} .... " >> $hdhr_arch_log
   if [[ -w ${RecordPath}/precheck ]] ; then
-    echo "${RecordPath}/precheck already exists and is writable" >> $hdhr_arch_log
-    rm ${RecordPath}/precheck
+    echo "${RecordPath}/precheck already exists and is writeable - attempt to remove" >> $hdhr_arch_log
+    precheck_remove_file_root
     if [[ -e ${RecordPath}/precheck ]] ; then
-    echo "Something went wrong cleaning up ${RecordPath}/precheck " >> $hdhr_arch_log
+	    echo "Unable to remove ${RecordPath}/precheck " >> $hdhr_arch_log
+	  else
+	  	precheck_create_file_root
+	  	if [[ -e ${RecordPath}/precheck ]] ; then
+				echo "Success for root creating ${RecordPath}/precheck " >> $hdhr_arch_log
+	  	fi
+	    precheck_remove_file_root
     fi
   elif [[ -e ${RecordPath}/precheck ]] ; then
-    echo "${RecordPath}/precheck already exists and is not writable" >> $hdhr_arch_log
-  else
-    touch ${RecordPath}/precheck
-    if [[ -w ${RecordPath}/precheck ]] ; then
-      echo "${RecordPath}/precheck created and is writable" >> $hdhr_arch_log
-      rm ${RecordPath}/precheck
-      if [[ -e ${RecordPath}/precheck ]] ; then
-      echo "Something went wrong cleaning up ${RecordPath}/precheck " >> $hdhr_arch_log
-      fi
-    else
-      echo "Something went wrong creating ${RecordPath}/precheck " >> $hdhr_arch_log
-    fi
-  fi
+    echo "${RecordPath}/precheck already exists and is not writable by ${EUID}" >> $hdhr_arch_log
+    echo "Scripts unable to resolve - please resolve manually to remove" >> $hdhr_arch_log
+	else
+	  	precheck_create_file_root
+	  	if [[ -e ${RecordPath}/precheck ]] ; then
+				echo "Success for root creating ${RecordPath}/precheck " >> $hdhr_arch_log
+	  	fi
+	    precheck_remove_file_root
+	fi  
+}
+
+precheck_create_file_root() {
+ 	echo "Attempting to create ${RecordPath}/precheck as ${EUID}"  >> $hdhr_arch_log
+ 	/bin/touch ${RecordPath}/precheck
+}
+
+precheck_remove_file_root() {
+ 	echo "Attempting to remove ${RecordPath}/precheck as ${EUID}"  >> $hdhr_arch_log
+	/bin/rm ${RecordPath}/precheck
+}
+
+precheck_create_file_user() {
+ 	echo "Attempting to create ${RecordPath}/precheck as ${hdhr_user}" >> $hdhr_arch_log
+	$hdhr_bin_path/$hdhr_wrap -u $hdhr_user -b /bin/touch -- ${RecordPath}/precheck
+}
+
+precheck_remove_file_user() {
+ 	echo "Attempting to remove ${RecordPath}/precheck as ${hdhr_user}" >> $hdhr_arch_log
+	$hdhr_bin_path/$hdhr_wrap -u $hdhr_user -b /bin/rm -- ${RecordPath}/precheck
 }
 
 precheck_record_wrap() {
@@ -107,26 +124,31 @@ precheck_record_wrap() {
     echo "${RecordPath} exists and is a dir or symlink" >> $hdhr_arch_log
   fi  
 
+	# Attempt to write precheck as root user.
+	precheck_record_normal
+
   echo "Checking RecordPath ${RecordPath} writable for user ${hdhr_user}.... " >> $hdhr_arch_log
   if [[ -w ${RecordPath}/precheck ]] ; then
     echo "${RecordPath}/precheck already exists and is writable" >> $hdhr_arch_log
-    $hdhr_bin_path/$hdhr_wrap -u $hdhr_user -b /bin/rm -- ${RecordPath}/precheck
+    precheck_remove_file_user
     if [[ -e ${RecordPath}/precheck ]] ; then
-    echo "Something went wrong cleaning up ${RecordPath}/precheck " >> $hdhr_arch_log
+    	echo "User ${hdhr_user} is unable to remove ${RecordPath}/precheck " >> $hdhr_arch_log
+  	else
+	  	precheck_create_file_user
+	  	if [[ -e ${RecordPath}/precheck ]] ; then
+				echo "Success for user ${hdhr_user} creating ${RecordPath}/precheck " >> $hdhr_arch_log
+	  	fi
+	    precheck_remove_file_user
     fi
   elif [[ -e ${RecordPath}/precheck ]] ; then
     echo "${RecordPath}/precheck already exists and is not writable" >> $hdhr_arch_log
+    echo "Scripts unable to resolve - please resolve manually to remove" >> $hdhr_arch_log
   else
-    $hdhr_bin_path/$hdhr_wrap -u $hdhr_user -b /bin/touch -- ${RecordPath}/precheck
-    if [[ -w ${RecordPath}/precheck ]] ; then
-      echo "${RecordPath}/precheck created and is writable" >> $hdhr_arch_log
-      $hdhr_bin_path/$hdhr_wrap -u $hdhr_user -b /bin/rm -- ${RecordPath}/precheck
-      if [[ -e ${RecordPath}/precheck ]] ; then
-      echo "Something went wrong cleaning up ${RecordPath}/precheck " >> $hdhr_arch_log
-      fi
-    else
-      echo "Something went wrong creating ${RecordPath}/precheck " >> $hdhr_arch_log
-    fi
+	  	precheck_create_file_user
+	  	if [[ -e ${RecordPath}/precheck ]] ; then
+				echo "Success for user ${hdhr_user} creating ${RecordPath}/precheck " >> $hdhr_arch_log
+	  	fi
+	    precheck_remove_file_user
   fi
 }
 
@@ -145,8 +167,8 @@ start_engine() {
       echo "Platform not handled from  $arch" >> $hdhr_arch_log
     fi
     if [[ ! -z $hdhr_wrap ]]; then
-      echo "Starting Engine with wrapper ${hdhr_wrap} for user ${hdhr_user}" >> $hdhr_arch_log
       precheck_record_wrap
+      echo "Starting Engine with wrapper ${hdhr_wrap} for user ${hdhr_user}" >> $hdhr_arch_log
       $hdhr_bin_path/$hdhr_wrap -u $hdhr_user -b $hdhr_bin_path/$hdhr_bin -- start --conf $hdhr_etc_path/$hdhr_conf
     else
       echo "Arch unknown - Starting Engine normally" >> $hdhr_arch_log
