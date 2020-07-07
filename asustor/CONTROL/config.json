@@ -2,13 +2,13 @@
    "general":{
       "package":"HDHomeRunDVR",
       "name":"HDHomerun DVR",
-      "version":"0.4.7",
+      "version":"1.0.0",
       "depends":[],
       "conflicts":[],
       "developer":"Rik Dunphy",
       "maintainer":"Rik Dunphy",
       "email":"",
-      "website":"",
+      "website":"https://forum.silicondust.com/forum/viewtopic.php?f=126&t=70948",
       "architecture":"any",
       "firmware":"3.0"
    },
@@ -29,6 +29,10 @@
    		"prerequisites":{
    			"enable-service":["httpd"],
    			"restore-service":[]
-   		}
+   		},
+   		"share-folder":[{
+   			"name":"HDHomeRunDVR",
+   			"description":"Default DVR Folder"
+   		}]
    }
 }

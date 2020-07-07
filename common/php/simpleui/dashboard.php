@@ -2,11 +2,9 @@
 	require_once("TinyAjaxBehavior.php");
 	require_once("vars.php");
 	require_once("statusmessage.php");
-	require_once("includes/dvrui_recordengine.php");
 	require_once("includes/dvrui_recordengine_config.php");
 	require_once("includes/dvrui_recordengine_logfile.php");
 	require_once("includes/dvrui_recordengine_loglist.php");
-	require_once("includes/dvrui_hdhrcontrols.php");
 	
 	function openDashboard() {
 		// prep
@@ -122,13 +120,6 @@
 		$htmlStr =  file_get_contents('style/dashboard_logs.html');
 		$loglist = buildLogFileList($serverConfig->getRecordPath());
 		$htmlStr =  str_replace('<!-- dvrui_loglist -->', $loglist, $htmlStr);
-
-		$logfilters = buildLogFileFilters();
-		$htmlStr = str_replace('<!-- dvrui_logfile_filters -->',$logfilters,$htmlStr);
-		
-		$logHeader = file_get_contents('style/logfile_header.html');
-		$logHeader = str_replace('<!-- dvrui_logfile_name -->','Select Logfile to browse',$logHeader);
-		$htmlStr = str_replace('<!-- dvrui_logfile_header -->',$logHeader,$htmlStr);
 		return $htmlStr;
 	}
 
@@ -166,59 +157,6 @@
 		return $listStr;
 	}
 
-	function buildLogFileFilters(){
-		error_log("*** Building Log File Filter List ***");
-		$htmlStr = file_get_contents('style/filter_list.html');
-		$filters = '';
-		$filterNames = array('System', 'Recording' , 'Recorded', 'Playback', 'Error', 'Status');
-		for ($i=0; $i < count($filterNames); $i++) {
-			$filter = str_replace('<!-- filter entry name -->', $filterNames[$i], file_get_contents('style/filter_entry.html'));
-			$filters.= $filter;
-		}
-		$htmlStr = str_replace('<!-- dvrui_filter_entries -->', $filters, $htmlStr);
-		return $htmlStr;
-	}
-
-	function changeDvrState($option) {
-		error_log("*** Change DVR State ***");
-		// prep
-		ob_start();
-		$tab = new TinyAjaxBehavior();
-	
-		//create output
-		$conf = null;
-		if (DVRUI_Vars::DVR_sh == "" ) {
-			$hdhr = new DVRUI_HDHRcontrols(DVRUI_Vars::DVR_pkgPath . '/' . DVRUI_Vars::DVR_bin);
-			$conf = DVRUI_Vars::DVR_pkgPath . '/' . DVRUI_Vars::DVR_config;
-		} else {
-			$hdhr = new DVRUI_HDHRcontrols(DVRUI_Vars::DVR_pkgPath . '/' . DVRUI_Vars::DVR_sh);
-		}
-		switch ($option) {
-			case 'start':
-				if ($hdhr->start_DVR($conf))
-				break;
-			case 'stop':
-				if ($hdhr->shutdown_DVR())
-				break;
-			case 'restart':
-				if ($hdhr->restart_DVR())
-				break;
-		}
-
-		$statusmsg = getLatestHDHRStatus();
-		
-		//get data
-		$result = ob_get_contents();
-		ob_end_clean();
-	
-		//display
-		if ($result != '' && $result != NULL)
-			$tab->add(TabInnerHtml::getBehavior("statusMessage", $result));
-		else
-			$tab->add(TabInnerHtml::getBehavior("statusMessage", $statusmsg));
-		return $tab->getString();
-	}
-
 	function getLogFile($filename) {
 		error_log("*** Parsing Log File ***");
 		// prep
@@ -226,10 +164,6 @@
 		$tab = new TinyAjaxBehavior();
 		$configFile = new DVRUI_Engine_Config();
 
-		// construct Header
-		$logHeader = file_get_contents('style/logfile_header.html');
-		$logHeader = str_replace('<!-- dvrui_logfile_name -->',$filename,$logHeader);
-		
 		//create output
 		$logfile = new DVRUI_Engine_LogFile($filename);
 		$logEntry = file_get_contents('style/logfile_entry.html');
@@ -272,37 +206,6 @@
 	
 		//display
 		$tab->add(TabInnerHtml::getBehavior("logfile_box", $htmlStr));
-		$tab->add(TabInnerHtml::getBehavior("logfile_header", $logHeader));
-		if ($result != '' && $result != NULL)
-			$tab->add(TabInnerHtml::getBehavior("statusMessage", $result));
-		else
-			$tab->add(TabInnerHtml::getBehavior("statusMessage", $statusmsg));
-		return $tab->getString();
-	}
-
-	function rmLogFile($filename) {
-		error_log("*** Removing Log File ***");
-		// prep
-		ob_start();
-		$tab = new TinyAjaxBehavior();
-		$configFile = new DVRUI_Engine_Config();
-	
-		//create output
-		$htmlStr = 'Deleting ' . $filename;
-		if (file_exists($filename)) {
-			$del = unlink($filename);
-		}
-
-		$logFileList = buildLogFileList($configFile->getRecordPath());
-		$statusmsg = getLatestHDHRStatus();
-		
-		//get data
-		$result = ob_get_contents();
-		ob_end_clean();
-	
-		//display
-		$tab->add(TabInnerHtml::getBehavior("loglist", $logFileList));
-		$tab->add(TabInnerHtml::getBehavior("logfile_box", $htmlStr));
 		if ($result != '' && $result != NULL)
 			$tab->add(TabInnerHtml::getBehavior("statusMessage", $result));
 		else
@@ -339,33 +242,6 @@
 		
 		//display
 		$tab->add(TabInnerHtml::getBehavior("dashboard_box", $htmlStr));
-		if ($result != '' && $result != NULL)
-			$tab->add(TabInnerHtml::getBehavior("statusMessage", $result));
-		else
-			$tab->add(TabInnerHtml::getBehavior("statusMessage", $statusmsg));
-		return $tab->getString();
-	}
-	
-	function upgradeServerEngine() {
-		error_log("*** Upgrading Server ***");
-		// prep
-		ob_start();
-		$tab = new TinyAjaxBehavior();
-		$configFile = new DVRUI_Engine_Config();
-	
-		//create output
-		error_log('Upgrading DVR Engine');
-		$engine = new DVRUI_DVREngine();
-		if ($engine->checkForNewEngine()) {
-			$engine->downloadEngine();
-		}
-		$statusmsg = getLatestHDHRStatus();
-		
-		//get data
-		$result = ob_get_contents();
-		ob_end_clean();
-	
-		//display
 		if ($result != '' && $result != NULL)
 			$tab->add(TabInnerHtml::getBehavior("statusMessage", $result));
 		else

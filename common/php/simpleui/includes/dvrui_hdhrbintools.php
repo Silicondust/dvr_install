@@ -1,11 +1,17 @@
 <?php
+require_once ("vars.php");
+require_once ("includes/dvrui_recordengine_config.php");
 
 class DVRUI_HDHRbintools {
 	private $hdhr_bin = '';
 	private $dvr_version = 'Unable to discover DVR version';
 	private $dvr_status = 'Unable to discover DVR status';
 	
-	public function __construct($hdhr) {
+	public function __construct() {
+                $dvrconf = new DVRUI_Engine_Config();
+                $rpath = $dvrconf->getRecordPath();
+                $hdhr = $rpath . "/" . DVRUI_Vars::DVR_bin;
+                error_log("Setting hdhr to [".$hdhr."]");
 		if (file_exists($hdhr)) {
 			$this->hdhr_bin = $hdhr;
 		}

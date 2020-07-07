@@ -5,79 +5,71 @@ HDHR_PATH=$SYS_QPKG_DIR/HDHomeRunDVR
 HDHR_REC_PATH=$SYS_QPKG_BASE/HDHomeRunDVR
 HDHR_UI_PATH=$HDHR_QPKG_PATH/ui
 HDHR_UI_VARS=$HDHR_UI_PATH/vars.php
-HDHR_DVR_BIN=hdhomerun_record_linux
+HDHR_DVR_BIN=hdhomerun_record
+HDHR_DVR_SH=HDHomeRunDVR.sh
 HDHR_LOG_PREFIX="$HDHR_QPKG_NAME:"
-HDHR_USER=httpdusr
-HDHR_GROUP=administrators
+HDHR_USER=hdhomerundvr
+
+DEFAULT_SHARE=`/sbin/getcfg SHARE_DEF defVolMP -f /etc/config/def_share.info`
+
+CMD_ADDUSER=/bin/adduser
+CMD_ADDSHARE=/sbin/addshare
+CMD_DELUSER=/sbin/user_del
 
 PKG_MAIN_REMOVE="{
 	if [ -e $SYS_WEB_PATH/HDHomeRunDVR ]; then
 		$CMD_RM $SYS_WEB_PATH/HDHomeRunDVR
 	fi
+	$CMD_DELUSER $HDHR_USER
 }"
 
 
-pkg_init(){
-	add_qpkg_config $HDHR_CONF 8d3ec1e23d8b659eb2c0d1bf927abf43
-}
-
-
-pkg_install(){
-	# Setup the default recordings path directory
-	#   Check if we have Recordings, Multimedia, Public in that order
-	#   if not need to just place in the Base dir
-	log "$HDHR_LOG_PREFIX Checking for the default Recording Path"
-	if [ ! $SYS_RECORDINGS_PATH == "" ] && [ -d $SYS_RECORDINGS_PATH ] ; then
-		HDHR_REC_PATH=$SYS_RECORDINGS_PATH/HDHomeRunDVR
-	elif [ ! $SYS_MULTIMEDIA_PATH == "" ] && [ -d $SYS_MULTIMEDIA_PATH ] ; then
-		HDHR_REC_PATH=$SYS_MULTIMEDIA_PATH/HDHomeRunDVR
-	elif [ ! $SYS_PUBLIC_PATH == "" ] && [ -d $SYS_PUBLIC_PATH ] ; then
-		HDHR_REC_PATH=$SYS_PUBLIC_PATH/HDHomeRunDVR
-	else
-		HDHR_REC_PATH=$SYS_QPKG_BASE/HDHomeRunDVR
+pkg_pre_install() {
+	log "$HDHR_LOG_PREFIX Checking if $HDHR_USER exists"
+	UserCheck=`id $HDHR_USER`
+	if [ -z "$UserCheck" ]; then
+		log "$HDHR_LOG_PREFIX User $HDHR_USER doesn't exist"
+		log "$HDHR_LOG_PREFIX Creating user"
+		$CMD_ADDUSER -HD $HDHR_USER
 	fi
-	log "$HDHR_LOG_PREFIXDefault Recording Path detected as $HDHR_REC_PATH"
-	
-	# check for record path is controlled by the QPKG
+	log "$HDHR_LOG_PREFIX Checking if a RecordPath already is set and exists"
 	log "$HDHR_LOG_PREFIX Parsing $HDHR_QPKG_PATH/$HDHR_CONF"
 	if [ ! -f $HDHR_QPKG_PATH/$HDHR_CONF ] ; then
-		err "$HDHR_LOG_PREFIX  No config file"
-	fi
-
-	log "$HDHR_LOG_PREFIX checkpoint"	
-	. $HDHR_QPKG_PATH/$HDHR_CONF
-	log "$HDHR_LOG_PREFIX Checking for userset Record Path - is: $RecordPath"
-	if [ "$RecordPath" == "$HDHR_REC_PATH" ] ; then
-		# Need to check if folder eists  if not create it 
-		log "$HDHR_LOG_PREFIX Checking $HDHR_REC_PATH exists"
-		if [ ! -e $HDHR_REC_PATH ] ; then
-			log "$HDHR_LOG_PREFIX Created Record Path directory $HDHR_REC_PATH"
-			$CMD_MKDIR -p $HDHR_REC_PATH
-		fi
+		log "$HDHR_LOG_PREFIX No config file found"
+		log "$HDHR_LOG_PREFIX Creating default share"
+		$CMD_MKDIR -p $DEFAULT_SHARE/HDHomeRunDVR
+		$CMD_ADDSHARE HDHomeRunDVR $DEFAULT_SHARE/HDHomeRunDVR -uw:admin -uw:$HDHR_USER
 	else
-		# They are different, so assume we have customized somehow..
-		# lets make sure the path exists
-		log "$HDHR_LOG_PREFIX Checking $RecordPath exists"
-		if [ ! -e $RecordPath ] ; then
-			log "$HDHR_LOG_PREFIX Created Record Path directory $HDHR_REC_PATH"
-			$CMD_MKDIR -p $RecordPath
-		fi		
+		log "$HDHR_LOG_PREFIX Existing config file found"
+		log "$HDHR_LOG_PREFIX Copying file to preserve during update"
+		$CMD_COPY $HDHR_QPKG_PATH/$HDHR_CONF /tmp/$HDHR_CONF.backup
 	fi
+}
+
+pkg_install(){
 	
-	#No matter the RecordPath - we need to make sure it's writable by the httpdusr
-	log "$HDHR_LOG_PREFIX Ensuring $ReoordPath is owned/accessible by the httpdusr user"
-        $CMD_CHOWN -R httpdusr $RecordPath
-        $CMD_CHMOD -R u+w $RecordPath
+	log "$HDHR_LOG_PREFIX Checking if backup conf exists and restore"
+	if [ -f /tmp/$HDHR_CONF.backup ]; then
+		log "$HDHR_LOG_PREFIX Moving back the backup config file"
+		$CMD_MV -f /tmp/$HDHR_CONF.backup $HDHR_QPKG_PATH/$HDHR_CONF
+	else
+		log "$HDHR_LOG_PREFIX no backup file, so generate one"
+		$CMD_TOUCH $HDHR_QPKG_PATH/$HDHR_CONF
+		$CMD_ECHO "RecordPath=$DEFAULT_SHARE/HDHomeRunDVR" >> $HDHR_QPKG_PATH/$HDHR_CONF
+		$CMD_ECHO "Port=59090" >> $HDHR_QPKG_PATH/$HDHR_CONF
+		$CMD_ECHO "RecordStreamsMax=16" >> $HDHR_QPKG_PATH/$HDHR_CONF
+		$CMD_ECHO "BetaEngine=1" >> $HDHR_QPKG_PATH/$HDHR_CONF
+		$CMD_ECHO "RunAs=$HDHR_USER" >> $HDHR_QPKG_PATH/$HDHR_CONF
+	fi	
 
-        # PatchUp the UI Vars File to point to the installation
-        log "$HDHR_LOG_PREFIX Patching UI Vars file with QPKG path and Version"
-        $CMD_SED -i "s!\(DVR_pkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
+	# PatchUp the UI Vars File to point to the installation
+	log "$HDHR_LOG_PREFIX Patching UI Vars file with QPKG path and Version"
+	$CMD_SED -i "s!\(DVR_pkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
 
-        # Make Config File world writable (will see if I can reduce to just group later)
-        log "$HDHR_LOG_PREFIX Setting Conf file group writable"
+	# Make Config File world writable (will see if I can reduce to just group later)
+	log "$HDHR_LOG_PREFIX Setting Conf file group writable"
 	$CMD_CHMOD g+w $HDHR_QPKG_PATH/$HDHR_CONF
-
-	# Make Sure the Style directory is writable
+	$CMD_CHOWN $HDHR_USER $HDHR_QPKG_PATH/$HDHR_CONF
 
 	# Softlink the UI to the Web Path
 	log "$HDHR_LOG_PREFIX Linking the Web UI"
@@ -93,9 +85,13 @@ pkg_install(){
 }
 
 pkg_post_install() {
-	log "Updating the UI Version to that just installed"
+	log "Updating the UI vars.php"
 	HDHR_VER=$($CMD_GETCFG $HDHR_QPKG_NAME $SYS_QPKG_CONF_FIELD_VERSION -f $SYS_QPKG_CONFIG_FILE -d "unkown")
-        $CMD_SED -i "s!\(DVRUI_version\s*=\).*!\1\"$HDHR_VER\";!" $HDHR_UI_VARS
+	$CMD_SED -i "s!\(DVRUI_version\s*=\).*!\1\"$HDHR_VER\";!" $HDHR_UI_VARS
+	$CMD_SED -i "s!\(DVR_pkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
+	$CMD_SED -i "s!\(DVR_bin\s*=\).*!\1\"$HDHR_DVR_BIN\";!" $HDHR_UI_VARS
+	$CMD_SED -i "s!\(DVR_sh\s*=\).*!\1\"$HDHR_DVR_SH\";!" $HDHR_UI_VARS
+	$CMD_SED -i "s!\(DVR_config\s*=\).*!\1\"$HDHR_CONF\";!" $HDHR_UI_VARS
 	log "HDHR_LOG_PREFIX Ensuring permissions are correct on UI"
 	$CMD_CHOWN -R $HDHR_USER $HDHR_UI_PATH
 	$CMD_CHMOD -R u+w $HDHR_UI_PATH

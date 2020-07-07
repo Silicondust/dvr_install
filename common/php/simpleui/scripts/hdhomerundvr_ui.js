@@ -28,9 +28,6 @@ function openTab(evt, tabname) {
 	if (tabname == 'dashboard_page') {
 		openDashboard();
 	}
-	if (tabname == 'recordings_page') {
-		openRecordingsPage();
-	}
 	if (tabname == 'diagnostics_page') {
 		openDiagnosticsPage();
 	}
@@ -70,11 +67,6 @@ function deleteLogFile(value)
 	rmLogFile(value);
 }
 
-function restartService(value)
-{
-	changeDvrState(value);
-}
-
 function updateServer() {
 	var port = document.getElementById('Port').value;
 	var path = document.getElementById('RecordPath').value;
@@ -82,25 +74,3 @@ function updateServer() {
 	updateServerConfig(port, path, streams);
 }
 
-function upgradeServer() {
-	//upgradeServerEngine();
-	window.alert("*** Coming Soon! ***");
-}
-
-function reveal(evt, modal) {
-	document.getElementById(modal).style.display = "block";
-}
-
-function hideReveal(evt, modal) {
-	document.getElementById(modal).style.display = 'none';
-}
-
-function deleteRecording(evt, recording_id, reveal) {
-	deleteRecordingByID(recording_id,false);
-	hideReveal(evt, reveal);
-}
-
-function rerecordRecording(evt, recording_id, reveal) {
-	deleteRecordingByID(recording_id,true);
-	hideReveal(evt, reveal);
-}
