@@ -42,8 +42,10 @@ pkg_pre_install() {
 	else
 		log "$HDHR_LOG_PREFIX Existing config file found"
 		log "$HDHR_LOG_PREFIX Copying file to preserve during update"
-		$CMD_COPY $HDHR_QPKG_PATH/$HDHR_CONF /tmp/$HDHR_CONF.backup
+		$CMD_MV $HDHR_QPKG_PATH/$HDHR_CONF /tmp/$HDHR_CONF.backup
 	fi
+	log "$HDHR_LOG_PREFIX removing any left over hdhomerun binaries in /tmp"
+	$CMD_RM -f /tmp/hdhomerun_*
 }
 
 pkg_install(){

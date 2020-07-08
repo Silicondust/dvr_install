@@ -4,6 +4,8 @@ QPKG_NAME="HDHomeRunDVR"
 QPKG_ROOT=`/sbin/getcfg $QPKG_NAME Install_Path -f ${CONF}`
 HDHOMERUN_CONF=HDHomeRunDVR.conf
 CURR_USER='id -u'
+hdhr_log=/tmp/hdhomerundvr_install.log
+hdhr_grp=http
 
 # Download URLs from Silicondust - Shouldn't change much
 DownloadURL=https://download.silicondust.com/hdhomerun/hdhomerun_record_linux
@@ -63,7 +65,7 @@ update_engine()
 			rm ${RecordPath}/${DVRBin}_beta
 		fi
 	fi
-	chmod ug+x ${RecordPath}/${DVRBin}
+	chmod 755 ${RecordPath}/${DVRBin}
 	if [ ! -z "${RunAs}" ] ; then
 		echo "Changing binary owner to ${RunAs}"
 		chown ${RunAs} ${RecordPath}/${DVRBin}
