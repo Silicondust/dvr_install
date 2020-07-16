@@ -49,21 +49,6 @@ pkg_pre_install() {
 }
 
 pkg_install(){
-	
-	log "$HDHR_LOG_PREFIX Checking if backup conf exists and restore"
-	if [ -f /tmp/$HDHR_CONF.backup ]; then
-		log "$HDHR_LOG_PREFIX Moving back the backup config file"
-		$CMD_MV -f /tmp/$HDHR_CONF.backup $HDHR_QPKG_PATH/$HDHR_CONF
-	else
-		log "$HDHR_LOG_PREFIX no backup file, so generate one"
-		$CMD_TOUCH $HDHR_QPKG_PATH/$HDHR_CONF
-		$CMD_ECHO "RecordPath=$DEFAULT_SHARE/HDHomeRunDVR" >> $HDHR_QPKG_PATH/$HDHR_CONF
-		$CMD_ECHO "Port=59090" >> $HDHR_QPKG_PATH/$HDHR_CONF
-		$CMD_ECHO "RecordStreamsMax=16" >> $HDHR_QPKG_PATH/$HDHR_CONF
-		$CMD_ECHO "BetaEngine=1" >> $HDHR_QPKG_PATH/$HDHR_CONF
-		$CMD_ECHO "RunAs=$HDHR_USER" >> $HDHR_QPKG_PATH/$HDHR_CONF
-	fi	
-
 	# PatchUp the UI Vars File to point to the installation
 	log "$HDHR_LOG_PREFIX Patching UI Vars file with QPKG path and Version"
 	$CMD_SED -i "s!\(DVR_pkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
@@ -97,4 +82,18 @@ pkg_post_install() {
 	log "HDHR_LOG_PREFIX Ensuring permissions are correct on UI"
 	$CMD_CHOWN -R $HDHR_USER $HDHR_UI_PATH
 	$CMD_CHMOD -R u+w $HDHR_UI_PATH
+
+        log "$HDHR_LOG_PREFIX Checking if backup conf exists and restore"
+        if [ -f /tmp/$HDHR_CONF.backup ]; then
+                log "$HDHR_LOG_PREFIX Moving back the backup config file"
+                $CMD_MV -f /tmp/$HDHR_CONF.backup $HDHR_QPKG_PATH/$HDHR_CONF
+        else
+                log "$HDHR_LOG_PREFIX no backup file, so generate one"
+                $CMD_TOUCH $HDHR_QPKG_PATH/$HDHR_CONF
+                $CMD_ECHO "RecordPath=$DEFAULT_SHARE/HDHomeRunDVR" >> $HDHR_QPKG_PATH/$HDHR_CONF
+                $CMD_ECHO "Port=59090" >> $HDHR_QPKG_PATH/$HDHR_CONF
+                $CMD_ECHO "RecordStreamsMax=16" >> $HDHR_QPKG_PATH/$HDHR_CONF
+                $CMD_ECHO "BetaEngine=1" >> $HDHR_QPKG_PATH/$HDHR_CONF
+                $CMD_ECHO "RunAs=$HDHR_USER" >> $HDHR_QPKG_PATH/$HDHR_CONF
+        fi
 }
