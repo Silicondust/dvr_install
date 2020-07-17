@@ -53,11 +53,6 @@ pkg_install(){
 	log "$HDHR_LOG_PREFIX Patching UI Vars file with QPKG path and Version"
 	$CMD_SED -i "s!\(DVR_pkgPath\s*=\).*!\1\"$HDHR_QPKG_PATH\";!" $HDHR_UI_VARS
 
-	# Make Config File world writable (will see if I can reduce to just group later)
-	log "$HDHR_LOG_PREFIX Setting Conf file group writable"
-	$CMD_CHMOD g+w $HDHR_QPKG_PATH/$HDHR_CONF
-	$CMD_CHOWN $HDHR_USER $HDHR_QPKG_PATH/$HDHR_CONF
-
 	# Softlink the UI to the Web Path
 	log "$HDHR_LOG_PREFIX Linking the Web UI"
 	if [ ! -e $SYS_WEB_PATH/HDHomeRunDVR ] ; then
@@ -96,4 +91,11 @@ pkg_post_install() {
                 $CMD_ECHO "BetaEngine=1" >> $HDHR_QPKG_PATH/$HDHR_CONF
                 $CMD_ECHO "RunAs=$HDHR_USER" >> $HDHR_QPKG_PATH/$HDHR_CONF
         fi
+
+        # Make Config File world writable (will see if I can reduce to just group later)
+        log "$HDHR_LOG_PREFIX Setting Conf file group writable"
+        $CMD_CHMOD g+w $HDHR_QPKG_PATH/$HDHR_CONF
+        $CMD_CHOWN $HDHR_USER $HDHR_QPKG_PATH/$HDHR_CONF
+
+
 }
