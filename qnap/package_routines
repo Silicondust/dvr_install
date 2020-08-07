@@ -88,7 +88,7 @@ pkg_post_install() {
 		fi
 		if ! $CMD_GREP -q "BetaEngine" $HDHR_QPKG_PATH/$HDHR_CONF ; then
 			log "$HDHR_LOG_PREFIX Adding BetaEngine to conf file"
-			$CMD_ECHO "BetaEngine=1" >> $HDHR_QPKG_PATH/$HDHR_CONF
+			$CMD_ECHO "BetaEngine=0" >> $HDHR_QPKG_PATH/$HDHR_CONF
 		fi
 	else
 		log "$HDHR_LOG_PREFIX no backup file, so generate one"
@@ -96,7 +96,7 @@ pkg_post_install() {
 		$CMD_ECHO "RecordPath=$DEFAULT_SHARE/HDHomeRunDVR" >> $HDHR_QPKG_PATH/$HDHR_CONF
 		$CMD_ECHO "Port=59090" >> $HDHR_QPKG_PATH/$HDHR_CONF
 		$CMD_ECHO "RecordStreamsMax=16" >> $HDHR_QPKG_PATH/$HDHR_CONF
-		$CMD_ECHO "BetaEngine=1" >> $HDHR_QPKG_PATH/$HDHR_CONF
+		$CMD_ECHO "BetaEngine=0" >> $HDHR_QPKG_PATH/$HDHR_CONF
 		$CMD_ECHO "RunAs=$HDHR_USER" >> $HDHR_QPKG_PATH/$HDHR_CONF
 	fi
 

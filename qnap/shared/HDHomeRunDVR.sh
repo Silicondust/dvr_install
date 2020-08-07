@@ -67,7 +67,6 @@ update_engine()
 	else
 			echo "$LogPrefix Not checking for Beta versions using the Release version" >> $hdhr_log
 			mv ${RecordPath}/${DVRBin}_rel ${RecordPath}/${DVRBin}
-			rm ${RecordPath}/${DVRBin}_beta
 	fi
 	chmod 755 ${RecordPath}/${DVRBin}
 	if [ ! -z "${RunAs}" ] ; then
