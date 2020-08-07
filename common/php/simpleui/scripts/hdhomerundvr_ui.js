@@ -11,7 +11,7 @@
 
 
 function openTab(evt, tabname) {
-	var i, tabcontent, tablinks;
+	var i, tabcontent, tablinks, tab;
 	// get elements with class="tabcontent" and hide
 	tabcontent = document.getElementsByClassName("tabcontent");
 	for (i=-0; i < tabcontent.length; i++) {
@@ -33,7 +33,10 @@ function openTab(evt, tabname) {
 	}
 
 	//show the tablinks
-	document.getElementById(tabname).style.display = "block";
+  tab = document.getElementById(tabname)
+  if (tab != null) {
+  	tab.style.display = "block";
+  }
 	evt.currentTarget.className += " active";
 }
 
@@ -71,6 +74,8 @@ function updateServer() {
 	var port = document.getElementById('Port').value;
 	var path = document.getElementById('RecordPath').value;
 	var streams = document.getElementById('RecordStreamsMax').value;
-	updateServerConfig(port, path, streams);
+	var runas = document.getElementById('RunAs').value;
+	var beta = document.getElementById('BetaEngine').value;
+	updateServerConfig(port, path, streams, runas, beta);
 }
 

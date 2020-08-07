@@ -440,7 +440,7 @@ a.active {
   border-style: groove;
 }
 #dashboard_server_container {
-  height: 190px;
+  height: 265px;
 }
 #dashboard_logs_container {
   height: 400px;
@@ -529,8 +529,8 @@ ul.dashboard_ctrls_list li a {
   border-radius: 5px 5px 5px 5px;
   box-shadow: 2px 2px 2px black;
   border: solid 1px #020;
-  width: 160px;
-  height: 160px;
+  width: 100px;
+  height: 250px;
   vertical-align: middle;
 }
 .dashboard_ctrl_link_icon {

@@ -68,6 +68,17 @@
 			$serverParamEntry = str_replace('<!-- dvrui_param_name -->', 'StorageID', $serverParamEntry);
 			$serverParamEntry = str_replace('<!-- dvrui_param_value -->', $serverConfig->getStorageId(), $serverParamEntry);
 			$htmlStr = str_replace('<!-- dvrui_config_storage_value -->', $serverParamEntry, $htmlStr);
+
+			$serverParamEntry = file_get_contents('style/dashboard_ctrls_entry_wr.html');
+			$serverParamEntry = str_replace('<!-- dvrui_param_name -->', 'RunAs', $serverParamEntry);
+			$serverParamEntry = str_replace('<!-- dvrui_param_value -->', $serverConfig->getRunAs(), $serverParamEntry);
+			$htmlStr = str_replace('<!-- dvrui_config_runas -->', $serverParamEntry, $htmlStr);
+
+			$serverParamEntry = file_get_contents('style/dashboard_ctrls_entry_wr.html');
+			$serverParamEntry = str_replace('<!-- dvrui_param_name -->', 'BetaEngine', $serverParamEntry);
+			$serverParamEntry = str_replace('<!-- dvrui_param_value -->', $serverConfig->getBetaEngine(), $serverParamEntry);
+			$htmlStr = str_replace('<!-- dvrui_config_beta -->', $serverParamEntry, $htmlStr);
+
 		} else {
 			$htmlStr = "ERROR: Can't Parse Config File: " . $configFile->getConfigFileName();
 		}
@@ -213,7 +224,7 @@
 		return $tab->getString();
 	}
 
-	function updateServerConfig($port,$path,$streams) {
+	function updateServerConfig($port,$path,$streams,$runas,$beta) {
 		// prep
 		ob_start();
 		$tab = new TinyAjaxBehavior();
@@ -221,10 +232,14 @@
 		//create output
 		$serverConfig = new DVRUI_Engine_Config();
 
-		error_log('Updating Config File: '. $port . ' | ' . $streams . ' | ' . $path);
+		error_log('Updating Config File: '. $port . ' | ' . $streams . ' | ' . $path . ' | ' . $runas . ' | ' . $beta);
 		$serverConfig->setRecordPath($path);
 		$serverConfig->setRecordStreamsMax($streams);
 		$serverConfig->setServerPort($port);
+		if ($runas != 'not set') {
+			$serverConfig->setRunAs($runas);
+		}
+		$serverConfig->setBetaEngine($beta);
 		$serverConfig->writeConfigFile();
 	
 	

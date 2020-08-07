@@ -82,6 +82,30 @@ class DVRUI_Engine_Config {
 		$this->configArray['RecordStreamsMax'] = $streams;
 	}
 
+	public function getRunAs() {
+	 	$retVal = 'not set';
+		if (array_key_exists('RunAs', $this->configArray)) {
+			$retVal = $this->configArray['RunAs'];
+		}
+		return $retVal;
+	}
+
+	public function setRunAs($user) {
+		$this->configArray['RunAs'] = $user;
+	}
+
+	public function getBetaEngine() {
+	 	$retVal = '0';
+		if (array_key_exists('BetaEngine', $this->configArray)) {
+			$retVal = $this->configArray['BetaEngine'];
+		}
+		return $retVal;
+	}
+
+	public function setBetaEngine($enable) {
+		$this->configArray['BetaEngine'] = $enable;
+	}
+
 
 	public function writeConfigFile() {
 		error_log('Writing Config File');
