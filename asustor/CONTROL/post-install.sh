@@ -46,7 +46,20 @@ fi
 echo "$LogPrefix ** Restore Config File " >> $hdhr_log
 if [-e "$APKG_TEMP_DIR/$hdhr_conf" ]; then
 	cp $APKG_TEMP_DIR/$hdhr_conf $hdhr_etc_path
+  echo "$LogPrefix Confirm we have RunAs and BetaEngine in the Config File, create if not" >> $hdhr_log
+	if ! grep -q "RunAs" $hdhr_etc_path/$hdhr_conf ; then
+		echo "$LogPrefix Adding RunAs to conf file" >> $hdhr_log
+		echo "RunAs=$HDHR_USER" >> $hdhr_etc_path/$hdhr_conf
+	fi
+	if ! grep -q "BetaEngine" $hdhr_etc_path/$hdhr_conf ; then
+		echo "$LogPrefix Adding BetaEngine to conf file" >> $hdhr_log
+		echo "BetaEngine=0" >> $hdhr_etc_path/$hdhr_conf
+	fi
 fi
+
+# clear /tmp of any left over engines
+echo "$LogPrefix ** Removing temporary record engine that might be sitting around" >> $hdhr_log
+rm -f /tmp/hdhomerun_*
 
 #adjust_permissions
 echo "$LogPrefix ** Adjust Config File Permissions" >> $hdhr_log

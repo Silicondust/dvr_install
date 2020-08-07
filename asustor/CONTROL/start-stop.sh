@@ -66,6 +66,9 @@ update_engine()
 			mv ${RecordPath}/${DVRBin}_rel ${RecordPath}/${DVRBin}
 			rm ${RecordPath}/${DVRBin}_beta
 		fi
+	else
+			echo "$LogPrefix Skipping check for beta - using the Release version" >> $hdhr_log
+			mv ${RecordPath}/${DVRBin}_rel ${RecordPath}/${DVRBin}
 	fi
 	if [ ! -z "${RunAs}" ] ; then
 		echo "$LogPrefix Changing binary owner to ${RunAs}" >> $hdhr_log
