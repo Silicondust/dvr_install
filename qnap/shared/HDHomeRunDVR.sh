@@ -20,9 +20,9 @@ DVRBin=hdhomerun_record
 #
 validate_config_file()
 {
-	echo	"**	Validating the Config	File is	available	and	set	up correctly"
+	echo "Validating the Config File is available and set up correctly"
 	if	[[ -e	${QPKG_ROOT}/${HDHOMERUN_CONF} ]]	;	then
-		echo "Config File	exists and is	writable - is	record path	and	port correct"	
+		echo "Config File exists and is writable - is record path and port correct"	
 		.	 ${QPKG_ROOT}/${HDHOMERUN_CONF}
 		#	TODO:	Validate RecordPath
 		#	TODO:	Validate Port
@@ -40,7 +40,7 @@ validate_config_file()
 #
 update_engine()
 {
-	echo "** Installing the HDHomeRunDVR Record Engine"
+	echo "-- Installing the HDHomeRunDVR Record Engine"
 	echo "Lets remove any existing engine - we're going to take the latest always.... "
 	rm -f  ${RecordPath}/${DVRBin}
 	echo "Checking it was deleted - if we can't remove it we can't update"
@@ -64,6 +64,10 @@ update_engine()
 			mv ${RecordPath}/${DVRBin}_rel ${RecordPath}/${DVRBin}
 			rm ${RecordPath}/${DVRBin}_beta
 		fi
+	else
+			echo "$LogPrefix Not checking for Beta versions using the Release version" >> $hdhr_log
+			mv ${RecordPath}/${DVRBin}_rel ${RecordPath}/${DVRBin}
+			rm ${RecordPath}/${DVRBin}_beta
 	fi
 	chmod 755 ${RecordPath}/${DVRBin}
 	if [ ! -z "${RunAs}" ] ; then
@@ -74,6 +78,7 @@ update_engine()
 
 case "$1" in
 	start)
+		echo "Checking $QPKG_NAME is enabled"
 		ENABLED=$(/sbin/getcfg $QPKG_NAME Enable -u -d FALSE -f $CONF)
 		if [ "$ENABLED" != "TRUE" ]; then
 				echo "$QPKG_NAME is disabled."
