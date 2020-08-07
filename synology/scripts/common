@@ -85,7 +85,7 @@ create_conf_file() {
 			echo "RecordPath=$SYNOPKG_PKGDEST_VOL/$SYNOPKG_PKGNAME" >> $hdhr_etc_path/$hdhr_conf 
 			echo "Port=59090" >> $hdhr_etc_path/$hdhr_conf 
 			echo "RecordStreamsMax=16" >> $hdhr_etc_path/$hdhr_conf 
-			echo "BetaEngine=1" >> $hdhr_etc_path/$hdhr_conf 
+			echo "BetaEngine=0" >> $hdhr_etc_path/$hdhr_conf 
 			echo "RunAs=$hdhr_user" >>  $hdhr_etc_path/$hdhr_conf 
 		fi
 	fi
@@ -103,6 +103,21 @@ restore_conf_file() {
 	if [-e "$SYNOPKG_TEMP_UPGRADE_FOLDER/$hdhr_conf" ]; then
 		cp $SYNOPKG_TEMP_UPGRADE_FOLDER/$hdhr_conf $hdhr_etc_path
 	fi
+  echo "$LogPrefix Confirm we have RunAs and BetaEngine in the Config File, create if not" >> $hdhr_log
+	if ! grep -q "RunAs" $hdhr_etc_path/$hdhr_conf ; then
+		echo "$LogPrefix Adding RunAs to conf file" >> $hdhr_log
+		echo "RunAs=$HDHR_USER" >> $hdhr_etc_path/$hdhr_conf
+	fi
+	if ! grep -q "BetaEngine" $hdhr_etc_path/$hdhr_conf ; then
+		echo "$LogPrefix Adding BetaEngine to conf file" >> $hdhr_log
+		echo "BetaEngine=0" >> $hdhr_etc_path/$hdhr_conf
+	fi
+	
+}
+
+clear_tmp_engine() {
+  echo "$LogPrefix ** Removing temporary record engine that might be sitting around" >> $hdhr_log
+	rm -f /tmp/hdhomerun_*
 }
 
 create_recordings_path() {
@@ -186,6 +201,9 @@ update_engine()
 			mv ${RecordPath}/${DVRBin}_rel ${RecordPath}/${DVRBin}
 			rm ${RecordPath}/${DVRBin}_beta
 		fi
+	else
+			echo "$LogPrefix Skipping check for beta - using the Release version" >> $hdhr_log
+			mv ${RecordPath}/${DVRBin}_rel ${RecordPath}/${DVRBin}
 	fi
 	if [ ! -z "${RunAs}" ] ; then
 		echo "$LogPrefix Changing binary owner to ${RunAs}" >> $hdhr_log
