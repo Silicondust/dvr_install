@@ -3,8 +3,5 @@
 package_path=$(dirname "$0")
 . $package_path/common
 
-delete_web_ui
-delete_dvr_user
-delete_recordings_path
 
 exit 0

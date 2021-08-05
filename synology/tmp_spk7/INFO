@@ -10,5 +10,5 @@ install_dep_packages="WebStation:PHP7.4"
 startstop_restart_services="nginx"
 adminurl="HDHomeRunDVR"
 helpurl="https://forum.silicondust.com/forum/viewtopic.php?f=126&t=67044"
-os_min_ver="OSMINVER"
+os_min_ver="7.0-40000"
 

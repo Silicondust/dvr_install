@@ -1,0 +1,591 @@
+#footer {
+  clear: both;
+  margin: 20px 0 20px 0;
+  text-align: center;
+  color: #626E7F;
+  text-shadow: 0 1px 0 #FFFFFF;
+}
+#footer a {
+  color: #626E7F;
+}
+#header {
+  background: #008800;
+  color: black;
+  height: 80px;
+  position: relative;
+  padding: 20px;
+  border-radius: 10px;
+  border-top: solid 1px #96D0F7;
+  border-bottom: solid 1px #0C3459;
+}
+#logo {
+  height: 65px;
+  position: absolute;
+  left: 20px;
+}
+#logo a {
+  text-decoration: none;
+  color: white;
+}
+#logo h1 {
+  top: 5px;
+  font-size: 2.8em;
+  text-shadow: 0 2px 2px #0E3E68;
+  bottom: 5px;
+}
+#logo p {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+a {
+  color: #1D68AB;
+  text-decoration: underline;
+}
+a:hover {
+  text-decoration: none;
+}
+html {
+  background: #004d39;
+}
+body,
+input {
+  font-family: Arial, sans-serif;
+}
+br.clearfix {
+  clear: both;
+}
+strong {
+  color: #333333;
+}
+h1,
+h2,
+h3 {
+  text-shadow: 0 2px 0 #888888;
+}
+h2 {
+  font-size: 2.25em;
+}
+h2,
+h3,
+h4 {
+  color: #001739;
+}
+h3 {
+  font-size: 1.5em;
+}
+h4 {
+  font-size: 1.25em;
+}
+img.alignleft {
+  margin: 5px 20px 20px 0;
+  float: left;
+}
+img.aligntop {
+  margin: 5px 0 20px 0;
+}
+#page {
+  position: relative;
+  margin: 0px;
+  padding: 5px;
+  width: 100%;
+}
+#dashboard_page {
+  position: relative;
+  padding: 0;
+  width: 100%;
+  display: hidden;
+}
+li.diagnostics_page {
+  position: absolute;
+  right: 10;
+}
+a.diagnostics_page {
+  text-color: #cccccc;
+  padding: 5px 5px 5px 5px;
+  background-image: url("../images/gear.png");
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#start_page {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-width: 800px;
+  display: block;
+}
+#diagnostics_page {
+  position: relative;
+  padding: 0;
+  width: 100%;
+  display: hidden;
+  color: #cccccc;
+}
+.box {
+  overflow: hidden;
+  margin: 0 0 0 0;
+}
+#wrapper {
+  position: relative;
+  margin: 0 auto 0 auto;
+  padding: 10px 0 0 0;
+  width: 90%;
+  min-width: 1080px;
+}
+#loglist {
+  background-color: #030;
+  color: white;
+  float: left;
+  width: 140px;
+  height: 370px;
+  text-align: center;
+  overflow-y: auto;
+  overflow-x: none;
+}
+#loglist h4 {
+  text-shadow: 0 1px 0 #FFFFFF;
+  color: white;
+}
+#loglist_box {
+  padding: 0px;
+}
+#loglist ul {
+  list-style: none;
+}
+#loglist ul li {
+  padding: 2px 0 2px 0;
+}
+#loglist ul li.first {
+  border-top: 0;
+  padding-top: 0;
+}
+#loglist ul li a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  transition: 0.1s;
+  width: 100%;
+}
+#loglist ul li a:hover {
+  background-color: #008800;
+}
+#loglist ul li a:focus,
+a.focus {
+  background-color: #008800;
+}
+#logfile_content {
+  height: 370px;
+  margin-left: 140px;
+  color: white;
+}
+#logfile_box {
+  height: 370px;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+  background: #030;
+  border-left: 2px #008800 solid;
+}
+#logfile_header {
+  background: #008800;
+  height: 25px;
+}
+#server_box {
+  height: 100%;
+  width: 100%;
+}
+#hdhr_box {
+  height: 100%;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+#hdhr_box::-webkit-scrollbar {
+  display: none;
+}
+input[type="text"] {
+  background: #EAEEF2;
+  margin: 0;
+  width: 60%;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+}
+input[type="text"]:focus {
+  outline: none;
+}
+#statusMessage {
+  background: #008800;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  color: white;
+  text-align: center;
+  overflow-y: auto;
+  overflow-x: none;
+  max-height: 200px;
+  min-height: 20px;
+}
+.logDate {
+  font-style: italic;
+}
+.logTypeError {
+  font-style: bold;
+  color: red;
+}
+.logTypeStatus {
+  font-style: bold;
+  color: lightblue;
+}
+.logTypePlayback {
+  font-style: bold;
+  color: green;
+}
+.logTypeRecording {
+  font-style: bold;
+  color: orange;
+}
+.logTypeRecorded {
+  font-style: underline;
+  color: orange;
+}
+.logTypeInfo {
+  font-style: bold;
+  color: grey;
+}
+.logInfoError {
+  font-style: italic;
+  color: red;
+}
+ul.tabmenu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  background: #020;
+}
+ul.tabmenu li {
+  float: left;
+}
+ul.tabmenu li a {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 10px 10px;
+  text-decoration: none;
+  transition: 0.1s;
+  border: solid 1px #020;
+}
+ul.tabmenu li a:hover {
+  background-color: #008800;
+}
+ul.tabmenu li a:focus,
+a.active {
+  background-color: #008800;
+}
+.tabcontent {
+  display: hidden;
+}
+#hdhr_entry {
+  border-top: dotted 1px #C5CDD8;
+  background: #030;
+  width: 240px;
+  height: 240px;
+  border: solid 1px #111;
+  Text-color: #DDD;
+  box-shadow: 5px 5px 5px #000;
+  margin: 5px;
+  display: inline-block;
+}
+#hdhr_img {
+  display: block;
+  margin: 0 auto;
+  width: 145px;
+}
+#hdhr_img_cnt {
+  vertical-align: middle;
+}
+#hdhr_img_flt {
+  text-align: center;
+}
+.hdhr_entry h4 {
+  color: white;
+  text-align: center;
+}
+.hdhr_entry p {
+  font-style: italic;
+  color: white;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+ul.decorator {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0px 0px 0px 200px;
+}
+ul.decorator li {
+  float: left;
+  margin: 0px 10px;
+}
+ul.decorator li p {
+  display: inline-block;
+  color: white;
+  background-color: #008800;
+  text-align: center;
+  padding: 2px 5px;
+  text-decoration: none;
+  transition: 0.1s;
+  border: none;
+}
+ul.decorator li a {
+  display: inline-block;
+  color: white;
+  background-color: #008800;
+  text-align: center;
+  padding: 2px 5px;
+  text-decoration: none;
+  transition: 0.1s;
+  border: none;
+}
+ul.decorator li a:hover {
+  cursor: pointer;
+}
+ul.decorator li.info p,
+ul.decorator li.play a,
+ul.decorator li.record a {
+  background-color: ;
+}
+ul.decorator li.delete a {
+  background-color: Red;
+}
+ul.decorator li.delete a:hover,
+ul.decorator li.play a:hover,
+ul.decorator li.record a {
+  cursor: pointer;
+}
+#serverParams {
+  width: 100%;
+  margin: 130px 0px 0px 0px;
+}
+#serverControls {
+  text-align: center;
+  width: 100%;
+}
+#server_controls {
+  padding: 20px;
+  text-align: center;
+}
+#server_controls_box {
+  float: right;
+  position: relative;
+  left: -50%;
+  text-align: left;
+}
+ul.serverctrls {
+  position: relative;
+  left: 50%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  text-align: center;
+}
+ul.serverctrls li {
+  float: left;
+  list-style-type: none;
+  margin: 20px;
+}
+ul.serverctrls li a {
+  background-color: #030;
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 35px 35px;
+  text-decoration: none;
+  transition: 0.1s;
+  font-size: 20px;
+  border-radius: 60px 60px 60px 60px;
+  border: solid 1px #020;
+}
+ul.serverctrls li a:hover {
+  background-color: #008800;
+}
+ul.serverctrls li a:focus,
+a.active {
+  background-color: #008800;
+}
+#dashboard_server,
+#dashboard_hdhr,
+#dashboard_logs {
+  margin: 0px;
+  padding: 15px;
+  border-color: white;
+  border-width: 2px;
+  border-radius: 5px;
+  border-style: groove;
+}
+#dashboard_server_container {
+  height: 265px;
+}
+#dashboard_logs_container {
+  height: 400px;
+}
+#dashboard_hdhr_container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  height: 300px;
+}
+.dashboard_server h4,
+.dashboard_hdhr h4,
+.dashboard_logs h4 {
+  color: white;
+  margin: 0px 0px 5px 0px;
+}
+#dashboard_params {
+  width: 80%;
+}
+#dashboard_ctrls {
+  float: right;
+  width: 180px;
+}
+#server_cfg_entry {
+  height: 25px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+#server_params_text {
+  width: 100%;
+}
+textarea.server_param {
+  background: #EAEEF2;
+  width: 100%;
+  height: 100%;
+  color: black;
+  background-color: #CFC;
+  padding: 5px 5px 0px 10px;
+  box-shadow: 2px 2px 2px black;
+}
+#server_param_name {
+  color: white;
+  background-color: #008800;
+  width: 150px;
+  height: 20px;
+  float: left;
+  padding: 5px 5px 5px 10px;
+  box-shadow: 2px 2px 2px black;
+}
+#server_param_desc {
+  color: white;
+  background-color: #008800;
+  width: 200px;
+  height: 20px;
+  float: left;
+  padding: 5px 5px 5px 10px;
+  box-shadow: 2px 2px 2px black;
+}
+#server_param_detail {
+  text-align: center;
+  height: 30px;
+  margin: 0px 0px 0px 170px;
+}
+ul.dashboard_ctrls_list {
+  position: relative;
+  list-style-type: none;
+  margin: 20px;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  text-align: center;
+}
+ul.dashboard_ctrls_list li {
+  list-style-type: none;
+  float: left;
+  margin: 2px;
+}
+ul.dashboard_ctrls_list li a {
+  background-color: #030;
+  color: #030;
+  display: table-cell;
+  text-align: center;
+  text-decoration: none;
+  transition: 0.1s;
+  font-size: 20px;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 2px 2px 2px black;
+  border: solid 1px #020;
+  width: 100px;
+  height: 250px;
+  vertical-align: middle;
+}
+.dashboard_ctrl_link_icon {
+  background-size: 50px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+ul.dashboard_ctrls_list li a.dashboard_ctrl_link_update {
+  background-size: 50px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("../images/hdhr_icons_update.png");
+}
+ul.dashboard_ctrls_list li a:hover {
+  background-color: #008800;
+}
+ul.dashboard_ctrls_list li a:focus,
+a.active {
+  background-color: #008800;
+}
+.logfile_path {
+  color: white;
+  font-size: 20px;
+  font-style: oblique;
+}
+.logfile_delete {
+  color: red;
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+}
+.logfile_delete:hover,
+.logfile_delete:focus {
+  color: white;
+  background: red;
+  text-decoration: none;
+  cursor: pointer;
+}
+.3column-left {
+  float: left;
+  position: relative;
+  width: 33%;
+  background: #000;
+  border: 1px solid #fff;
+}
+.3column-center {
+  display: inline-block;
+  width: 33%;
+  background: blue;
+  border: 1px solid white;
+}
+.3column-right {
+  float: right;
+  position: relative;
+  width: 33%;
+  background: red;
+  broder: 1px solid white;
+}
