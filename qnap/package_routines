@@ -15,6 +15,7 @@ DEFAULT_SHARE=`/sbin/getcfg SHARE_DEF defVolMP -f /etc/config/def_share.info`
 CMD_ADDUSER=/bin/adduser
 CMD_ADDSHARE=/sbin/addshare
 CMD_DELUSER=/sbin/user_del
+CMD_CHGRP=/sbin/chgrp
 
 PKG_MAIN_REMOVE="{
 	if [ -e $SYS_WEB_PATH/HDHomeRunDVR ]; then
