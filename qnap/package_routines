@@ -31,7 +31,7 @@ pkg_pre_install() {
 	if [ -z "$UserCheck" ]; then
 		log "$HDHR_LOG_PREFIX User $HDHR_USER doesn't exist"
 		log "$HDHR_LOG_PREFIX Creating user"
-		$CMD_ADDUSER -HD $HDHR_USER
+		$CMD_ADDUSER -HDG $HDHR_USER $HDHR_USER
 	fi
 	log "$HDHR_LOG_PREFIX Checking if a RecordPath already is set and exists"
 	log "$HDHR_LOG_PREFIX Parsing $HDHR_QPKG_PATH/$HDHR_CONF"
