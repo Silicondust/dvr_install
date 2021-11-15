@@ -9,6 +9,7 @@ HDHR_DVR_BIN=hdhomerun_record
 HDHR_DVR_SH=HDHomeRunDVR.sh
 HDHR_LOG_PREFIX="$HDHR_QPKG_NAME:"
 HDHR_USER=hdhomerundvr
+HDHR_GRP=$HDHR_USER
 
 DEFAULT_SHARE=`/sbin/getcfg SHARE_DEF defVolMP -f /etc/config/def_share.info`
 
@@ -31,7 +32,7 @@ pkg_pre_install() {
 	if [ -z "$UserCheck" ]; then
 		log "$HDHR_LOG_PREFIX User $HDHR_USER doesn't exist"
 		log "$HDHR_LOG_PREFIX Creating user"
-		$CMD_ADDUSER -HDG $HDHR_USER $HDHR_USER
+		$CMD_ADDUSER -HDG $HDHR_USER $HDHR_GRP
 	fi
 	log "$HDHR_LOG_PREFIX Checking if a RecordPath already is set and exists"
 	log "$HDHR_LOG_PREFIX Parsing $HDHR_QPKG_PATH/$HDHR_CONF"
