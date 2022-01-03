@@ -14,8 +14,10 @@ HDHR_GRP=$HDHR_USER
 DEFAULT_SHARE=`/sbin/getcfg SHARE_DEF defVolMP -f /etc/config/def_share.info`
 
 CMD_ADDUSER=/bin/adduser
+CMD_ADDGRP=/bin/addgroup
 CMD_ADDSHARE=/sbin/addshare
 CMD_DELUSER=/sbin/user_del
+CMD_DELGRP=/bin/delgroup
 CMD_CHGRP=/bin/chgrp
 
 PKG_MAIN_REMOVE="{
@@ -23,6 +25,7 @@ PKG_MAIN_REMOVE="{
 		$CMD_RM $SYS_WEB_PATH/HDHomeRunDVR
 	fi
 	$CMD_DELUSER $HDHR_USER
+	$CMD_DELGRP $HDHR_GRP
 }"
 
 
@@ -32,6 +35,7 @@ pkg_pre_install() {
 	if [ -z "$UserCheck" ]; then
 		log "$HDHR_LOG_PREFIX User $HDHR_USER doesn't exist"
 		log "$HDHR_LOG_PREFIX Creating user"
+		$CMD_ADDGRP $HDHR_GRP
 		$CMD_ADDUSER -HDG $HDHR_USER $HDHR_GRP
 	fi
 	log "$HDHR_LOG_PREFIX Checking if a RecordPath already is set and exists"
