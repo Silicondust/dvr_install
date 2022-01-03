@@ -1,8 +1,0 @@
-#!/bin/sh
-
-package_path=$(dirname "$0")
-. $package_path/common
-
-backup_conf_file
-
-exit 0

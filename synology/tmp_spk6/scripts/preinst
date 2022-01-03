@@ -1,8 +1,0 @@
-#!/bin/sh
-
-package_path=$(dirname "$0")
-. $package_path/common
-
-create_dvr_user
-
-exit 0
